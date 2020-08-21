@@ -30,7 +30,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/meteor-client.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -123,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "loide"
+    }
+  },
+  "defaultProject": "loide",
+  "cli": {
+    "analytics": "8295d0a6-9c51-4f2a-86ac-f233f2b89217"
+  }
 }
