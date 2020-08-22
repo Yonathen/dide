@@ -1,0 +1,66 @@
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+.wrapper {
+    float: left;
+    width: 100%;
+    min-width: 576px;
+    height: 100%;
+    background: $color__dark-gray;
+}
+
+.header {
+    float: left;
+    width: 100%;
+    height: 65px;
+    background: $color__gray;
+    color: $color__white;
+
+    &--editor {
+        height: 40px;
+    }
+
+    &__logo {
+        float: left;
+        height: 100%;
+        font-size: 20px;
+        padding: 20px;
+    }
+}
+
+.body {
+    float: left;
+    width: 100%;
+    height: calc(100% - 65px);
+
+    &--editor {
+        height: calc(100% - 40px);
+    }
+
+    &__sidebar {
+        float: left;
+        height: 100%;
+    }
+}
+
+.footer {
+    position: fixed;
+    bottom: 0; left: 0;
+
+    width: 100%;
+    height: 25px;
+    padding: 5px;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { }
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { }
