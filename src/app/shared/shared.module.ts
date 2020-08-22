@@ -6,7 +6,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 @NgModule({
   declarations: [HeaderComponent, SidebarComponent, FooterComponent],
   imports: [
