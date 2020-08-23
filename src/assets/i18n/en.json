@@ -1,7 +1,23 @@
 {
-    "HOME": {
-      "TITLE": "Hello Angular with ngx-translate!",
-      "SELECT": "Change language"
-    }
+  "common": {
+    "loide": "LoIDE",
+    "about": "About",
+    "documents": "Documents",
+    "group": "Group",
+    "member": "Member",
+    "admin": "Admin",
+    "preferences": "Preferences",
+    "archive": "Archive",
+    "trash": "Trash",
+    "download": "Download"
+  },
+  "header": {
+    "dashboard": "Dashboard",
+    "notification": "Notification",
+    "help": "Help",
+    "register": "Register",
+    "login": "Login",
+    "logout": "Logout"
   }
+}
   

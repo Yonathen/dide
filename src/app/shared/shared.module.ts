@@ -5,20 +5,91 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ToggleButtonModule} from 'primeng/togglebutton';
+import {InputTextModule} from 'primeng/inputtext';
+import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {ButtonModule} from 'primeng/button';
+import {TabViewModule} from 'primeng/tabview';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {CardModule} from 'primeng/card';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {ToolbarModule} from 'primeng/toolbar';
+import {CarouselModule} from 'primeng/carousel';
+import {MenuModule} from 'primeng/menu';
+import {TabMenuModule} from 'primeng/tabmenu';
+import {DropdownModule} from 'primeng/dropdown';
+import {GMapModule} from 'primeng/gmap';
+import {PaginatorModule} from 'primeng/paginator';
+import {TooltipModule} from 'primeng/tooltip';
+import {GalleriaModule} from 'primeng/galleria';
+import {MenuItem} from 'primeng/api';
+import {SidebarModule} from 'primeng/sidebar';
 
 @NgModule({
   declarations: [HeaderComponent, SidebarComponent, FooterComponent],
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    BrowserAnimationsModule,
+    ButtonModule,
+    MessagesModule,
+    MessageModule,
+    PaginatorModule,
+    GMapModule,
+    MenuModule,
+    ToggleButtonModule,
+    DropdownModule,
+    InputTextModule,
+    InputTextareaModule,
+    CheckboxModule,
+    RadioButtonModule,
+    CarouselModule,
+    ToolbarModule,
+    TabViewModule,
+    TabMenuModule,
+    ScrollPanelModule,
+    CardModule,
+    TooltipModule,
+    GalleriaModule,
+    SidebarModule
   ], 
   exports: [
     HeaderComponent,
     SidebarComponent, 
     FooterComponent,
-
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    BrowserAnimationsModule,
+    ButtonModule,
+    MessagesModule,
+    MessageModule,
+    PaginatorModule,
+    GMapModule,
+    MenuModule,
+    ToggleButtonModule,
+    DropdownModule,
+    InputTextModule,
+    InputTextareaModule,
+    CheckboxModule,
+    RadioButtonModule,
+    CarouselModule,
+    ToolbarModule,
+    TabViewModule,
+    TabMenuModule,
+    ScrollPanelModule,
+    CardModule,
+    TooltipModule,
+    GalleriaModule,
+    SidebarModule
   ]
 })
 export class SharedModule { }
