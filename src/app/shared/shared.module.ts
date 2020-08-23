@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,9 +27,10 @@ import {TooltipModule} from 'primeng/tooltip';
 import {GalleriaModule} from 'primeng/galleria';
 import {MenuItem} from 'primeng/api';
 import {SidebarModule} from 'primeng/sidebar';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [HeaderComponent, SidebarComponent, FooterComponent],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -62,7 +62,6 @@ import {SidebarModule} from 'primeng/sidebar';
   ], 
   exports: [
     HeaderComponent,
-    SidebarComponent, 
     FooterComponent,
     BrowserAnimationsModule,
     FormsModule,

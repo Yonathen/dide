@@ -1,1 +1,122 @@
 @import "../../../../assets/scss/shared.scss";
+
+.header {
+    float: left;
+    width: 100%;
+    height: 100%;
+    background: $color__gray;
+    color: $color__white;
+
+    &__logo {
+        float: left;
+        height: 100%;
+        font-size: 20px;
+        padding: 20px;
+    }
+
+    &__menu {
+        float: right;
+        height: 100%;
+        padding: 15px;
+
+        ul {
+            @extend .commen-prop;
+            height: 100%;
+
+            li, a {
+                display: block;
+                float: left;
+            }
+
+            li {
+                height: 100%;
+                padding: 0 5px;
+            }
+        }
+
+    }
+
+    &__menuItem {
+        text-transform: uppercase;
+        color: $color__white;
+        font-size: 18px;
+        padding: 5px;
+        cursor: pointer;
+
+        &:hover {
+            border-bottom: solid 3px $color__white;
+        }
+
+        &--active {
+            border-bottom: solid 3px $color__orange;
+        }
+
+        &--notify {
+            font-size: 20px;
+            padding-bottom: 3px;
+            padding-top: 3px;
+        }
+    
+        &--account {
+            
+            font-size: 20px;
+            padding-bottom: 0px;
+            padding-top: 3px;
+    
+        }
+    }
+
+    &__account {
+        position: relative;
+        
+        ul {
+            display: none;
+            position: absolute;
+            top: 100%; right: 0;
+    
+            li {
+                background-color: $color__white !important;
+                color: $color__dark-gray !important;
+                height: 160px !important;
+                padding: 6px 3px;
+                float: right;
+            }
+        }
+    
+        &:hover {
+            ul {
+                display: block !important;
+            }
+        }
+    }
+
+    &__accountDetail {
+        float: left;
+        padding: 15px;
+        height: 80px;
+
+        span {
+            display: block;
+            font-size: 18px;
+            clear: both;
+            color: $color__dark-gray;
+            white-space: nowrap;
+        }
+
+        span:last-child {
+            font-size: 16px;
+        }
+    }
+
+    &__accountLogout {
+        float: left;
+        width: 100%;
+        padding: 15px;
+        height: 70px;
+        background-color: $color__light-gray;
+
+        button {
+            float: right;
+        }
+    }    
+}

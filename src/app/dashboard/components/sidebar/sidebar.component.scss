@@ -40,10 +40,8 @@
             }
         }
 
-        &--active {
-            a {
-                color: $color__dark-orange;
-            }
+        a.active {
+            color: $color__dark-orange;
         }
     
         &--hr {

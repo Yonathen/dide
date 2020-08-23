@@ -1,13 +1,10 @@
 <div class="wrapper">
-  <app-header></app-header>
-  <div class="body">
-    <div class="body__sidebar">
-      <app-sidebar></app-sidebar>
-    </div>
-    <div class="body__content">
-      <div class="body__contentTabs"></div>
-      <div class="body__contentMenuBar"></div>
-      <div class="body__contentMain"></div>
-    </div>
+  <div class="wrapper__header">
+    <app-header></app-header>
   </div>
+  
+  <div class="wrapper__body">
+    <router-outlet></router-outlet>
+  </div>
+  
 </div>
