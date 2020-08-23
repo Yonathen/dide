@@ -28,9 +28,10 @@ import {TooltipModule} from 'primeng/tooltip';
 import {GalleriaModule} from 'primeng/galleria';
 import {MenuItem} from 'primeng/api';
 import {SidebarModule} from 'primeng/sidebar';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [HeaderComponent, SidebarComponent, FooterComponent],
+  declarations: [HeaderComponent, SidebarComponent, FooterComponent, PageNotFoundComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
