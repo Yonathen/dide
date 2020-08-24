@@ -11,10 +11,10 @@ import { TrashComponent } from './trash/trash.component';
 
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   {path: 'editor', component: EditorComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
-    {path: '', component: DocumentsComponent},
+    {path: '', redirectTo: 'documents', pathMatch: 'full'},
     {path: 'documents', component: DocumentsComponent},
     {path: 'group', component: GroupComponent},
     {path: 'preferences', component: PreferencesComponent},

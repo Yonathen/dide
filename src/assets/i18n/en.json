@@ -9,7 +9,8 @@
     "preferences": "Preferences",
     "archive": "Archive",
     "trash": "Trash",
-    "download": "Download"
+    "download": "Download",
+    "import": "Import"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -18,6 +19,13 @@
     "register": "Register",
     "login": "Login",
     "logout": "Logout"
+  }, 
+  "document": {
+    "public": "Public documents",
+    "private": "Private documents",
+    "placeholder_serarch": "Search document",
+    "button_create_folder": "Create folder",
+    "button_create_file": "Create file"
   }
 }
   

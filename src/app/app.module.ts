@@ -8,6 +8,12 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ArchiveModule } from './archive/archive.module';
+import { DocumentsModule } from './documents/documents.module';
+import { EditorModule } from './editor/editor.module';
+import { GroupModule } from './group/group.module';
+import { PreferencesModule } from './preferences/preferences.module';
+import { TrashModule } from './trash/trash.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -20,8 +26,14 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
     DashboardModule,
+    ArchiveModule,
+    DocumentsModule,
+    EditorModule,
+    GroupModule,
+    PreferencesModule,
+    SharedModule,
+    TrashModule,
     HttpClientModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',

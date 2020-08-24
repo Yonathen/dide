@@ -1,26 +1,75 @@
 @import "../../assets/scss/shared.scss";
 
+:host ::ng-deep .ui-button.ui-button-secondary {
+    background-color: $color__light-gray !important;
+    border: 1px solid $color__light-gray !important;
+    color: $color__dark-gray !important;
+
+    &:hover {
+        background-color: $color__light-gray-1 !important;
+        border: 1px solid $color__light-gray-1 !important;
+        opacity: 1 !important;
+    }
+}
+
+:host ::ng-deep .ui-menu {
+    .icon {
+        font-family: "iconLoide" !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        font-size: 24px;
+        color: $color__gray !important;
+    }
+
+    .icon-open_file {
+        @extend .icon-file-text2;
+    }
+
+    .icon-file_download {
+        @extend .icon-file_download;
+    }
+
+    .icon-move {
+        @extend .icon-drive_file_move_outline;
+    }
+
+    .icon-archive {
+        @extend .icon-archive;
+    }
+
+    .icon-delete {
+        @extend .icon-delete;
+    }
+}
+
 .documents {
     float: left;
     width: 100%;
     height: 100%;
 
-    &__contentTabs {
+    &__contentMenubar {
         float: left;
         width: 100%;
         height: 170px;
     }
 
-    &__contentMenuBar {
+    &__contentToolbar {
         float: left;
         width: 100%;
         height: 65px;
         background-color: $color__gray;
+        border-bottom: solid 3px $color__dark-orange;
     }
 
     &__contentMain {
         float: left;
         width: 100%;
+        padding: 20px;
         height: calc(100% - 235px);
         background-color: $color__white;
     }
