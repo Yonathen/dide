@@ -291,4 +291,30 @@
     .icon-remove_member {
         @extend .icon-person_add_disabled;
     }
+
+
+    .icon-open_file {
+        @extend .icon-file-text2;
+    }
+
+    .icon-file_download {
+        @extend .icon-file_download;
+    }
+
+    .icon-move {
+        @extend .icon-drive_file_move_outline;
+    }
+
+    .icon-archive {
+        @extend .icon-archive;
+    }
+
+    .icon-see_detail {
+        @extend .icon-remove_red_eye;
+    }
+
+    .icon-update {
+        @extend .icon-create;
+    }
+
 }

@@ -11,7 +11,10 @@
     "trash": "Trash",
     "download": "Download",
     "import": "Import",
-    "remove_all": "Remove All"
+    "remove_all": "Remove All",
+    "remove": "Remove",
+    "update": "Update",
+    "see_detail": "See detail"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -41,7 +44,11 @@
     "solver": "Solver", 
     "language": "Language", 
     "appearance": "Appearance", 
-    "editor": "Editor"
+    "editor": "Editor",
+    "add_language": "Add new language", 
+    "add_appearance": "Add new appearance", 
+    "add_solver": "Add new solver"
+    
   }
 }
   

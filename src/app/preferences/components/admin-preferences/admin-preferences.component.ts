@@ -1,4 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { LoideMenuItem } from 'src/app/shared/model/menu-item';
+import { LoideToolbarMenu } from 'src/app/shared/model/toolbar-menu';
+import { MenuItem } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+
+export enum AdminPreferenceMenuItems {
+  Language, Solver, Appearance
+}
+export enum AdminPreferenceToolbarMenuItems {
+  AddLanguage, AddSolver, AddAppearance
+}
 
 @Component({
   selector: 'app-admin-preferences',
@@ -7,9 +18,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminPreferencesComponent implements OnInit {
 
-  constructor() { }
+  public mainMenuItems: LoideMenuItem[];
+  public gridItemMenu: MenuItem[];
+  public adminToolbar: LoideToolbarMenu;
+
+  constructor(public translateService: TranslateService) { }
 
   ngOnInit(): void {
+    this.gridItemMenu = [
+      {label: this.translateService.instant('common.see_detail'), icon: 'icon icon-see_detail'},
+      {label: this.translateService.instant('common.update'), icon: 'icon icon-update'},
+      {label: this.translateService.instant('common.remove'), icon: 'icon icon-delete'}
+    ];
+
+    let toolbarButtonMenu  = [
+      {id: AdminPreferenceToolbarMenuItems.AddLanguage, class:'btn btn-info', iconClass: 'icon icon-add', labelIndex: 'preference.add_language'},
+      {id: AdminPreferenceToolbarMenuItems.AddSolver, class:'btn btn-success', iconClass: 'icon icon-add', labelIndex: 'preference.add_appearance'},
+      {id: AdminPreferenceToolbarMenuItems.AddAppearance, class:'btn btn-warning', iconClass: 'icon icon-add', labelIndex: 'preference.add_solver'}
+    ];
+
+    this.adminToolbar = {
+      enableButtonMenu: true,
+      enableSort: true,
+      buttonMenu: toolbarButtonMenu
+    }
+    
+    this.mainMenuItems = [
+      {id: AdminPreferenceMenuItems.Language, iconClass: 'icon-translate', labelIndex: 'preference.language', active: true},
+      {id: AdminPreferenceMenuItems.Solver, iconClass: 'icon-new-tab', labelIndex: 'preference.appearance', active: false},
+      {id: AdminPreferenceMenuItems.Appearance, iconClass: 'icon-appearance', labelIndex: 'preference.appearance', active: false}
+    ];
   }
 
 }
