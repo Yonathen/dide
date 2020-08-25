@@ -28,9 +28,11 @@ import {GalleriaModule} from 'primeng/galleria';
 import {MenuItem} from 'primeng/api';
 import {SidebarModule} from 'primeng/sidebar';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
+import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashboard-toolbar.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -63,6 +65,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
   exports: [
     HeaderComponent,
     FooterComponent,
+    DashboardMenuComponent,
+    DashboardToolbarComponent,
+    PageNotFoundComponent,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

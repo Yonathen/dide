@@ -1,9 +1,9 @@
 .float-left {
-    float: left;
+    float: left !important;
 }
 
 .float-right {
-    float: right;
+    float: right !important;
 }
 
 .full-height {
@@ -24,6 +24,19 @@
     &:hover {
         color: $color__dark-blue;
     }
+}
+
+
+.underConstruction {
+    float: left;
+    display: block;
+    width: 100%;
+    padding: 30px;   
+    font-size: 36px;
+    color: $color__red;
+    text-align: center;   
+    text-transform: uppercase; 
+    font-family: 'LatoWebBold';
 }
 
 
@@ -112,6 +125,8 @@
     margin: 0;
 }
 
+// Menu 
+
 // List
 .loide-list {
     @extend .commen-prop;
@@ -133,6 +148,57 @@
     }
 
 }
+
+// List
+.grid {
+    float: left;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: block;
+        flex: 0 0 280px;
+        padding: 10px;
+        height: 60px;
+        margin: 5px;
+        color: $color__dark-gray;
+        background-color: $color__light-gray;
+    }
+
+
+    &__icon {
+        display: block;
+        float: left;
+        width: 38px;
+        height: 100%;
+        font-size: 24px;
+        padding: 7px;
+    }
+
+    &__label {
+        display: block;
+        float: left;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 100%;
+        width: calc(100% - 95px);
+        padding: 10px;
+    }
+
+    &__menu {
+        display: block;
+        float: right;
+        width: 52px;
+        height: 100%;
+    }
+
+
+}
+
 
 // Card
 .loid-card {
@@ -206,4 +272,62 @@
             font-size: 11px !important;
         }
     }
+}
+
+
+:host ::ng-deep .ui-menu {
+    .icon {
+        font-family: "iconLoide" !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        font-size: 24px;
+        color: $color__gray !important;
+    }
+
+    .icon-see_group {
+        @extend .icon-supervised_user_circle;
+    }
+
+    .icon-delete {
+        @extend .icon-delete;
+    }
+
+    .icon-member_add {
+        @extend .icon-person_add;
+    }
+
+    .icon-remove_member {
+        @extend .icon-person_add_disabled;
+    }
+
+
+    .icon-open_file {
+        @extend .icon-file-text2;
+    }
+
+    .icon-file_download {
+        @extend .icon-file_download;
+    }
+
+    .icon-move {
+        @extend .icon-drive_file_move_outline;
+    }
+
+    .icon-archive {
+        @extend .icon-archive;
+    }
+
+    .icon-see_detail {
+        @extend .icon-remove_red_eye;
+    }
+
+    .icon-update {
+        @extend .icon-create;
+    }
+
 }

@@ -1,0 +1,25 @@
+<div class="toolbar">
+    <div class="toolbar__menuLeft" *ngIf="this.toolbar.buttonMenu">
+        
+        <ng-template let-buttonMenu ngFor [ngForOf]="this.toolbar.buttonMenu">
+            <button type="button" [ngClass]="buttonMenu.class">
+                <span [ngClass]="buttonMenu.iconClass"></span>
+                <span class="label" translate>{{ buttonMenu.labelIndex }}</span>
+            </button>
+        </ng-template>
+
+    </div>
+    <div class="toolbar__menuRight">
+        <button type="button" class="btn btn-warning float-right" *ngIf="this.toolbar.enableSort">
+            <span class="icon icon-sort_by_alpha m-0"></span>
+        </button>
+        <div class="toolbar__searchWrap float-right" *ngIf="this.toolbar.enableSearch">
+            <div class="inputgroup">
+                <input class="inputgroup__input" placeholder="{{this.toolbar.searchPlaceholderIndex | translate}}">
+                <button type="button" class="btn btn-warning inputgroup__btn">
+                    <span class="icon icon-search m-0"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
