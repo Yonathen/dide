@@ -34,6 +34,14 @@
     "remove_group": "Remove group",
     "add_member": "Add member",
     "remove_member": "Remove member"
+  },
+  "preference": {
+    "update_preferences": "Update preferences",
+    "your_preferences": "Your preferences",
+    "solver": "Solver", 
+    "language": "Language", 
+    "appearance": "Appearance", 
+    "editor": "Editor"
   }
 }
   

@@ -8,6 +8,7 @@ import { GroupComponent } from './group/group.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { TrashComponent } from './trash/trash.component';
+import { AdminPreferencesComponent } from './preferences/components/admin-preferences/admin-preferences.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
     {path: 'documents', component: DocumentsComponent},
     {path: 'group', component: GroupComponent},
     {path: 'preferences', component: PreferencesComponent},
+    {path: 'admin', component: AdminPreferencesComponent},
     {path: 'archive', component: ArchiveComponent},
     {path: 'trash', component: TrashComponent}
   ]},

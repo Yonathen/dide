@@ -18,12 +18,11 @@ export class PreferencesComponent implements OnInit {
 
   ngOnInit(): void {
     let toolbarButtonMenu  = [
-      {id: PreferenceToolbarMenuItems.UpdatePreferences, class:'btn btn-success', iconClass: 'icon icon-create', labelIndex: 'group.create_group'}
+      {id: PreferenceToolbarMenuItems.UpdatePreferences, class:'btn btn-success', iconClass: 'icon icon-create', labelIndex: 'preference.update_preferences'}
     ];
 
     this.preferenceToolbar = {
       enableButtonMenu: true,
-      enableSort: true,
       buttonMenu: toolbarButtonMenu
     }
   }

@@ -1,18 +1,5 @@
 @import "../../assets/scss/shared.scss";
 
-:host ::ng-deep .ui-button.ui-button-secondary {
-    background-color: $color__light-gray !important;
-    border: 1px solid $color__light-gray !important;
-    color: $color__dark-gray !important;
-
-    &:hover {
-        background-color: $color__light-gray-1 !important;
-        border: 1px solid $color__light-gray-1 !important;
-        opacity: 1 !important;
-    }
-}
-
-
 .group {
     float: left;
     width: 100%;
