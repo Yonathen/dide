@@ -27,6 +27,19 @@
 }
 
 
+.underConstruction {
+    float: left;
+    display: block;
+    width: 100%;
+    padding: 30px;   
+    font-size: 36px;
+    color: $color__red;
+    text-align: center;   
+    text-transform: uppercase; 
+    font-family: 'LatoWebBold';
+}
+
+
 
 .hr-style {
     border: none;
