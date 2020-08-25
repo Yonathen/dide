@@ -1,6 +1,6 @@
 import { LoideMenuItem } from './menu-item';
 
-export interface ToolbarMenu {
+export interface LoideToolbarMenu {
     enableButtonMenu?: boolean;
     enableSearch?: boolean;
     enableSort?: boolean;

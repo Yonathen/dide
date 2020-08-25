@@ -10,7 +10,8 @@
     "archive": "Archive",
     "trash": "Trash",
     "download": "Download",
-    "import": "Import"
+    "import": "Import",
+    "remove_all": "Remove All"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -26,6 +27,13 @@
     "placeholder_serarch": "Search document",
     "button_create_folder": "Create folder",
     "button_create_file": "Create file"
+  },
+  "group": {
+    "create_group": "Create group",
+    "see_group": "See group",
+    "remove_group": "Remove group",
+    "add_member": "Add member",
+    "remove_member": "Remove member"
   }
 }
   

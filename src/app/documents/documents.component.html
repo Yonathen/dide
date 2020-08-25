@@ -3,7 +3,7 @@
         <app-dashboard-menu [menuItems]="menuItems"></app-dashboard-menu>
     </div>
     <div class="documents__contentToolbar">
-        <app-dashboard-toolbar></app-dashboard-toolbar>
+        <app-dashboard-toolbar [toolbar]="documentToolbar"></app-dashboard-toolbar>
     </div>
     <div class="documents__contentMain">
         <ul class="grid">
@@ -11,7 +11,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -21,7 +21,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -31,7 +31,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -41,7 +41,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -51,7 +51,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -61,7 +61,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -71,7 +71,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -81,7 +81,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -91,7 +91,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -101,7 +101,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -111,7 +111,7 @@
                 <span class="grid__icon icon-insert_drive_file"></span>
                 <span class="grid__label">Sample file</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>

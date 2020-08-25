@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { MenuItem } from 'primeng/api';
+import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
 
 export enum DocumentMemberMenuItems {
   Public, Private
@@ -8,6 +9,10 @@ export enum DocumentMemberMenuItems {
 
 export enum DocumentMenuItems {
   Public, Preference
+}
+
+export enum DocumentToolbarMenuItems {
+  Import, CreateFolder, CreateFile
 }
 
 @Component({
@@ -18,10 +23,11 @@ export enum DocumentMenuItems {
 export class DocumentsComponent implements OnInit {
 
   public menuItems: LoideMenuItem[];
-  items: MenuItem[];
+  public gridItemMenu: MenuItem[];
+  public documentToolbar: LoideToolbarMenu;
 
   ngOnInit() {
-      this.items = [{
+      this.gridItemMenu = [{
           label: 'File',
           items: [
               {label: 'Open', icon: 'icon icon-open_file'},
@@ -36,6 +42,20 @@ export class DocumentsComponent implements OnInit {
               {label: 'Move to trash', icon: 'icon icon-delete'}
           ]
       }];
+
+    let toolbarButtonMenu  = [
+      {id: DocumentToolbarMenuItems.Import, class:'btn btn-info', iconClass: 'icon icon-document-public', labelIndex: 'common.import'},
+      {id: DocumentToolbarMenuItems.CreateFolder, class:'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.button_create_folder'},
+      {id: DocumentToolbarMenuItems.CreateFile, class:'btn btn-warning', iconClass: 'icon icon-insert_drive_file', labelIndex: 'document.button_create_file'}
+    ];
+
+    this.documentToolbar = {
+      enableButtonMenu: true,
+      enableSearch: true,
+      enableSort: true,
+      searchPlaceholderIndex: 'placeholder_serarch',
+      buttonMenu: toolbarButtonMenu
+    }
     this.menuItems = [
       {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public', active: true},
       {id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private', active: false}

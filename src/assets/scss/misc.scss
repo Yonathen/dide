@@ -260,3 +260,35 @@
         }
     }
 }
+
+
+:host ::ng-deep .ui-menu {
+    .icon {
+        font-family: "iconLoide" !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        font-size: 24px;
+        color: $color__gray !important;
+    }
+
+    .icon-see_group {
+        @extend .icon-supervised_user_circle;
+    }
+
+    .icon-delete {
+        @extend .icon-delete;
+    }
+
+    .icon-member_add {
+        @extend .icon-person_add;
+    }
+
+    .icon-remove_member {
+        @extend .icon-person_add_disabled;
+    }
+}
