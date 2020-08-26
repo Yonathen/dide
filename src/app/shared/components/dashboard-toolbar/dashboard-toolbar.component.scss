@@ -1,0 +1,29 @@
+@import "../../../../assets/scss/shared.scss";
+
+.toolbar {
+    float: left;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+
+    &__menuLeft {
+        flex-grow: 2;
+        padding: 10px;
+        height: 100%;
+    }
+
+    &__menuRight {
+        flex-grow: 8;
+        padding: 10px;
+        height: 100%;
+    }
+
+    &__searchWrap {
+        float: left;
+        width: calc(100% - 80px);
+        height: 100%;
+    }
+}

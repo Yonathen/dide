@@ -1,0 +1,37 @@
+<div class="header" [ngClass]="{'header--editor': isEditor}">
+    <div class="header__logo" *ngIf="!isEditor" translate>common.loide</div>
+    <div class="header__logo" (click)="goToDashboard()" *ngIf="isEditor" [ngClass]="{'header__logo--editor': isEditor}">
+        <span class="icon-dashboard"></span>
+    </div>
+    <div class="header__menu" [ngClass]="{'header__menu--editor': isEditor}">
+        <ul>
+            <li *ngIf="!isEditor"><a class="header__menuItem header__menuItem--active" translate>dashboard</a></li>
+            <li *ngIf="!isEditor"><a class="header__menuItem" translate>help</a></li>
+            <li><a class="header__menuItem  header__menuItem--notify" (click)="notifySidebar = true">
+                <span class="icon-notifications"></span>
+            </a></li>
+            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" translate>header.register</a></li>
+            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" translate>header.login</a></li>
+            <li class="header__account">
+                <a class="header__menuItem header__menuItem--account">
+                    <span class="icon-person"></span>
+                </a>
+                <ul>
+                    <li>
+                        <div class="header__accountDetail">
+                            <span>Jhon Doe</span>
+                            <span>jhondoe35@gmail.com</span>
+                        </div>
+                        <div class="header__accountLogout">
+                            <button pButton type="button" label="{{'header.logout' | translate}}" class="ui-button-warning"></button>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<p-sidebar [(visible)]="notifySidebar" [appendTo]="'body'" position="right" [baseZIndex]="10000">
+    <h1 style="font-weight:normal" translate>header.notification</h1>
+</p-sidebar>

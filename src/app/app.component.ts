@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { R } from 'api/server/lib/response-service';
-import { UserAccount } from 'api/server/models/user-account';
-import { UserType, AccountStatus } from 'api/server/models/user';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { LoideRoute } from './shared/enums/loide-route';
 
 @Component({
   selector: 'app-root',
@@ -10,28 +11,27 @@ import { UserType, AccountStatus } from 'api/server/models/user';
 })
 export class AppComponent implements OnInit {
   title = 'loide';
+  route: string;
 
-  ngOnInit() {
-    let data: UserAccount = {
-      email: 'tst3@gmail.com',
-      password: 'tst135',
-      profile: {
-        firstName: 'Jhon',
-        lastName: 'Doe',
-        type: UserType.Member,
-        notifications: [],
-        status: AccountStatus.Active
-      }
-    }
+  constructor(public translate: TranslateService, location: Location, router: Router) {
+    translate.addLangs(['en', 'fr']);
+    translate.setDefaultLang('en');
 
-    Meteor.call('createAccount', data, (error, result: R) => {
-      if (result && result.success) {
-        console.log(result);
-      } else if (result && !result.success) {
-        console.warn(result);
-      } else if (error) {
-        console.error(error);
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+
+    router.events.subscribe((val) => {
+      if(location.path() != ''){
+        this.route = location.path();
       }
     });
   }
+
+  ngOnInit() {
+    
+  }
+
+  get isEditor(): boolean {
+    return this.route === LoideRoute.Editor;
+  } 
 }

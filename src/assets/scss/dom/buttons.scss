@@ -1,0 +1,102 @@
+.btn {
+    border-radius: 0;
+    color: $color__white;
+    font-family: 'LatoWeb';
+    height: 100%;
+    background-color: $color__gray;
+    border: 1px solid $color__gray;
+    margin: 0 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    
+
+    &:enabled:focus {
+        border: none;
+        box-shadow: none !important;
+    }
+
+    &:hover {
+        background-color: $color__dark-gray;
+        border: 1px solid $color__dark-gray;
+        opacity: 1 !important;
+    }
+
+    .icon {
+        float: left;
+        display: block;
+        font-size: 20px;
+        margin-right: 10px;
+        height: 100%;
+        padding: 0;
+    }
+
+    .label {
+        float: left;
+        display: block;
+        font-size: 18px;
+        height: 100%;
+        padding: 2px;
+    }
+}
+
+.btn.btn-info {
+    background-color: $color__blue !important;
+    border: 1px solid $color__blue !important;
+    
+
+    &:enabled:focus {
+        border: none;
+        box-shadow: none !important;
+    }
+
+    &:hover {
+        background-color: $color__dark-blue !important;
+        border: 1px solid $color__dark-blue !important;
+        opacity: 1 !important;
+    }
+}
+
+.btn.btn-secondary {
+    background-color: $color__light-gray !important;
+    border: 1px solid $color__light-gray !important;
+    color: $color__dark-gray !important;
+
+    &:hover {
+        background-color: $color__light-gray-1 !important;
+        border: 1px solid $color__light-gray-1 !important;
+        opacity: 1 !important;
+    }
+}
+
+.btn.btn-success {
+    background-color: $color__green !important;
+    border: 1px solid $color__green !important;
+
+    &:hover {
+        background-color: $color__dark-green !important;
+        border: 1px solid $color__dark-green !important;
+        opacity: 0.8;
+    }
+}
+
+.btn.btn-warning {
+    background-color: $color__orange !important;
+    border: 1px solid $color__orange !important;
+
+    &:hover {
+        background-color: $color__dark-orange !important;
+        border: 1px solid $color__dark-orange !important;
+        opacity: 0.8;
+    }
+}
+
+.btn.btn-danger {
+    background-color: $color__red !important;
+    border: 1px solid $color__red !important;
+
+    &:hover {
+        background-color: $color__dark-red !important;
+        border: 1px solid $color__dark-red !important;
+        opacity: 0.8;
+    }
+}

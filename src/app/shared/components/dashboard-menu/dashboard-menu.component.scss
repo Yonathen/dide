@@ -1,0 +1,76 @@
+@import "../../../../assets/scss/shared.scss";
+
+.dashboard {
+    float: left;
+    width: 100%;
+    height: 100%;
+
+    &__menu {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: inline-block;
+            width: 300px;
+            padding: 10px;
+            height: 100%;
+
+            a {
+                float: left;
+                display: block;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+                position: relative;
+            }
+
+            div {
+                position: absolute;
+                height: 50%; left: 0;
+            }
+        }
+    }
+
+    &__menuTop {
+        top: 0; 
+        width: 100%;
+        background-color: $color__gray;
+    }
+
+    &__menuMid {
+        top: calc(50% - 25px);
+        left: 25px !important;
+        width: 50px;
+        height: 50px !important;
+        border-radius: 25px;
+        background-color: $color__gray;
+        border: solid 3px $color__white;
+        font-size: 30px;
+        padding: 5px 8px;
+        color: $color__white;
+        z-index: 2;
+    }
+
+    &__menuBottom {
+        bottom: 0;
+        width: 100%;
+        padding: 30px 25px;
+        font-size: 18px;
+        color: $color__gray;
+        background-color: $color__white;
+    }
+
+    a.active {
+        cursor: default !important;
+
+        .dashboard__menuBottom {
+            color: $color__white !important;
+            background-color: $color__dark-orange !important;
+        } 
+    }
+    
+}

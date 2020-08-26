@@ -1,0 +1,21 @@
+@import "../../assets/scss/shared.scss";
+
+.dashboard {
+    float: left;
+    width: 100%;
+    height: 100%;
+
+    &__sidebar {
+        float: left;
+        height: 100%;
+        width: 33.33333333%;
+        padding: 80px 40px 40px;
+        background-color: $color__light-gray;
+    }
+
+    &__content {
+        float: left;
+        width: 66.66666666%;
+        height: 100%;
+    }
+}

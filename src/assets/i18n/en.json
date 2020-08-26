@@ -1,0 +1,56 @@
+{
+  "common": {
+    "loide": "LoIDE",
+    "about": "About",
+    "documents": "Documents",
+    "group": "Group",
+    "member": "Member",
+    "admin": "Admin",
+    "preferences": "Preferences",
+    "archive": "Archive",
+    "trash": "Trash",
+    "download": "Download",
+    "import": "Import",
+    "remove_all": "Remove All",
+    "remove": "Remove",
+    "update": "Update",
+    "see_detail": "See detail"
+  },
+  "header": {
+    "dashboard": "Dashboard",
+    "notification": "Notification",
+    "help": "Help",
+    "register": "Register",
+    "login": "Login",
+    "logout": "Logout"
+  }, 
+  "document": {
+    "public": "Public documents",
+    "private": "Private documents",
+    "placeholder_serarch": "Search document",
+    "button_create_folder": "Create folder",
+    "button_create_file": "Create file"
+  },
+  "group": {
+    "create_group": "Create group",
+    "see_group": "See group",
+    "remove_group": "Remove group",
+    "add_member": "Add member",
+    "remove_member": "Remove member"
+  },
+  "preference": {
+    "update_preferences": "Update preferences",
+    "your_preferences": "Your preferences",
+    "solver": "Solver", 
+    "language": "Language", 
+    "appearance": "Appearance", 
+    "editor": "Editor",
+    "add_language": "Add new language", 
+    "add_appearance": "Add new appearance", 
+    "add_solver": "Add new solver"
+  }, 
+  "editor": {
+    "filter": "Filter"
+  }
+}
+  

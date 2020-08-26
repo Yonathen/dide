@@ -1,0 +1,55 @@
+@import "../../../../assets/scss/shared.scss";
+
+
+.sidebar {
+    float: left;
+    width: 100%;
+    height: 100%;
+    
+    &__menu {
+        float: left;
+        width: 100%;
+        height: 100%;
+    
+        ul, li, a {
+            float: left;
+            width: 100%;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    
+    &__menuItem {
+        padding: 0;
+        margin: 0;
+    
+        a {
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px;
+            color: $color__gray;
+    
+            span:first-child {
+                font-size: 18px;
+                margin-right: 15px;
+            }
+
+            &:hover {
+                color: $color__dark-gray;
+            }
+        }
+
+        a.active {
+            color: $color__dark-orange;
+        }
+    
+        &--hr {
+            margin: 3px 0;
+            height: 1px;
+            background-color: $color__gray;
+        }
+    }
+    
+}
+

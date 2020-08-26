@@ -1,0 +1,19 @@
+<div class="group">
+    <div class="group__contentToolbar">
+        <app-dashboard-toolbar [toolbar]="groupToolbar"></app-dashboard-toolbar>
+    </div>
+    <div class="group__contentMain">
+        <ul class="grid">
+            <li>
+                <span class="grid__icon icon-group"></span>
+                <span class="grid__label">Sample group</span>
+                <span class="grid__menu">
+                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
+                    <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
+                        <span class="icon icon-keyboard_arrow_down m-0"></span>
+                    </button>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>

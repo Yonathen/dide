@@ -1,0 +1,11 @@
+<div class="dashboard">
+    <ul class="dashboard__menu">
+        <li *ngFor="let menuItem of menuItems">
+            <a [ngClass]="{'active': menuItem.active}">
+                <div class="dashboard__menuTop"></div>
+                <div class="dashboard__menuMid"><span class="{{ menuItem.iconClass }}"></span></div>
+                <div class="dashboard__menuBottom" translate>{{menuItem.labelIndex}}</div>
+            </a>
+        </li>
+    </ul>
+</div>
