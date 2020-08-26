@@ -7,10 +7,16 @@
             <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)"></app-editor-sidebar>
         </div>
         <div class="editor__bodyContent" [ngClass]="{'editor__bodyContent--singleSidebarOpen': isSingleBarOpen(), 'editor__bodyContent--bothSidebarOpen': isBothBarOpen()}">
-            <ace-editor [(text)]="content" #editor style="height:100%;"></ace-editor>
+            <p-tabView styleClass="editor__tabView">
+                <p-tabPanel leftIcon="{{ editorItem.icon }}" header="{{ editorItem.label }}" [closable]="true" *ngFor="let editorItem of editorMenuItems">
+                    <ace-editor [(text)]="editorItem.state.content" #editor style="height:100%;"></ace-editor>
+                </p-tabPanel>
+            </p-tabView>
         </div>
         <div class="editor__bodySidebar editor__bodySidebar--right" [ngClass]="{'editor__bodySidebar--open': sidebarRightVisible}">
             <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
         </div>
+
+        
     </div>
 </div>

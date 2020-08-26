@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventSidebar } from './model/event-sidebar';
 import { ScriptLoaderService } from './services/script-loader.service';
+import { NavigationService } from 'src/app/navigation.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-editor',
@@ -14,14 +16,21 @@ export class EditorComponent implements OnInit {
   public sidebarLeft: boolean;
   public sidebarRight: boolean;
 
-  constructor(public scriptLoaderService: ScriptLoaderService) {
+  public editorMenuItems: MenuItem[];
+
+  constructor(public navigationService: NavigationService, public scriptLoaderService: ScriptLoaderService) {
     
   }
 
   ngOnInit(): void {
+
+    this.navigationService.menu.subscribe( menuItems => this.editorMenuItems = menuItems);
+
+    /*
     this.scriptLoaderService.load('jquery', 'popper', 'bootstrap').then(data => {
       console.log(data);
     }).catch(error => console.log(error));
+    */
   }
 
   get sidebarLeftVisible(): boolean {
