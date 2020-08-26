@@ -1,5 +1,5 @@
 export interface LoideMenuItem {
-    id: number,
+    id: number | string,
     class?: string,
     iconClass: string,
     labelIndex: string,

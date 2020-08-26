@@ -1,0 +1,61 @@
+@import "../../assets/scss/shared.scss";
+
+$singleSidebarOpened: 240px;
+$bothSidebarOpened: 480px;
+
+.editor {
+    float: left;
+    width: 100%;
+    height: 100%;
+
+    &__toolbar {
+        float: left;
+        width: 100%;
+        height: 40px;
+        padding: 5px;
+        color: $color__dark-gray;
+        background-color: $color__gray;
+        border-bottom: 1px solid $color__black;
+    }
+
+    &__body {
+        float: left;
+        width: 100%;
+        height: calc(100% - 40px);
+    }
+
+    &__bodySidebar {
+        min-width: 40px;
+        height: 100%;
+        overflow: hidden;
+
+        &--open {
+            min-width: $singleSidebarOpened;
+        }
+
+        &--left {
+            float: left;
+            border-right: 1px solid $color__black;
+        }
+
+        &--right {
+            float: right;
+            border-left: 1px solid $color__black;
+        }
+    }
+
+    &__bodyContent {
+        float: left;
+        width: calc(100% - 80px);
+        max-width: calc(100% - 80px);
+        height: 100%;
+
+        &--bothSidebarOpen {
+            width: calc(100% - 480px);
+        }
+
+        &--singleSidebarOpen {
+            width: calc(100% - 280px);
+        }
+    }
+}

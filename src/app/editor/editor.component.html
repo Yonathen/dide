@@ -1,1 +1,16 @@
-<p>editor works!</p>
+<div class="editor">
+    <div class="editor__toolbar">
+        <app-editor-toolbar></app-editor-toolbar>
+    </div>
+    <div class="editor__body">
+        <div class="editor__bodySidebar editor__bodySidebar--left" [ngClass]="{'editor__bodySidebar--open': sidebarLeftVisible}">
+            <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)"></app-editor-sidebar>
+        </div>
+        <div class="editor__bodyContent" [ngClass]="{'editor__bodyContent--singleSidebarOpen': isSingleBarOpen(), 'editor__bodyContent--bothSidebarOpen': isBothBarOpen()}">
+            <ace-editor [(text)]="content" #editor style="height:100%;"></ace-editor>
+        </div>
+        <div class="editor__bodySidebar editor__bodySidebar--right" [ngClass]="{'editor__bodySidebar--open': sidebarRightVisible}">
+            <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
+        </div>
+    </div>
+</div>
