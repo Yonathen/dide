@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { MenuItem } from 'primeng/api';
 import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
+import { LoideRoute } from '../shared/enums/loide-route';
+import { Router } from '@angular/router';
+import { NavigationService } from '../navigation.service';
 
 export enum DocumentMemberMenuItems {
   Public, Private
@@ -26,11 +29,17 @@ export class DocumentsComponent implements OnInit {
   public gridItemMenu: MenuItem[];
   public documentToolbar: LoideToolbarMenu;
 
+  constructor(public navigationService: NavigationService, public router: Router) {
+
+  }
+
   ngOnInit() {
       this.gridItemMenu = [{
           label: 'File',
           items: [
-              {label: 'Open', icon: 'icon icon-open_file'},
+              {label: 'Open', icon: 'icon icon-open_file', command: ($event) => {
+                this.navigationService.openEditor({name: 'Sample file', content: ''})
+              }},
               {label: 'Download', icon: 'icon icon-file_download'}
           ]
       },

@@ -1,0 +1,31 @@
+<div class="sidebar">
+    <ul class="sidebar__menu" [ngClass]="{'sidebar__menu--left': !isPositionRight(), 'sidebar__menu--right': isPositionRight()}">
+        <li *ngFor="let sidebarLeftItem of sidebarMenuItems">
+            <a (click)="navigateSidebar(sidebarLeftItem.id)" 
+             [ngClass]="{ 'active': isSidebarItemActive(sidebarLeftItem.id)}">
+                <span class="{{ sidebarLeftItem.iconClass }}"></span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar__panel" *ngIf="isSidebarLeftOpen"  [ngClass]="{'sidebar__panel--left': !isPositionRight(), 'sidebar__panel--right': isPositionRight()}">
+
+        <div class="sidebar__panelHeader">
+            <div class="sidebar__panelTitle" 
+                *ngIf="activeSidebar.item === sidebarLeft.PublicDocument" translate>
+                document.public
+            </div>
+            <div class="sidebar__panelTitle" 
+                *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument" translate>
+                document.private
+            </div>
+            <div class="sidebar__panelClose" (click)="closeSidebar()">
+                <span class="icon-clear"></span>
+            </div>
+        </div>
+        <div class="sidebar__panelBody">
+            
+        </div>
+
+    </div>
+</div>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { LoideRoute } from './shared/enums/loide-route';
 
 @Component({
   selector: 'app-root',
@@ -8,16 +11,27 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent implements OnInit {
   title = 'loide';
+  route: string;
 
-  constructor(public translate: TranslateService) {
+  constructor(public translate: TranslateService, location: Location, router: Router) {
     translate.addLangs(['en', 'fr']);
     translate.setDefaultLang('en');
 
     const browserLang = translate.getBrowserLang();
     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+
+    router.events.subscribe((val) => {
+      if(location.path() != ''){
+        this.route = location.path();
+      }
+    });
   }
 
   ngOnInit() {
     
   }
+
+  get isEditor(): boolean {
+    return this.route === LoideRoute.Editor;
+  } 
 }

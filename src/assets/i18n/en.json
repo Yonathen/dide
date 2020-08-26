@@ -48,7 +48,9 @@
     "add_language": "Add new language", 
     "add_appearance": "Add new appearance", 
     "add_solver": "Add new solver"
-    
+  }, 
+  "editor": {
+    "filter": "Filter"
   }
 }
   

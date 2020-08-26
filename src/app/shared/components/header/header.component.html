@@ -1,14 +1,17 @@
-<div class="header">
-    <div class="header__logo" translate>common.loide</div>
-    <div class="header__menu">
+<div class="header" [ngClass]="{'header--editor': isEditor}">
+    <div class="header__logo" *ngIf="!isEditor" translate>common.loide</div>
+    <div class="header__logo" (click)="goToDashboard()" *ngIf="isEditor" [ngClass]="{'header__logo--editor': isEditor}">
+        <span class="icon-dashboard"></span>
+    </div>
+    <div class="header__menu" [ngClass]="{'header__menu--editor': isEditor}">
         <ul>
-            <li><a class="header__menuItem header__menuItem--active" translate>dashboard</a></li>
-            <li><a class="header__menuItem" translate>help</a></li>
+            <li *ngIf="!isEditor"><a class="header__menuItem header__menuItem--active" translate>dashboard</a></li>
+            <li *ngIf="!isEditor"><a class="header__menuItem" translate>help</a></li>
             <li><a class="header__menuItem  header__menuItem--notify" (click)="notifySidebar = true">
                 <span class="icon-notifications"></span>
             </a></li>
-            <li><a class="header__menuItem" translate>header.register</a></li>
-            <li><a class="header__menuItem" translate>header.login</a></li>
+            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" translate>header.register</a></li>
+            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" translate>header.login</a></li>
             <li class="header__account">
                 <a class="header__menuItem header__menuItem--account">
                     <span class="icon-person"></span>

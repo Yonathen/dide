@@ -1,9 +1,9 @@
 <div class="wrapper">
-  <div class="wrapper__header">
-    <app-header></app-header>
+  <div class="wrapper__header" [ngClass]="{'wrapper__header--editor': isEditor}">
+    <app-header [route]="route"></app-header>
   </div>
   
-  <div class="wrapper__body">
+  <div class="wrapper__body" [ngClass]="{'wrapper__body--editor': isEditor}">
     <router-outlet></router-outlet>
   </div>
   
