@@ -14,6 +14,7 @@
     "import": "Import",
     "remove_all": "Remove All",
     "create": "Create",
+    "save": "Save",
     "remove": "Remove",
     "update": "Update",
     "cancel": "Cancel",
@@ -21,7 +22,8 @@
     "privacy": "Privacy",
     "public": "Public",
     "private": "Private",
-    "type": "Type"
+    "type": "Type",
+    "detail": "Detail"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -52,6 +54,8 @@
     "create_folder": "Create folder",
     "create_file": "Create file",
     "location": "Location",
+    "rename": "Rename",
+    "properties": "Properties",
     "file": "File",
     "folder": "Folder",
     "document_name": "Document name",

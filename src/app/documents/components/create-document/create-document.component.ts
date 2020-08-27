@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class CreateDocumentComponent implements OnInit {
   public cols: any[];
-  public colsMembers: any[];
   public folderTableValues: any = [
     {name: 'Sample folder', dateCreated: 'August 27, 2020 13:52', dateModified: 'August 27, 2020 14:52'},
     {name: 'Sample folder', dateCreated: 'August 27, 2020 13:52', dateModified: 'August 27, 2020 14:52'},
@@ -17,6 +16,7 @@ export class CreateDocumentComponent implements OnInit {
     {name: 'Sample folder', dateCreated: 'August 27, 2020 13:52', dateModified: 'August 27, 2020 14:52'},
   ]
 
+  public colsMembers: any[];
   public members: any = [
     {name: 'Jhon Doe'},
     {name: 'Jhon Doe'},

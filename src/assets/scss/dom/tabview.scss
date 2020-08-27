@@ -1,0 +1,91 @@
+
+:host ::ng-deep .ui-tabview.loide-tabView {
+    height: 100%;
+    padding: 5px 0 0 !important;
+
+    .icon {
+        font-family: "iconLoide" !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        font-size: 24px;
+        color: $color__gray !important;
+    }
+
+    .icon-file {
+        @extend .icon-insert_drive_file;
+    }
+
+    .ui-tabview-panels {
+        height: calc(100% - 35px);
+        padding: 0 !important;
+        border: none;
+        background: transparent;
+    }
+
+    .ui-tabview-panel {
+        width: 100%;
+        padding: 0;
+        height: 100%;
+    }
+
+    .ui-tabview-nav {
+        border-bottom: solid 1px $color__white-alpha-5;
+        border-radius: 0;
+    }
+
+    .ui-tabview-nav li {
+        margin-right: 2px;
+        font-family: 'LatoWeb';
+        height: 30px;
+        overflow: hidden;
+        background-color: $color__gray;
+        border: none;
+
+    }
+
+    .active-style {
+        border: none;
+        color: $color__black !important;
+        box-shadow: none !important;
+        border: solid 1px $color__white-alpha-5;
+        border-bottom: none;
+        background-color: $color__white-alpha-5;
+    }
+
+    .ui-tabview-nav li a,
+    .ui-tabview-nav li.ui-state-active a { 
+        font-weight: bold;
+        color: $color__dark-gray !important;
+    }
+    
+
+
+    .ui-tabview-nav li.ui-state-active { 
+        @extend .active-style;
+        background-color: $color__white-alpha-3;
+
+        &:enabled:focus {
+            @extend .active-style;
+        }
+
+        &:hover {
+            @extend .active-style;
+        }
+    }
+
+    .ui-tabview-left-icon {
+        color: $color__dark-gray !important;
+        font-size: 16px !important;
+    }
+
+    .ui-tabview-close {
+        font-size: 11px;
+        font-weight: bold;
+        color: $color__black !important;
+    }
+}

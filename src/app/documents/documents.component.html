@@ -134,3 +134,29 @@
     <app-create-document></app-create-document>
 
 </p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="renameDocumentDialog" 
+    header="{{ 'document.rename' | translate }}">
+    
+    <app-rename-document></app-rename-document>
+
+</p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="propertiesDocumentDialog" 
+    header="{{ 'document.properties' | translate }}">
+    
+    <app-properties-document></app-properties-document>
+
+</p-dialog>

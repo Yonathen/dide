@@ -26,6 +26,8 @@ export enum DocumentToolbarMenuItems {
 export class DocumentsComponent implements OnInit {
 
   public createDocumentDialog: boolean = false;
+  public renameDocumentDialog: boolean = false;
+  public propertiesDocumentDialog: boolean = false;
 
   public menuItems: LoideMenuItem[];
   public gridItemMenu: MenuItem[];
@@ -42,7 +44,13 @@ export class DocumentsComponent implements OnInit {
               {label: 'Open', icon: 'icon icon-open_file', command: ($event) => {
                 this.navigationService.openEditor({name: 'Sample file', content: ''})
               }},
-              {label: 'Download', icon: 'icon icon-file_download'}
+              {label: 'Rename', icon: 'icon icon-update', command: ($event) => {
+                this.renameDocumentDialog = true;
+              }},
+              {label: 'Download', icon: 'icon icon-file_download'},
+              {label: 'Properties', icon: 'icon icon-settings', command: ($event) => {
+                this.propertiesDocumentDialog = true;
+              }},
           ]
       },
       {

@@ -7,6 +7,8 @@ import { HttpLoaderFactory } from '../app.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CreateDocumentComponent } from './components/create-document/create-document.component';
+import { RenameDocumentComponent } from './components/rename-document/rename-document.component';
+import { PropertiesDocumentComponent } from './components/properties-document/properties-document.component';
 
 
 function createTranslateLoader(http: HttpClient) {
@@ -14,7 +16,7 @@ function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [DocumentsComponent, CreateDocumentComponent],
+  declarations: [DocumentsComponent, CreateDocumentComponent, RenameDocumentComponent, PropertiesDocumentComponent],
   imports: [
     CommonModule,
     SharedModule
