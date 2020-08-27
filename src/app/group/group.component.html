@@ -1,6 +1,6 @@
 <div class="group">
     <div class="group__contentToolbar">
-        <app-dashboard-toolbar [toolbar]="groupToolbar"></app-dashboard-toolbar>
+        <app-dashboard-toolbar [toolbar]="groupToolbar" (onClickToolbarButton)="onClickToolbarButton($event)"></app-dashboard-toolbar>
     </div>
     <div class="group__contentMain">
         <ul class="grid">
@@ -17,3 +17,17 @@
         </ul>
     </div>
 </div>
+
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '600px'}" 
+    [(visible)]="createGroupDialog" 
+    header="{{ 'group.create_group' | translate }}">
+    
+    <app-create-group></app-create-group>
+
+</p-dialog>

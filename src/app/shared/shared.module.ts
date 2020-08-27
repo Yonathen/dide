@@ -26,10 +26,11 @@ import {PaginatorModule} from 'primeng/paginator';
 import {TooltipModule} from 'primeng/tooltip';
 import {GalleriaModule} from 'primeng/galleria';
 import {SidebarModule} from 'primeng/sidebar';
+import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashboard-toolbar.component';
-import {DialogModule} from 'primeng/dialog';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { AccessAccountComponent } from './components/access-account/access-account.component';
 
@@ -63,7 +64,8 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     TooltipModule,
     GalleriaModule,
     SidebarModule,
-    DialogModule
+    DialogModule,
+    TableModule
   ], 
   exports: [
     HeaderComponent,
@@ -97,7 +99,8 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     TooltipModule,
     GalleriaModule,
     SidebarModule,
-    DialogModule
+    DialogModule,
+    TableModule
   ]
 })
 export class SharedModule { }
