@@ -17,7 +17,11 @@
     "remove": "Remove",
     "update": "Update",
     "cancel": "Cancel",
-    "see_detail": "See detail"
+    "see_detail": "See detail",
+    "privacy": "Privacy",
+    "public": "Public",
+    "private": "Private",
+    "type": "Type"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -41,11 +45,21 @@
     "placeholder_password": "Enter your password"
   },
   "document": {
-    "public": "Public documents",
-    "private": "Private documents",
+    "public_document": "Public documents",
+    "private_document": "Private documents",
     "placeholder_serarch": "Search document",
-    "button_create_folder": "Create folder",
-    "button_create_file": "Create file"
+    "create_document": "Create document",
+    "create_folder": "Create folder",
+    "create_file": "Create file",
+    "location": "Location",
+    "file": "File",
+    "folder": "Folder",
+    "document_name": "Document name",
+    "date_modified": "Date modified",
+    "date_created": "Date created",
+    "placeholder_document_name": "Enter name of file or folder",
+    "placeholder_select_group": "Select group",
+    "placeholder_search_location": "Search location to store"
   },
   "group": {
     "create_group": "Create group",

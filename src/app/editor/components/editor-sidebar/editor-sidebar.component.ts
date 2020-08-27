@@ -23,8 +23,8 @@ export class EditorSidebarComponent implements OnInit {
   ngOnInit(): void {
     if (!this.isPositionRight()) {
       this.sidebarMenuItems = [
-        { id: LoideSidebarItemsLeft.PublicDocument, iconClass: 'icon-document-public', labelIndex: 'document.public'}, 
-        { id: LoideSidebarItemsLeft.PrivateDocument, iconClass: 'icon-folder_shared', labelIndex: 'document.private'}
+        { id: LoideSidebarItemsLeft.PublicDocument, iconClass: 'icon-document-public', labelIndex: 'document.public_document'}, 
+        { id: LoideSidebarItemsLeft.PrivateDocument, iconClass: 'icon-folder_shared', labelIndex: 'document.private_document'}
       ];
     } else {
 
