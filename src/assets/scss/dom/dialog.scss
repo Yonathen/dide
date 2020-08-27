@@ -1,0 +1,42 @@
+:host ::ng-deep .ui-dialog.loide-dialog {
+    background-color: $color__dark-gray;
+
+    .commen-style {
+        border: none;
+        color: $color__white;
+        font-family: 'LatoWeb';
+        background-color: $color__gray;
+    }
+
+    .ui-dialog-titlebar {
+        @extend .commen-style;
+
+        .ui-dialog-title {
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .ui-dialog-titlebar-icon {
+            color: $color__white;
+            font-size: 14px;
+        }
+    }
+
+    .ui-dialog-content {
+        @extend .commen-style;
+        background-color: transparent;
+        padding: 0;
+    }
+    
+    .ui-dialog-footer {
+        @extend .commen-style;
+    }
+
+    .dialog__footer {
+        @extend .commen-style;
+        float: left;
+        width: 100%;
+        padding: 15px;
+
+    }
+}

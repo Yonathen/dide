@@ -5,6 +5,7 @@
     "documents": "Documents",
     "group": "Group",
     "member": "Member",
+    "members": "Members",
     "admin": "Admin",
     "preferences": "Preferences",
     "archive": "Archive",
@@ -12,8 +13,10 @@
     "download": "Download",
     "import": "Import",
     "remove_all": "Remove All",
+    "create": "Create",
     "remove": "Remove",
     "update": "Update",
+    "cancel": "Cancel",
     "see_detail": "See detail"
   },
   "header": {
@@ -24,6 +27,19 @@
     "login": "Login",
     "logout": "Logout"
   }, 
+  "account": {
+    "create_account": "Create account",
+    "access_account": "Access account",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "placeholder_first_name": "Enter your first name",
+    "placeholder_last_name": "Enter your last name",
+    "placeholder_email": "Enter your email",
+    "placeholder_password": "Enter your password"
+  },
   "document": {
     "public": "Public documents",
     "private": "Private documents",
@@ -36,7 +52,10 @@
     "see_group": "See group",
     "remove_group": "Remove group",
     "add_member": "Add member",
-    "remove_member": "Remove member"
+    "remove_member": "Remove member",
+    "group_name": "Group name",
+    "placeholder_group_name": "Enter group name",
+    "placeholder_search_member": "Search member"
   },
   "preference": {
     "update_preferences": "Update preferences",

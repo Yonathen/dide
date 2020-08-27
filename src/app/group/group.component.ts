@@ -14,6 +14,8 @@ export enum GroupToolbarMenuItems {
 })
 export class GroupComponent implements OnInit {
 
+  public createGroupDialog: boolean;
+
   public groupToolbar: LoideToolbarMenu;
   public gridItemMenu: MenuItem[];
 
@@ -47,6 +49,10 @@ export class GroupComponent implements OnInit {
       enableSort: true,
       buttonMenu: toolbarButtonMenu
     }
+  }
+
+  onClickToolbarButton(event: number | string) {
+    this.createGroupDialog = true;
   }
 
 }

@@ -25,14 +25,17 @@ import {GMapModule} from 'primeng/gmap';
 import {PaginatorModule} from 'primeng/paginator';
 import {TooltipModule} from 'primeng/tooltip';
 import {GalleriaModule} from 'primeng/galleria';
-import {MenuItem} from 'primeng/api';
 import {SidebarModule} from 'primeng/sidebar';
+import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashboard-toolbar.component';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { AccessAccountComponent } from './components/access-account/access-account.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -60,7 +63,9 @@ import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashbo
     CardModule,
     TooltipModule,
     GalleriaModule,
-    SidebarModule
+    SidebarModule,
+    DialogModule,
+    TableModule
   ], 
   exports: [
     HeaderComponent,
@@ -93,7 +98,9 @@ import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashbo
     CardModule,
     TooltipModule,
     GalleriaModule,
-    SidebarModule
+    SidebarModule,
+    DialogModule,
+    TableModule
   ]
 })
 export class SharedModule { }

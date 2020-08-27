@@ -10,9 +10,9 @@
             <li><a class="header__menuItem  header__menuItem--notify" (click)="notifySidebar = true">
                 <span class="icon-notifications"></span>
             </a></li>
-            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" translate>header.register</a></li>
-            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" translate>header.login</a></li>
-            <li class="header__account">
+            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" (click)="openCreateAccountDialog()" translate>header.register</a></li>
+            <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" (click)="openAccessAccountDialog()" translate>header.login</a></li>
+            <li *ngIf="isLogedIn" class="header__account">
                 <a class="header__menuItem header__menuItem--account">
                     <span class="icon-person"></span>
                 </a>
@@ -35,3 +35,31 @@
 <p-sidebar [(visible)]="notifySidebar" [appendTo]="'body'" position="right" [baseZIndex]="10000">
     <h1 style="font-weight:normal" translate>header.notification</h1>
 </p-sidebar>
+
+<p-dialog 
+    [modal]="true" 
+    [position]="'top'" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="createAccountDialog" 
+    header="{{ 'account.create_account' | translate }}">
+    
+    <app-create-account></app-create-account>
+
+</p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [position]="'top'" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="accessAccountDialog" 
+    header="{{ 'account.access_account' | translate }}">
+    
+    <app-access-account></app-access-account>
+
+</p-dialog>
