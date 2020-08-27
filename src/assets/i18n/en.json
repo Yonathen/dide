@@ -82,9 +82,9 @@
     "language": "Language", 
     "appearance": "Appearance", 
     "editor": "Editor",
-    "add_language": "Add new language", 
-    "add_appearance": "Add new appearance", 
-    "add_solver": "Add new solver"
+    "add_language": "Create new language", 
+    "add_appearance": "Create new appearance", 
+    "add_solver": "Create new solver"
   }, 
   "editor": {
     "filter": "Filter"
