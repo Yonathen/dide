@@ -13,6 +13,9 @@ export class HeaderComponent implements OnInit {
   @Input() route: string;
   notifySidebar: boolean;
 
+  public createAccountDialog: boolean;
+  public accessAccountDialog: boolean;
+
   constructor(public router: Router) { }
 
   ngOnInit(): void {
@@ -23,11 +26,20 @@ export class HeaderComponent implements OnInit {
   }
 
   get isLogedIn(): boolean {
-    return true; 
+    return false; 
   }
 
   goToDashboard() {
     this.router.navigate( [LoideRoute.Documents]);
+  }
+
+
+  openCreateAccountDialog() {
+    this.createAccountDialog = true;
+  }
+
+  openAccessAccountDialog() {
+    this.accessAccountDialog = true;
   }
 
 }
