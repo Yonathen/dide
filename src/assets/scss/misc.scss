@@ -77,32 +77,55 @@
     }
 }
 
-.form-component-container {
+.form-component {
     float: left;
     padding: 8px;
+
+    &__label {
+        float: left;
+        width: 100%;
+        padding: 3px 0;
+        font-size: 18px;
+
+        &--gray {
+            color: $color__gray;
+        }
+
+        &--white {
+            color: $color__white;
+        }
+    }
+
+    &__fluid {
+        height: 40px;
+        border-radius: 0;
+        width: 100% !important;
+        border: solid 1px $color__white;
+
+        &:enabled:focus {
+            border: none;
+            box-shadow: none !important;
+        }
+        
+        &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: $color__gray-alpha-5;
+        }
+
+        &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: $color__gray-alpha-5;
+        }
+        &::-moz-placeholder { /* Firefox 19+ */
+            color: $color__gray-alpha-5;
+        }
+        &:-ms-input-placeholder { /* IE 10+ */
+            color: $color__gray-alpha-5;
+        }
+        &:-moz-placeholder { /* Firefox 18- */
+            color: $color__gray-alpha-5;
+        }
+    }
 }
 
-.form-component-fluid {
-    width: 100% !important;
-    height: 35px;
-    
-    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: $color__gray-alpha-5;
-    }
-
-    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: $color__gray-alpha-5;
-    }
-    &::-moz-placeholder { /* Firefox 19+ */
-        color: $color__gray-alpha-5;
-    }
-    &:-ms-input-placeholder { /* IE 10+ */
-        color: $color__gray-alpha-5;
-    }
-    &:-moz-placeholder { /* Firefox 18- */
-        color: $color__gray-alpha-5;
-    }
-}
 
 // Utility
 .clearfix {
