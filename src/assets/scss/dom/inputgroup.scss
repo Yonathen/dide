@@ -13,6 +13,16 @@
         padding: 10px;
         font-size: 14px;
 
+        &--btn2 {
+            width: calc(100% - 110px);
+        }
+
+        &--gray {
+            background-color: $color__gray;
+            border: solid 1px $color__gray;
+            color: $color__white;
+        }
+
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
             color: $color__light-gray-1;
             opacity: 1; /* Firefox */
