@@ -1,0 +1,112 @@
+<div class="properties">
+    <p-tabView styleClass="loide-tabView">
+        <p-tabPanel header="{{ 'common.detail' | translate }}">
+            <div class="propertiesPanel">
+                <div class="col-12 form-component">
+                    <div class="form-component__label form-component__label--white" translate>
+                        document.document_name
+                    </div>
+                    <div class="form-component__label form-component__label--white form-component__label--value" translate>
+                        sample_file_name
+                    </div>
+                </div>
+                
+                <div class="col-12 form-component">
+                    <div class="form-component__label form-component__label--white" translate>
+                        document.location
+                    </div>
+                    <div class="form-component__label form-component__label--white form-component__label--value" translate>
+                        /public/../path/sample_file_name
+                    </div>
+                </div>
+
+                <div class="col-12 form-component">
+                    <div class="form-component__label form-component__label--white" translate>
+                        common.type
+                    </div>
+                    <div class="form-component__label form-component__label--white form-component__label--value" translate>
+                        File
+                    </div>
+                </div>
+                
+                <div class="col-12 form-component">
+                    <div class="form-component__label form-component__label--white" translate>
+                        document.date_created
+                    </div>
+                    <div class="form-component__label form-component__label--white form-component__label--value">
+                        August 27, 2020 13:52
+                    </div>
+                </div>
+                
+                <div class="col-12 form-component">
+                    <div class="form-component__label form-component__label--white" translate>
+                        document.date_modified
+                    </div>
+                    <div class="form-component__label form-component__label--white form-component__label--value">
+                        September 27, 2020 13:52
+                    </div>
+                </div>
+                
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'common.group' | translate }}">
+            <div class="propertiesPanel">
+
+                <div class="col-12 form-component">
+                    <p-table styleClass="loide-table" [columns]="colsMembers" [value]="members" [rowHover]="true" [scrollable]="true" scrollHeight="300px">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                    <span translate>{{col.header}}</span>
+                                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                </th>
+                                <th class="col col--xs"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr>
+                                <td class="col" *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                                <td class="col col--xs">
+                                    <button type="button" class="btn btn-danger btn--md m-0">
+                                        <span class="icon icon-keyboard_arrow_down m-0"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'common.privacy' | translate }}">
+            <div class="propertiesPanel">
+                        
+                <div class="col-12 form-component">
+                    <div class="form-component__label form-component__label--white" translate>
+                        common.privacy
+                    </div>
+
+                    <div class="col-12 p-0 create__component clearfix">
+                        <div class="col-6 p-0 pt-2 float-left">
+                            <p-radioButton name="privacy" [value]="'public'" [label]="'common.public' | translate"></p-radioButton>
+                        </div>
+                        <div class="col-6 p-0 pt-2 float-left">
+                            <p-radioButton name="privacy" [value]="'private'" [label]="'common.private' | translate" ></p-radioButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div class="dialog__footer">
+    <button type="button" class="btn btn-success btn--md float-right">
+        <span class="label" translate>common.save</span>
+    </button>
+    <button type="button" class="btn btn-warning btn--md float-right">
+        <span class="label" translate>common.cancel</span>
+    </button>
+</div>

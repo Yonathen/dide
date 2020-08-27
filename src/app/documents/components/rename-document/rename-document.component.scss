@@ -1,0 +1,12 @@
+@import "../../../../assets/scss/shared.scss";
+
+.rename {
+    float: left;
+    width: 100%;
+    min-height: 200px;
+    padding: 40px;
+
+    &__component {
+        height: 42px;
+    }
+}
