@@ -34,6 +34,7 @@ import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-me
 import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashboard-toolbar.component';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { AccessAccountComponent } from './components/access-account/access-account.component';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent],
@@ -67,7 +68,8 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     SidebarModule,
     DialogModule,
     TableModule,
-    FileUploadModule
+    FileUploadModule,
+    ToastModule
   ], 
   exports: [
     HeaderComponent,

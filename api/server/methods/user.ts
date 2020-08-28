@@ -23,28 +23,6 @@ Meteor.methods({
         }
     },
 
-    accessAccount(data: UserAccount) {
-        /*
-        TODO 
-        This is an implimentation that could only be achived
-        on the client side.
-        Using Meteor.loginWithPassword(data.email, data.password, function(error, result) {
-            // callback implimentation.
-        })
-        */
-    },
-
-    exitAccount(data: UserAccount) {
-        /*
-        TODO 
-        This is an implimentation that could only be achived
-        on the client side.
-        Using Meteor.logout()
-        */
-    },
-
-
-
     updateProfile(newProfile: Profile): R {
         try {
             if ( !this.userId ) {

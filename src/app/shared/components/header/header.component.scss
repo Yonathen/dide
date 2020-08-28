@@ -94,8 +94,10 @@
         ul {
             display: none;
             position: absolute;
-            top: 100%; right: 0;
-    
+            top: 100%; 
+            right: 0;
+            z-index: 10;
+
             li {
                 background-color: $color__white !important;
                 color: $color__dark-gray !important;
