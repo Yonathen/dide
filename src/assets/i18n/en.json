@@ -80,11 +80,17 @@
     "your_preferences": "Your preferences",
     "solver": "Solver", 
     "language": "Language", 
+    "language_modal": "Language modal", 
     "appearance": "Appearance", 
     "editor": "Editor",
     "add_language": "Create new language", 
     "add_appearance": "Create new appearance", 
-    "add_solver": "Create new solver"
+    "add_solver": "Create new solver", 
+    "theme_name": "Theme name", 
+    "placeholder_theme_name": "Enter theme name", 
+    "placeholder_language_name": "Enter language name", 
+    "theme_css": "Style file ( *.css )", 
+    "theme_js": "Script file ( *.js )"
   }, 
   "editor": {
     "filter": "Filter"
