@@ -1,32 +1,54 @@
 
 <div class="access">
-    <div class="col-12 form-component">
-        <div class="form-component__label form-component__label--white" translate>
-            account.email
+    <form [formGroup]="accessAccount">
+        <div class="col-12 form-component" *ngIf="isFormInvalid()" >
+            <div class="form-component__label form-component__label--error" >
+                {{failedMessage}}
+            </div>
         </div>
-        <div class="col-12 p-0">
-            <input pInputText type="text" class="form-component__fluid" 
-                placeholder="{{ 'account.placeholder_email' | translate}}"/>
+            
+        <div class="col-12 form-component">
+            <div class="form-component__label form-component__label--white" translate>
+                account.email
+            </div>
+            <div class="col-12 p-0">
+                <input pInputText type="text" 
+                    name="email"
+                    class="form-component__fluid" 
+                    formControlName="email"
+                    [ngClass]="{'form-component__fluid--error': failedValidation('email') }"
+                    placeholder="{{ 'account.placeholder_email' | translate}}"/>
+            </div>
+            <div class="form-component__label form-component__label--error" *ngIf="failedValidation('email')" translate>
+                account.error_email
+            </div>
         </div>
-    </div>
-    
-    <div class="col-12 form-component">
-        <div class="form-component__label form-component__label--white" translate>
-            account.password
+
+        <div class="col-12 form-component">
+            <div class="form-component__label form-component__label--white" translate>
+                account.password
+            </div>
+            <div class="col-12 p-0">
+                <input pInputText type="password"
+                    name="password"
+                    class="form-component__fluid" 
+                    formControlName="password"
+                    [ngClass]="{'form-component__fluid--error': failedValidation('password') }"
+                    placeholder="{{ 'account.placeholder_password' | translate}}"/>
+            </div>
+            <div class="form-component__label form-component__label--error" *ngIf="failedValidation('password')" translate>
+                account.error_password
+            </div>
         </div>
-        <div class="col-12 p-0">
-            <input pInputText type="text" class="form-component__fluid" 
-                placeholder="{{ 'account.placeholder_password' | translate}}"/>
-        </div>
-    </div>
+    </form>
 </div>
 
 
 <div class="dialog__footer">
-    <button type="button" class="btn btn-success btn--md float-right">
+    <button type="button" class="btn btn-success btn--md float-right" (click)="create()" >
         <span class="label" translate>common.create</span>
     </button>
-    <button type="button" class="btn btn-warning btn--md float-right">
+    <button type="button" class="btn btn-warning btn--md float-right" (click)="cancel()">
         <span class="label" translate>common.cancel</span>
     </button>
 </div>

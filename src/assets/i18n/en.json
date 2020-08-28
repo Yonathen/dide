@@ -36,15 +36,21 @@
   "account": {
     "create_account": "Create account",
     "access_account": "Access account",
-    "first_name": "First name",
-    "last_name": "Last name",
-    "name": "Name",
-    "email": "Email",
-    "password": "Password",
+    "first_name": "First name*",
+    "last_name": "Last name*",
+    "name": "Name*",
+    "email": "Email*",
+    "password": "Password*",
     "placeholder_first_name": "Enter your first name",
     "placeholder_last_name": "Enter your last name",
     "placeholder_email": "Enter your email",
-    "placeholder_password": "Enter your password"
+    "placeholder_password": "Enter your password",
+    "error_first_name": "First name is required",
+    "error_last_name": "Last name is required",
+    "error_email": "Email is required",
+    "error_password": "Password is required",
+    "success_create_title": "Account created",
+    "success_create_detail": "Your account has been created successfully."
   },
   "document": {
     "public_document": "Public documents",
