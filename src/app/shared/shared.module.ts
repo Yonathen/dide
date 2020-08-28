@@ -28,6 +28,7 @@ import {GalleriaModule} from 'primeng/galleria';
 import {SidebarModule} from 'primeng/sidebar';
 import {DialogModule} from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
+import {FileUploadModule} from 'primeng/fileupload';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashboard-toolbar.component';
@@ -65,7 +66,8 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     GalleriaModule,
     SidebarModule,
     DialogModule,
-    TableModule
+    TableModule,
+    FileUploadModule
   ], 
   exports: [
     HeaderComponent,
@@ -100,7 +102,8 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     GalleriaModule,
     SidebarModule,
     DialogModule,
-    TableModule
+    TableModule,
+    FileUploadModule
   ]
 })
 export class SharedModule { }

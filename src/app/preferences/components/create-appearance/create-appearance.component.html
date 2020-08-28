@@ -1,0 +1,49 @@
+<div class="create">
+    <div class="col-12 form-component">
+        <div class="form-component__label form-component__label--white" translate>
+            preference.theme_name
+        </div>
+        <div class="col-12 p-0">
+            <input pInputText type="text" class="form-component__fluid" 
+                placeholder="{{ 'preference.placeholder_theme_name' | translate}}"/>
+        </div>
+    </div>
+
+    <div class="col-12 form-component">
+        <div class="form-component__label form-component__label--white" translate>
+            preference.theme_css
+        </div>
+        <div class="col-12 p-0 create__component clearfix">
+            <div class="col-8 p-0 pt-2 float-left">
+                <input #styleFileInput pInputText type="text" class="form-component__fluid" />
+            </div>
+            <div class="col-4 p-0 pt-2 float-left">
+                <p-fileUpload mode="basic" auto="true" name="styleFile[]" customUpload="true" (uploadHandler)="styleUploader($event)"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 form-component">
+        <div class="form-component__label form-component__label--white" translate>
+            preference.theme_js
+        </div>
+        <div class="col-12 p-0 create__component clearfix">
+            <div class="col-8 p-0 pt-2 float-left">
+                <input #scriptFileInput pInputText type="text" class="form-component__fluid" />
+            </div>
+            <div class="col-4 p-0 pt-2 float-left">
+                <p-fileUpload mode="basic" auto="true" name="scriptFile[]" customUpload="true" (uploadHandler)="scriptUploader($event)"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="dialog__footer">
+    <button type="button" class="btn btn-success btn--md float-right">
+        <span class="label" translate>common.create</span>
+    </button>
+    <button type="button" class="btn btn-warning btn--md float-right">
+        <span class="label" translate>common.cancel</span>
+    </button>
+</div>
