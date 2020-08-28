@@ -3,7 +3,7 @@
         <app-dashboard-menu [menuItems]="mainMenuItems"></app-dashboard-menu>
     </div>
     <div class="preferences__contentToolbar">
-        <app-dashboard-toolbar [toolbar]="adminToolbar"></app-dashboard-toolbar>
+        <app-dashboard-toolbar (onClickToolbarButton)="onClickToolbarButton($event)" [toolbar]="adminToolbar"></app-dashboard-toolbar>
     </div>
     <div class="preferences__contentMain">
         <ul class="grid">
@@ -120,3 +120,42 @@
         </ul>
     </div>
 </div>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="newLanguageDialog" 
+    header="{{ 'preference.add_language' | translate }}">
+
+    <app-create-language></app-create-language>
+
+</p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="newAppearanceDialog" 
+    header="{{ 'preference.add_appearance' | translate }}">
+
+    <app-create-appearance></app-create-appearance>
+
+</p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="newSolverDialog" 
+    header="{{ 'preference.add_solver' | translate }}">
+
+    <app-create-solver></app-create-solver>
+
+</p-dialog>

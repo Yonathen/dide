@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { LoideMenuItem } from '../../model/menu-item';
 import { LoideToolbarMenu } from '../../model/toolbar-menu';
 
@@ -12,9 +12,15 @@ export class DashboardToolbarComponent implements OnInit {
 
   @Input() toolbar: LoideToolbarMenu;
 
+  @Output('onClickToolbarButton') toolbarButtonClickEmitter: EventEmitter< number | string> = new EventEmitter< number | string>();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onClickToolbarButton(itemId: number | string) {
+    this.toolbarButtonClickEmitter.emit(itemId);
   }
 
 }

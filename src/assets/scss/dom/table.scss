@@ -1,0 +1,35 @@
+:host ::ng-deep .ui-table.loide-table {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+    .ui-table-scrollable-header-box {
+        padding: 0 !important;
+    }
+
+    .ui-table-thead > tr > th {
+        font-family: 'LatoWeb';
+        border: none;
+        color: $color__white;
+        background-color: $color__gray;
+        border-bottom: 1px solid $color__black;
+    }
+
+    .ui-table-tbody > tr {
+        background-color: transparent !important;
+    }
+    .ui-table-tbody > tr:nth-child(even) {
+        background-color: $color__white-alpha-1 !important;
+    }
+    
+    .col {
+        font-family: 'LatoWeb';
+        border: 0 none;
+        text-align: left;
+        color: $color__white;
+
+        &.col--xs {
+            width: 55px;
+        }
+    }
+    
+    
+}

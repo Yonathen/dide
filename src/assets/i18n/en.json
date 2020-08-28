@@ -5,6 +5,7 @@
     "documents": "Documents",
     "group": "Group",
     "member": "Member",
+    "members": "Members",
     "admin": "Admin",
     "preferences": "Preferences",
     "archive": "Archive",
@@ -12,9 +13,17 @@
     "download": "Download",
     "import": "Import",
     "remove_all": "Remove All",
+    "create": "Create",
+    "save": "Save",
     "remove": "Remove",
     "update": "Update",
-    "see_detail": "See detail"
+    "cancel": "Cancel",
+    "see_detail": "See detail",
+    "privacy": "Privacy",
+    "public": "Public",
+    "private": "Private",
+    "type": "Type",
+    "detail": "Detail"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -24,30 +33,64 @@
     "login": "Login",
     "logout": "Logout"
   }, 
+  "account": {
+    "create_account": "Create account",
+    "access_account": "Access account",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "placeholder_first_name": "Enter your first name",
+    "placeholder_last_name": "Enter your last name",
+    "placeholder_email": "Enter your email",
+    "placeholder_password": "Enter your password"
+  },
   "document": {
-    "public": "Public documents",
-    "private": "Private documents",
+    "public_document": "Public documents",
+    "private_document": "Private documents",
     "placeholder_serarch": "Search document",
-    "button_create_folder": "Create folder",
-    "button_create_file": "Create file"
+    "create_document": "Create document",
+    "create_folder": "Create folder",
+    "create_file": "Create file",
+    "location": "Location",
+    "rename": "Rename",
+    "properties": "Properties",
+    "file": "File",
+    "folder": "Folder",
+    "document_name": "Document name",
+    "date_modified": "Date modified",
+    "date_created": "Date created",
+    "placeholder_document_name": "Enter name of file or folder",
+    "placeholder_select_group": "Select group",
+    "placeholder_search_location": "Search location to store"
   },
   "group": {
     "create_group": "Create group",
     "see_group": "See group",
     "remove_group": "Remove group",
     "add_member": "Add member",
-    "remove_member": "Remove member"
+    "remove_member": "Remove member",
+    "group_name": "Group name",
+    "placeholder_group_name": "Enter group name",
+    "placeholder_search_member": "Search member"
   },
   "preference": {
     "update_preferences": "Update preferences",
     "your_preferences": "Your preferences",
     "solver": "Solver", 
     "language": "Language", 
+    "language_modal": "Language modal", 
     "appearance": "Appearance", 
     "editor": "Editor",
-    "add_language": "Add new language", 
-    "add_appearance": "Add new appearance", 
-    "add_solver": "Add new solver"
+    "add_language": "Create new language", 
+    "add_appearance": "Create new appearance", 
+    "add_solver": "Create new solver", 
+    "theme_name": "Theme name", 
+    "placeholder_theme_name": "Enter theme name", 
+    "placeholder_language_name": "Enter language name", 
+    "theme_css": "Style file ( *.css )", 
+    "theme_js": "Script file ( *.js )"
   }, 
   "editor": {
     "filter": "Filter"

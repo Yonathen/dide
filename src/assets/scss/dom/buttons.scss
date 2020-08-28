@@ -8,6 +8,12 @@
     margin: 0 5px;
     padding: 10px 15px;
     cursor: pointer;
+
+    &--md {
+        font-size: 16px;
+        font-weight: normal;
+        padding: 5px;
+    }
     
 
     &:enabled:focus {
@@ -25,7 +31,6 @@
         float: left;
         display: block;
         font-size: 20px;
-        margin-right: 10px;
         height: 100%;
         padding: 0;
     }

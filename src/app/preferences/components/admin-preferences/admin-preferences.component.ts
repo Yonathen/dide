@@ -18,6 +18,10 @@ export enum AdminPreferenceToolbarMenuItems {
 })
 export class AdminPreferencesComponent implements OnInit {
 
+  public newLanguageDialog: boolean = false;
+  public newSolverDialog: boolean = false;
+  public newAppearanceDialog: boolean = false;
+
   public mainMenuItems: LoideMenuItem[];
   public gridItemMenu: MenuItem[];
   public adminToolbar: LoideToolbarMenu;
@@ -33,8 +37,8 @@ export class AdminPreferencesComponent implements OnInit {
 
     let toolbarButtonMenu  = [
       {id: AdminPreferenceToolbarMenuItems.AddLanguage, class:'btn btn-info', iconClass: 'icon icon-add', labelIndex: 'preference.add_language'},
-      {id: AdminPreferenceToolbarMenuItems.AddSolver, class:'btn btn-success', iconClass: 'icon icon-add', labelIndex: 'preference.add_appearance'},
-      {id: AdminPreferenceToolbarMenuItems.AddAppearance, class:'btn btn-warning', iconClass: 'icon icon-add', labelIndex: 'preference.add_solver'}
+      {id: AdminPreferenceToolbarMenuItems.AddAppearance, class:'btn btn-success', iconClass: 'icon icon-add', labelIndex: 'preference.add_appearance'},
+      {id: AdminPreferenceToolbarMenuItems.AddSolver, class:'btn btn-warning', iconClass: 'icon icon-add', labelIndex: 'preference.add_solver'}
     ];
 
     this.adminToolbar = {
@@ -45,9 +49,23 @@ export class AdminPreferencesComponent implements OnInit {
     
     this.mainMenuItems = [
       {id: AdminPreferenceMenuItems.Language, iconClass: 'icon-translate', labelIndex: 'preference.language', active: true},
-      {id: AdminPreferenceMenuItems.Solver, iconClass: 'icon-new-tab', labelIndex: 'preference.appearance', active: false},
-      {id: AdminPreferenceMenuItems.Appearance, iconClass: 'icon-appearance', labelIndex: 'preference.appearance', active: false}
+      {id: AdminPreferenceMenuItems.Appearance, iconClass: 'icon-appearance', labelIndex: 'preference.appearance', active: false},
+      {id: AdminPreferenceMenuItems.Solver, iconClass: 'icon-new-tab', labelIndex: 'preference.solver', active: false}
     ];
+  }
+
+  onClickToolbarButton(item: number | string) {
+    switch(item) {
+      case AdminPreferenceMenuItems.Language:
+        this.newLanguageDialog = true;
+        break;
+      case AdminPreferenceMenuItems.Solver:
+        this.newSolverDialog = true;
+        break;
+      case AdminPreferenceMenuItems.Appearance:
+        this.newAppearanceDialog = true;
+        break;
+    }
   }
 
 }

@@ -1,0 +1,12 @@
+@import "../../../../assets/scss/shared.scss";
+
+.create {
+    float: left;
+    width: 100%;
+    min-height: 200px;
+    padding: 40px 20px;
+
+    &__component {
+        height: 42px;
+    }
+}
