@@ -8,6 +8,7 @@ import { FileFoldersCollection } from '../collections/file-folders-collection';
 import { GroupsCollection } from '../collections/groups-collection';
 import { SettingPreferencesCollection } from '../collections/setting-preferences-collection';
 import { NotificationsCollection } from '../collections/notifications-collection';
+import { UsersCollection } from '../collections/users-collection';
 
 Meteor.methods({
 
@@ -73,13 +74,35 @@ Meteor.methods({
         return response.fetchResponse();
     },
 
+    searchUser(keywords: string): R {
+        try {
+            if ( !this.userId ) {
+                throw new Meteor.Error('User is not logged.');
+            }
+
+            let result = UsersCollection.collection.find({}, { limit: 30}).fetch();
+            if (keywords !== "") {
+                result = UsersCollection.collection.find({ $text: { $search: keywords} } ).fetch();
+            }
+            
+            if (util.valueExist(result)) {
+                return response.fetchResponse(result);
+            } else {
+                throw new Meteor.Error('Unable to search a value');
+            }
+        }
+        catch(error){
+            return response.fetchResponse(error, false);
+        }
+    },
+
     getUserFiles(): R {
         try {
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
             
-            const result = FileFoldersCollection.collection.find({ 'owner._id': { $eq: this.userId}});
+            const result = FileFoldersCollection.collection.find({ 'owner._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
             }
@@ -95,7 +118,7 @@ Meteor.methods({
                 throw new Meteor.Error('User is not logged.');
             }
             
-            const result = GroupsCollection.collection.find({ 'createdBy._id': { $eq: this.userId}});
+            const result = GroupsCollection.collection.find({ 'createdBy._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
             }

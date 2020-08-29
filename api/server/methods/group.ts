@@ -57,6 +57,47 @@ Meteor.methods({
 
     },
 
+    renameGroup(newName:string, groupId: string) {
+        try {
+            if ( !this.userId ) {
+                throw new Meteor.Error('User is not logged.');
+            }
+            
+            const setValues = { 'name': newName };
+            const group: Group = GroupsCollection.collection.findOne({ '_id': { $eq: groupId}});
+            if (!util.valueExist(group)) {
+                throw new Meteor.Error('Group not found.');
+            }
+
+            const updated = GroupsCollection.collection.update(group._id, { $set: setValues });
+            if ( updated ) {
+                return response.fetchResponse();
+            } else {
+                throw new Meteor.Error('Unable to rename group.');
+            }
+        }
+        catch(error){
+            return response.fetchResponse(error, false);
+        }
+    },
+
+    removeGroup(groupId: string) {
+        try {
+            if ( !this.userId ) {
+                throw new Meteor.Error('User is not logged.');
+            }
+            const updated = GroupsCollection.collection.remove(groupId);
+            if ( updated ) {
+                return response.fetchResponse();
+            } else {
+                throw new Meteor.Error('Unable to remove notification.');
+            }
+        }
+        catch(error){
+            return response.fetchResponse(error, false);
+        }
+    },
+
     removeMember(user: User, groupId: string): R {
         try {
             if ( !this.userId ) {

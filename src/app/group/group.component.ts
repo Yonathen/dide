@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { GroupService } from './services/group.service';
+import { NotificationService } from '../shared/services/notification.service';
+import { Group } from 'api/server/models/group';
 
 export enum GroupToolbarMenuItems {
   CreateGroup, RemoveAll
@@ -19,9 +22,14 @@ export class GroupComponent implements OnInit {
   public groupToolbar: LoideToolbarMenu;
   public gridItemMenu: MenuItem[];
 
-  constructor(public translateService: TranslateService) { }
+  public groups: Group[];
+
+  constructor(private translateService: TranslateService,
+    private groupService: GroupService) { }
 
   ngOnInit(): void {
+    this.loadGroup();
+    
 
     this.gridItemMenu = [{
       label: 'Group',
@@ -49,6 +57,14 @@ export class GroupComponent implements OnInit {
       enableSort: true,
       buttonMenu: toolbarButtonMenu
     }
+  }
+
+  loadGroup() {
+    this.groupService.fetchGroup().then(result => {
+      if (result.success) {
+        this.groups = result.returnValue;
+      }
+    });
   }
 
   onClickToolbarButton(event: number | string) {
