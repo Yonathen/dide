@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "api": "cd api && meteor run",
-    "app": "./node_modules/.bin/meteor-client bundle -s api && sudo ng serve",
+    "app": "./node_modules/.bin/meteor-client bundle -s api && ng serve",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
