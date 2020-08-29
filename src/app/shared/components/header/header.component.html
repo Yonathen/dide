@@ -34,8 +34,11 @@
     </div>
 </div>
 
-<p-sidebar [(visible)]="notifySidebar" [appendTo]="'body'" position="right" [baseZIndex]="10000">
-    <h1 style="font-weight:normal" translate>header.notification</h1>
+<p-sidebar 
+    [(visible)]="notifySidebar" 
+    position="right" 
+    [baseZIndex]="10000">
+    <app-notifications (onNotificationChange)="loadNotification()" [notifications]="notifications"></app-notifications>
 </p-sidebar>
 
 <p-dialog 

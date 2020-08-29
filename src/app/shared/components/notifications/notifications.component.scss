@@ -1,0 +1,70 @@
+@import "../../../../assets/scss/shared.scss";
+
+.common-style {
+    display: block;
+    float: left;
+    width: 100%;
+    font-family: 'LatoWeb';
+}
+
+.notifications {
+    @extend .common-style;
+    height: 100%;
+
+    &__header {
+        @extend .common-style;
+        height: 40px;
+        font-size: 24px;
+        color: $color__white;
+    }
+    &__body{
+        @extend .common-style;
+        height: calc(100% - 40px);
+        padding-bottom: 40px;
+
+        ul {
+            @extend .common-style;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 40px
+        }      
+
+        li {
+            @extend .common-style;
+            margin: 0;
+            padding: 5px;
+            background-color: $color__dark-gray;
+            color: $color__white;
+            margin: 10px 0;
+        }
+    }
+
+    &__title {
+        @extend .common-style;
+        font-size: 18px;
+        padding: 5px;
+    }
+    &__message {
+        @extend .common-style;
+        font-size: 16px;
+        padding: 5px;
+    }
+    &__date {
+        @extend .common-style;
+        font-size: 12px;
+        padding: 5px;
+    }
+    &__menu {
+        @extend .common-style;
+        padding: 5px;
+        background-color: $color__white-alpha-3;
+
+        a {
+            display: block;
+            float: right;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    }
+}

@@ -23,7 +23,8 @@
     "public": "Public",
     "private": "Private",
     "type": "Type",
-    "detail": "Detail"
+    "detail": "Detail",
+    "mark_seen": "Mark as seen"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -100,6 +101,10 @@
   }, 
   "editor": {
     "filter": "Filter"
+  },
+  "notification": {
+    "success_remove_title": "Notification removed",
+    "success_marked_title": "Notification marked as seen"
   }
 }
   
