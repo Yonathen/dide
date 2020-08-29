@@ -18,7 +18,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   public failedMessage: string;
   @Output('cancel') cancelEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private accountService: AccountService, 
+  constructor(
+    private accountService: AccountService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -27,7 +28,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.setUpForm();
   }
 
-  
+
   ngOnDestroy() {
     this.setUpForm();
   }

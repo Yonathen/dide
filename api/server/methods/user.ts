@@ -29,7 +29,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             Meteor.users.update(this.userId, {
                 $set: {profile: newProfile}
             });
@@ -47,7 +47,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             const oldEmail = Meteor.user().emails[0].address;
             Accounts.addEmail(this.userId, newEmail);
             Accounts.removeEmail(this.userId, oldEmail);
@@ -65,7 +65,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             Accounts.setPassword(this.userId, newPassword);
         }
         catch(error){
@@ -80,11 +80,21 @@ Meteor.methods({
                 throw new Meteor.Error('User is not logged.');
             }
 
-            let result = UsersCollection.collection.find({}, { limit: 30}).fetch();
-            if (keywords !== "") {
-                result = UsersCollection.collection.find({ $text: { $search: keywords} } ).fetch();
+            const notCurrentUser = { _id : { $ne: this.userId } };
+            let result = UsersCollection.collection.find(notCurrentUser, { limit: 30}).fetch();
+            if (keywords !== '') {
+              result = [];
+              const allUsers = UsersCollection.collection.find(notCurrentUser).fetch();
+              allUsers.forEach(user => {
+
+                if ( user.profile.firstName.search(keywords) > -1 ||
+                  user.profile.lastName.search(keywords) > -1 ||
+                  user.emails[0].address.search(keywords) > -1 ) {
+                    result.push(user);
+                  }
+              });
             }
-            
+
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
             } else {
@@ -101,7 +111,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             const result = FileFoldersCollection.collection.find({ 'owner._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
@@ -117,7 +127,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             const result = GroupsCollection.collection.find({ 'createdBy._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
@@ -133,7 +143,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             const result = SettingPreferencesCollection.collection.find({ 'user._id': { $eq: this.userId}});
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
@@ -149,7 +159,7 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
+
             const result = NotificationsCollection.collection.find({ 'user._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
@@ -160,5 +170,5 @@ Meteor.methods({
         }
     },
 
-    
+
 })

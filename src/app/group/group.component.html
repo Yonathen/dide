@@ -4,11 +4,11 @@
     </div>
     <div class="group__contentMain">
         <ul class="grid">
-            <li>
+            <li *ngFor="let group of groups">
                 <span class="grid__icon icon-group"></span>
-                <span class="grid__label">Sample group</span>
+                <span class="grid__label">{{ group.name }}</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
+                    <p-menu #menu [popup]="true" [model]="getMenuItems(group)"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
@@ -19,15 +19,56 @@
 </div>
 
 
-<p-dialog 
-    [modal]="true" 
+<p-dialog
+    [modal]="true"
     [draggable]="false"
     [baseZIndex]="10000"
-    styleClass="loide-dialog" 
-    [style]="{width: '600px'}" 
-    [(visible)]="createGroupDialog" 
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="createGroupDialog"
     header="{{ 'group.create_group' | translate }}">
-    
-    <app-create-group></app-create-group>
+
+    <app-create-group (cancel)="onCreateCancel($event)"></app-create-group>
+
+</p-dialog>
+
+<p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="viewGroupDialog"
+    header="{{ 'group.create_group' | translate }}">
+
+    <app-view-group [group]="selectedGroup"></app-view-group>
+
+</p-dialog>
+
+
+
+<p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="confirmRemoveGroupDialog"
+    header="{{ 'group.create_group' | translate }}">
+
+    <div class="col-12 form-component p-3">
+        <div class="form-component__label form-component__label--white" translate>
+            Are you sure you want to remove {{ this.selectedGroup?.name }}?
+        </div>
+    </div>
+
+    <div class="dialog__footer">
+        <button type="button" (click)="removeGroup()" class="btn btn-success btn--md float-right">
+            <span class="label" translate>common.remove</span>
+        </button>
+        <button type="button" (click)="cancelRemoveGroup()" class="btn btn-warning btn--md float-right">
+            <span class="label" translate>common.cancel</span>
+        </button>
+    </div>
 
 </p-dialog>

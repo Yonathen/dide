@@ -28,7 +28,7 @@ export interface Member {
 
 
 export interface Group {
-    _id: string;
+    _id?: string;
     name: string;
     createdBy: User;
     createdOn: Date;
@@ -56,4 +56,18 @@ export function castUserToMember(newUser: User, memberType: MemberType = MemberT
         requestStatus: RequestStatus.Pending,
         memberType: memberType
     } as Member;
+}
+
+export function castToGroup(groupName: string, groupType: GroupType, memberUsers: User[]): Group {
+  const groupMembers: Member[] = memberUsers.map(user => {
+    const memberType: MemberType = user._id === Meteor.userId() ? MemberType.Admin : MemberType.User;
+    return castUserToMember(user, memberType);
+  });
+  return {
+    name: groupName,
+    createdBy: Meteor.user(),
+    createdOn: new Date(),
+    members: groupMembers,
+    type: groupType
+  } as Group;
 }
