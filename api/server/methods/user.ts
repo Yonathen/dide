@@ -127,7 +127,7 @@ Meteor.methods({
                 throw new Meteor.Error('User is not logged.');
             }
             
-            const result = NotificationsCollection.collection.find({ 'user._id': { $eq: this.userId}});
+            const result = NotificationsCollection.collection.find({ 'user._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
             }

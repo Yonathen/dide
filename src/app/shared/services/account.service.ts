@@ -29,7 +29,7 @@ export class AccountService {
       const userAccount: UserAccount = this.castToUserAccount(formValue);
       Meteor.call('createAccount', userAccount, (error, result) => {
         if (error) {
-          return reject(error);
+          return resolve(error);
         }
         resolve(result);
       });

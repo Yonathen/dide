@@ -9,6 +9,16 @@
     padding: 10px 15px;
     cursor: pointer;
 
+    &--xs {
+        padding: 5px;
+
+        .label {
+            font-size: 12px !important;
+            font-weight: bold !important;
+            padding: 0 !important;
+        }
+    }
+
     &--md {
         font-size: 16px;
         font-weight: normal;

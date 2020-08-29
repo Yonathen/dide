@@ -1,0 +1,32 @@
+<div class="notifications">
+    <div class="notifications__header" translate>
+        header.notification
+    </div>
+    <div class="notifications__body">
+        <p-scrollPanel [style]="{width: '100%', height: '100%'}">
+            <ul>
+                <li *ngFor="let notification of notifications">
+                    <div class="notifications__title">{{ notification.title }}</div>
+                    <div class="notifications__message">{{ notification.message }}</div>
+                    <div class="notifications__date">{{ notification.date }}</div>
+                    <div class="notifications__menu">
+                        <button type="button" 
+                            (click)="removeNotification(notification._id)" 
+                            class="btn btn-danger btn--xs float-right">
+                            <span class="label" translate>common.remove</span>
+                        </button>
+                        <button type="button" 
+                            (click)="markNotificationAsSeen(notification._id)" 
+                            *ngIf="isNotificationNew(notification)" 
+                            class="btn btn-warning btn--xs float-right">
+                            <span class="label" translate>common.mark_seen</span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </p-scrollPanel>
+    </div>
+</div>
+
+<p-toast key="markAsToast"></p-toast>
+<p-toast key="removedToast"></p-toast>

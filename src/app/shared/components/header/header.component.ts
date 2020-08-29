@@ -9,6 +9,8 @@ import { util } from 'api/server/lib/util';
 import { UserAccount } from 'api/server/models/user-account';
 import { Tracker } from 'meteor/tracker';
 import { AccountService } from '../../services/account.service';
+import { NotificationService } from '../../services/notification.service';
+import { Notification } from 'api/server/models/notification';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +26,7 @@ export class HeaderComponent implements OnInit {
   public createAccountDialog: boolean;
   public accessAccountDialog: boolean;
   public userAccount: UserAccount;
+  public notifications: Notification[];
 
   get isEditor(): boolean {
     return this.route === LoideRoute.Editor;
@@ -37,15 +40,26 @@ export class HeaderComponent implements OnInit {
     private translateSevice: TranslateService,
     private changeDetectionRef: ChangeDetectorRef,
     private messageService: MessageService,
+    private notificationService: NotificationService,
     private accountService: AccountService) { }
 
   ngOnInit(): void {
     Tracker.autorun(() => {
       if(Meteor.user()) {
         this.setUserAccount();
+        this.loadNotification();
         this.changeDetectionRef.detectChanges();
       }
     })
+  }
+
+  loadNotification() {
+    this.notificationService.fetchNotification().then( result => {
+      if ( result.success ) {
+        this.notifications = result.returnValue;
+        console.log(this.notifications);
+      }
+    });
   }
 
   setUserAccount() {
