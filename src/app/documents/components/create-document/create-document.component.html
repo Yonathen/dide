@@ -1,0 +1,119 @@
+<div class="create">
+    <div class="col-8 p-0 m-0 float-left">
+        <div class="col-12 form-component">
+            <div class="form-component__label form-component__label--white" translate>
+                document.document_name
+            </div>
+            <div class="col-12 p-0">
+                <input pInputText type="text" class="form-component__fluid" 
+                    placeholder="{{ 'document.placeholder_document_name' | translate}}"/>
+            </div>
+        </div>
+        <div class="col-12 form-component">
+            <div class="form-component__label form-component__label--white" translate>
+                document.location
+            </div>
+            <div class="col-12 p-0 create__component">
+                <div class="inputgroup">
+                    <input class="inputgroup__input inputgroup__input--gray" placeholder="{{ 'document.placeholder_search_location' | translate}}">
+                    <button type="button" class="btn btn-warning inputgroup__btn m-0">
+                        <span class="icon icon-keyboard_arrow_down m-0"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 form-component">
+            <p-table styleClass="loide-table" [columns]="cols" [value]="folderTableValues" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            <span translate>{{col.header}}</span>
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        </th>
+                        <th class="col col--xs"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td class="col" *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                        <td class="col col--xs">
+                            <button type="button" class="btn btn-danger btn--md m-0">
+                                <span class="icon icon-delete m-0"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    
+    </div>
+
+    <div class="col-4 p-0 m-0 float-right">
+        <div class="col-12 form-component">
+            <div class="form-component__label form-component__label--white" translate>
+                common.type
+            </div>
+            <div class="col-12 p-0 create__component clearfix">
+                <div class="col-6 p-0 pt-2 float-left">
+                    <p-radioButton name="privacy" [value]="'document.file' | translate" [label]="'document.file' | translate"></p-radioButton>
+                </div>
+                <div class="col-6 p-0 pt-2 float-left">
+                    <p-radioButton name="privacy" [value]="'document.folder' | translate" [label]="'document.folder' | translate" ></p-radioButton>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 form-component">
+            <div class="form-component__label form-component__label--white" translate>
+                common.privacy
+            </div>
+
+            <div class="col-12 p-0 create__component clearfix">
+                <div class="col-6 p-0 pt-2 float-left">
+                    <p-radioButton name="privacy" [value]="'public'" [label]="'common.public' | translate"></p-radioButton>
+                </div>
+                <div class="col-6 p-0 pt-2 float-left">
+                    <p-radioButton name="privacy" [value]="'private'" [label]="'common.private' | translate" ></p-radioButton>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 form-component">
+            <p-table styleClass="loide-table" [columns]="colsMembers" [value]="members" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            <span translate>{{col.header}}</span>
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        </th>
+                        <th class="col col--xs"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td class="col" *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                        <td class="col col--xs">
+                            <button type="button" class="btn btn-danger btn--md m-0">
+                                <span class="icon icon-keyboard_arrow_down m-0"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<div class="dialog__footer">
+    <button type="button" class="btn btn-success btn--md float-right">
+        <span class="label" translate>common.create</span>
+    </button>
+    <button type="button" class="btn btn-warning btn--md float-right">
+        <span class="label" translate>common.cancel</span>
+    </button>
+</div>

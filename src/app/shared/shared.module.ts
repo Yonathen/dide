@@ -28,14 +28,17 @@ import {GalleriaModule} from 'primeng/galleria';
 import {SidebarModule} from 'primeng/sidebar';
 import {DialogModule} from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
+import {FileUploadModule} from 'primeng/fileupload';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import { DashboardToolbarComponent } from './components/dashboard-toolbar/dashboard-toolbar.component';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { AccessAccountComponent } from './components/access-account/access-account.component';
+import {ToastModule} from 'primeng/toast';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -65,7 +68,9 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     GalleriaModule,
     SidebarModule,
     DialogModule,
-    TableModule
+    TableModule,
+    FileUploadModule,
+    ToastModule
   ], 
   exports: [
     HeaderComponent,
@@ -100,7 +105,8 @@ import { AccessAccountComponent } from './components/access-account/access-accou
     GalleriaModule,
     SidebarModule,
     DialogModule,
-    TableModule
+    TableModule,
+    FileUploadModule
   ]
 })
 export class SharedModule { }

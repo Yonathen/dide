@@ -3,7 +3,7 @@
         <app-dashboard-menu [menuItems]="menuItems"></app-dashboard-menu>
     </div>
     <div class="documents__contentToolbar">
-        <app-dashboard-toolbar [toolbar]="documentToolbar"></app-dashboard-toolbar>
+        <app-dashboard-toolbar (onClickToolbarButton)="onClickToolbarButton()" [toolbar]="documentToolbar"></app-dashboard-toolbar>
     </div>
     <div class="documents__contentMain">
         <ul class="grid">
@@ -120,3 +120,43 @@
         </ul>
     </div>
 </div>
+
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '1024px'}" 
+    [(visible)]="createDocumentDialog" 
+    header="{{ 'document.create_document' | translate }}">
+    
+    <app-create-document></app-create-document>
+
+</p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="renameDocumentDialog" 
+    header="{{ 'document.rename' | translate }}">
+    
+    <app-rename-document></app-rename-document>
+
+</p-dialog>
+
+<p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog" 
+    [style]="{width: '500px'}" 
+    [(visible)]="propertiesDocumentDialog" 
+    header="{{ 'document.properties' | translate }}">
+    
+    <app-properties-document></app-properties-document>
+
+</p-dialog>

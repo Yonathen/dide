@@ -1,0 +1,31 @@
+@import "../../../../assets/scss/shared.scss";
+
+.create {
+    float: left;
+    width: 100%;
+    min-height: 200px;
+    padding: 40px 20px;
+
+    &__component {
+        height: 42px;
+    }
+}
+
+:host ::ng-deep .ui-button {
+    border-radius: 0;
+    height: 40px;
+    padding: 3px 5px;
+    background-color: $color__blue;
+    border: none;
+
+    &:enabled:focus {
+        border: none;
+        box-shadow: none !important;
+    }
+
+    &:hover {
+        background-color: $color__dark-blue;
+        border: 1px solid $color__dark-blue;
+        opacity: 1 !important;
+    }
+}

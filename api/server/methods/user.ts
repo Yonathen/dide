@@ -23,28 +23,6 @@ Meteor.methods({
         }
     },
 
-    accessAccount(data: UserAccount) {
-        /*
-        TODO 
-        This is an implimentation that could only be achived
-        on the client side.
-        Using Meteor.loginWithPassword(data.email, data.password, function(error, result) {
-            // callback implimentation.
-        })
-        */
-    },
-
-    exitAccount(data: UserAccount) {
-        /*
-        TODO 
-        This is an implimentation that could only be achived
-        on the client side.
-        Using Meteor.logout()
-        */
-    },
-
-
-
     updateProfile(newProfile: Profile): R {
         try {
             if ( !this.userId ) {
@@ -149,7 +127,7 @@ Meteor.methods({
                 throw new Meteor.Error('User is not logged.');
             }
             
-            const result = NotificationsCollection.collection.find({ 'user._id': { $eq: this.userId}});
+            const result = NotificationsCollection.collection.find({ 'user._id': { $eq: this.userId}}).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
             }

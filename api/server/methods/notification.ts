@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { UserAccount } from '../models/user-account';
 import { response, R } from '../lib/response';
 import { util } from '../lib/util';
-import { Notification, castToNotification } from '../models/notification';
+import { Notification, castToNotification, NotificationStatus } from '../models/notification';
 import { GroupsCollection } from '../collections/groups-collection';
 import { Group } from '../models/group';
 import { NotificationsCollection } from '../collections/notifications-collection';
@@ -12,7 +12,7 @@ import { ObservableCursor } from 'meteor-rxjs';
 
 Meteor.methods({
 
-    sendNotificationToGroupMembers(message: string, groupId: string): R {
+    sendNotificationToGroupMembers(title: string, message: string, groupId: string): R {
         try {
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
@@ -26,7 +26,7 @@ Meteor.methods({
 
             let sent: string[] = []
             group.members.forEach(member => {
-                const notification = castToNotification(message, member.user);
+                const notification = castToNotification(title, message, member.user);
                 const result = NotificationsCollection.collection.insert(notification);
                 if (result) {
                     sent.push(result);
@@ -46,7 +46,7 @@ Meteor.methods({
 
     },
     
-    sendNotificationToUser(message: string, userId: string): R {
+    sendNotificationToUser(title: string, message: string, userId: string): R {
         try {
             
             if ( !this.userId ) {
@@ -59,12 +59,36 @@ Meteor.methods({
                 throw new Meteor.Error('User does not exist');
             } 
 
-            const notification = castToNotification(message, user);
+            const notification = castToNotification(title, message, user);
             const result = NotificationsCollection.collection.insert(notification);
             if ( result ) {
                 return response.fetchResponse(result);
             } else {
                 throw new Meteor.Error('Unable to notify user.');
+            }
+        }
+        catch(error){
+            return response.fetchResponse(error, false);
+        }
+    },
+
+    markAsSeenNotification(notificationId: string) {
+        try {
+            if ( !this.userId ) {
+                throw new Meteor.Error('User is not logged.');
+            }
+            
+            const setValues = { 'status': NotificationStatus.Seen };
+            const notification: Notification = NotificationsCollection.collection.findOne({ '_id': { $eq: notificationId}});
+            if (!util.valueExist(notification)) {
+                throw new Meteor.Error('Folder not found.');
+            }
+
+            const updated = NotificationsCollection.collection.update(notification._id, { $set: setValues });
+            if ( updated ) {
+                return response.fetchResponse();
+            } else {
+                throw new Meteor.Error('Unable to remove notification.');
             }
         }
         catch(error){

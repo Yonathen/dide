@@ -94,6 +94,15 @@
         &--white {
             color: $color__white;
         }
+
+        &--value {
+            font-size: 16px;
+        }
+
+        &--error {
+            font-size: 14px;
+            color: $color__red;
+        }
     }
 
     &__fluid {
@@ -101,6 +110,11 @@
         border-radius: 0;
         width: 100% !important;
         border: solid 1px $color__white;
+
+        &--error {
+            color: $color__red;
+            border: solid 1px $color__red;
+        }
 
         &:enabled:focus {
             border: none;
@@ -351,6 +365,10 @@
 
     .icon-update {
         @extend .icon-create;
+    }
+
+    .icon-settings {
+        @extend .icon-settings;
     }
 
 }

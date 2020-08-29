@@ -25,6 +25,10 @@ export enum DocumentToolbarMenuItems {
 })
 export class DocumentsComponent implements OnInit {
 
+  public createDocumentDialog: boolean = false;
+  public renameDocumentDialog: boolean = false;
+  public propertiesDocumentDialog: boolean = false;
+
   public menuItems: LoideMenuItem[];
   public gridItemMenu: MenuItem[];
   public documentToolbar: LoideToolbarMenu;
@@ -40,7 +44,13 @@ export class DocumentsComponent implements OnInit {
               {label: 'Open', icon: 'icon icon-open_file', command: ($event) => {
                 this.navigationService.openEditor({name: 'Sample file', content: ''})
               }},
-              {label: 'Download', icon: 'icon icon-file_download'}
+              {label: 'Rename', icon: 'icon icon-update', command: ($event) => {
+                this.renameDocumentDialog = true;
+              }},
+              {label: 'Download', icon: 'icon icon-file_download'},
+              {label: 'Properties', icon: 'icon icon-settings', command: ($event) => {
+                this.propertiesDocumentDialog = true;
+              }},
           ]
       },
       {
@@ -54,8 +64,8 @@ export class DocumentsComponent implements OnInit {
 
     let toolbarButtonMenu  = [
       {id: DocumentToolbarMenuItems.Import, class:'btn btn-info', iconClass: 'icon icon-document-public', labelIndex: 'common.import'},
-      {id: DocumentToolbarMenuItems.CreateFolder, class:'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.button_create_folder'},
-      {id: DocumentToolbarMenuItems.CreateFile, class:'btn btn-warning', iconClass: 'icon icon-insert_drive_file', labelIndex: 'document.button_create_file'}
+      {id: DocumentToolbarMenuItems.CreateFolder, class:'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_folder'},
+      {id: DocumentToolbarMenuItems.CreateFile, class:'btn btn-warning', iconClass: 'icon icon-insert_drive_file', labelIndex: 'document.create_file'}
     ];
 
     this.documentToolbar = {
@@ -66,9 +76,13 @@ export class DocumentsComponent implements OnInit {
       buttonMenu: toolbarButtonMenu
     }
     this.menuItems = [
-      {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public', active: true},
-      {id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private', active: false}
+      {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public_document', active: true},
+      {id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private_document', active: false}
     ];
+  }
+
+  onClickToolbarButton() {
+    this.createDocumentDialog = true;
   }
 
 }
