@@ -1,6 +1,6 @@
 <div class="dashboard">
     <ul class="dashboard__menu">
-        <li *ngFor="let menuItem of menuItems">
+        <li *ngFor="let menuItem of menuItems" (click)="onItemClick(menuItem)">
             <a [ngClass]="{'active': menuItem.active}">
                 <div class="dashboard__menuTop"></div>
                 <div class="dashboard__menuMid"><span class="{{ menuItem.iconClass }}"></span></div>

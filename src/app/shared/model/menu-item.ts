@@ -3,6 +3,5 @@ export interface LoideMenuItem {
     class?: string,
     iconClass: string,
     labelIndex: string,
-    active?: boolean 
+    active?: boolean
   };
-  

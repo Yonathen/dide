@@ -1,5 +1,5 @@
-<div class="group">
-  <form [formGroup]="createGroupForm">
+<div class="group" *ngIf="selectedGroup">
+  <form [formGroup]="updateGroupForm">
     <div class="col-12 form-component" *ngIf="isFormInvalid()" >
         <div class="form-component__label form-component__label--error" >
             {{failedMessage}}
@@ -119,7 +119,8 @@
                       </span>
                     </td>
                     <td class="col col--sm">
-                        <button type="button" (click)="removeMember(rowData)" class="btn btn-success btn--xs m-0">
+                        <span *ngIf="isMemberOwner(rowData)" translate>group.owner</span>
+                        <button type="button" *ngIf="!isMemberOwner(rowData)" (click)="removeMember(rowData)" class="btn btn-success btn--xs m-0">
                             <span class="label" translate>common.remove</span>
                         </button>
                     </td>
@@ -137,8 +138,8 @@
 </div>
 
 <div class="dialog__footer">
-    <button type="button" (click)="create()" class="btn btn-success btn--md float-right">
-        <span class="label" translate>common.create</span>
+    <button type="button" (click)="save()" class="btn btn-success btn--md float-right">
+        <span class="label" translate>common.save</span>
     </button>
     <button type="button" (click)="cancel()" class="btn btn-warning btn--md float-right">
         <span class="label" translate>common.cancel</span>

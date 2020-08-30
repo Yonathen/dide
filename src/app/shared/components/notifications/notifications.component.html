@@ -3,28 +3,31 @@
         header.notification
     </div>
     <div class="notifications__body">
-        <p-scrollPanel [style]="{width: '100%', height: '100%'}">
             <ul>
                 <li *ngFor="let notification of notifications">
-                    <div class="notifications__title">{{ notification.title }}</div>
+                    <div class="notifications__title">
+                      <span class="title">{{ notification.title }}</span>
+
+                      <div class="notifications__menu">
+                        <ul class="menu">
+                          <li class="menuItem">
+                            <span class="icon-keyboard_arrow_down"></span>
+                            <ul class="menu">
+                              <li class="menuItem"
+                                (click)="item.command()"
+                                *ngFor="let item of getMenuItems(notification)">
+                                <span class="{{ item.icon }}"></span>
+                                <span class="label">{{ item.label}}</span>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                     <div class="notifications__message">{{ notification.message }}</div>
                     <div class="notifications__date">{{ notification.date }}</div>
-                    <div class="notifications__menu">
-                        <button type="button" 
-                            (click)="removeNotification(notification._id)" 
-                            class="btn btn-danger btn--xs float-right">
-                            <span class="label" translate>common.remove</span>
-                        </button>
-                        <button type="button" 
-                            (click)="markNotificationAsSeen(notification._id)" 
-                            *ngIf="isNotificationNew(notification)" 
-                            class="btn btn-warning btn--xs float-right">
-                            <span class="label" translate>common.mark_seen</span>
-                        </button>
-                    </div>
                 </li>
             </ul>
-        </p-scrollPanel>
     </div>
 </div>
 

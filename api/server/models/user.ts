@@ -7,7 +7,6 @@ export enum UserType {
     Member = 'Member',
     Admin = 'Admin'
 }
-  
 
 export enum AccountStatus {
     Active = 'Active',
