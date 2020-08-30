@@ -8,7 +8,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 export class CreateLanguageComponent implements OnInit {
 
   @ViewChild('languageFileInput') languageFileInput: ElementRef;
-  public languageFile:File[] = [];
+  public languageFile: File[] = [];
 
   constructor() { }
 
@@ -18,7 +18,7 @@ export class CreateLanguageComponent implements OnInit {
   languageUploader(event) {
     if (event.files && event.files.length > 0) {
       this.languageFile[0] = event.files[0];
-      let fileInput:HTMLInputElement = <HTMLInputElement> this.languageFileInput.nativeElement;
+      const fileInput: HTMLInputElement = this.languageFileInput.nativeElement;
       fileInput.value = this.languageFile[0].name;
     }
   }

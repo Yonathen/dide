@@ -23,12 +23,12 @@ export interface Member {
     requestedDate: Date;
     acceptedDate?: Date;
     requestStatus: RequestStatus;
-    memberType: MemberType
+    memberType: MemberType;
 }
 
 
 export interface Group {
-    _id: string;
+    _id?: string;
     name: string;
     createdBy: User;
     createdOn: Date;
@@ -49,11 +49,29 @@ export function isUserInGroup(user: User, group: Group): boolean {
     return (userIndex !== -1);
 }
 
-export function castUserToMember(newUser: User, memberType: MemberType = MemberType.User): Member {
+export function castUserToMember(
+  userM: User,
+  memberTypeM: MemberType = MemberType.User,
+  requestStatusM: RequestStatus = RequestStatus.Pending): Member {
     return {
-        user: newUser,
+        user: userM,
         requestedDate: new Date(),
-        requestStatus: RequestStatus.Pending,
-        memberType: memberType
+        requestStatus: requestStatusM,
+        memberType: memberTypeM
     } as Member;
+}
+
+export function castToGroup(groupName: string, groupType: GroupType, memberUsers: User[]): Group {
+  const groupMembers: Member[] = memberUsers.map(user => {
+    const memberType: MemberType = user._id === Meteor.userId() ? MemberType.Admin : MemberType.User;
+    const requestStatus: RequestStatus = user._id === Meteor.userId() ? RequestStatus.Accepted : RequestStatus.Pending;
+    return castUserToMember(user, memberType, requestStatus);
+  });
+  return {
+    name: groupName,
+    createdBy: Meteor.user(),
+    createdOn: new Date(),
+    members: groupMembers,
+    type: groupType
+  } as Group;
 }

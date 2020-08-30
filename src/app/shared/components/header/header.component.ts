@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
   }
 
   get isLogedIn(): boolean {
-    return util.valueExist(Meteor.user()); 
+    return util.valueExist(Meteor.user());
   }
 
   constructor(public router: Router,
@@ -45,12 +45,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     Tracker.autorun(() => {
-      if(Meteor.user()) {
+      if (Meteor.user()) {
         this.setUserAccount();
         this.loadNotification();
         this.changeDetectionRef.detectChanges();
       }
-    })
+    });
   }
 
   loadNotification() {
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit {
 
   setUserAccount() {
     const user = Meteor.user();
-    if( util.valueExist(user) ) {
+    if ( util.valueExist(user) ) {
       this.userAccount = {} as UserAccount;
       this.userAccount.email = user.emails && user.emails.length > 0 ? user.emails[0].address : null;
       this.userAccount.profile = user.profile;
@@ -87,6 +87,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.accountService.exitAccount().then((result) => {
       if ( result.success ) {
+        this.goToDashboard();
         this.changeDetectionRef.detectChanges();
       }
     })
@@ -95,8 +96,8 @@ export class HeaderComponent implements OnInit {
   onCancelCreate(created: boolean) {
     this.createAccountDialog = false;
     if (created) {
-      this.messageService.add({key: 'createdToast', severity:'success', 
-        summary: this.translateSevice.instant('account.success_create_title'), 
+      this.messageService.add({key: 'createdToast', severity:'success',
+        summary: this.translateSevice.instant('account.success_create_title'),
         detail: this.translateSevice.instant('account.success_create_detail')});
     }
   }

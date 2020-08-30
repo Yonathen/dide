@@ -1,19 +1,19 @@
 import { NotifyMessage } from './../../../shared/model/notify-message';
 import { NotificationService } from './../../../shared/services/notification.service';
-import { GroupType } from './../../../../../api/server/models/group';
+import { GroupType, Group } from './../../../../../api/server/models/group';
 import { GroupService } from './../../services/group.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, OnChanges, EventEmitter, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'api/server/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { util } from 'api/server/lib/util';
 
 @Component({
-  selector: 'app-create-group',
-  templateUrl: './create-group.component.html',
-  styleUrls: ['./create-group.component.scss']
+  selector: 'app-manage-group-member',
+  templateUrl: './manage-group-member.component.html',
+  styleUrls: ['./manage-group-member.component.scss']
 })
-export class CreateGroupComponent implements OnInit {
+export class ManageGroupMemberComponent implements OnInit, OnChanges {
 
   public cols: any[];
   public suggestions: User[] = [];
@@ -21,8 +21,10 @@ export class CreateGroupComponent implements OnInit {
   public groupType = GroupType;
 
   public submitted: boolean;
-  public createGroupForm: FormGroup;
+  public updateGroupForm: FormGroup;
   public failedMessage: string;
+
+  @Input() selectedGroup: Group;
   @Output('cancel') cancelEmitter: EventEmitter<string | null> = new EventEmitter<string | null>();
 
   constructor(
@@ -37,33 +39,41 @@ export class CreateGroupComponent implements OnInit {
       { field: 'email', header: 'account.email' }
     ];
 
-    this.loadUsers();
 
-    this.submitted = false;
-    this.failedMessage = null;
-    this.setUpForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedGroup && util.valueExist(this.selectedGroup)) {
+      this.loadUsers();
+
+      this.submitted = false;
+      this.failedMessage = null;
+      this.setUpForm();
+    }
   }
 
   setUpForm() {
-    this.createGroupForm = this.formBuilder.group({
-      name: [ {value: null, disabled: false}, Validators.required ],
-      type: [ {value: GroupType.Open, disabled: false}, Validators.required ]
+    this.updateGroupForm = this.formBuilder.group({
+      name: [ {value: this.selectedGroup.name, disabled: false}, Validators.required ],
+      type: [ {value: this.selectedGroup.type, disabled: false}, Validators.required ]
     });
+
+    this.members = this.selectedGroup.members.map(elt => elt.user);
   }
 
   failedValidation(componentName: string) {
-    return this.createGroupForm.get(componentName).invalid && this.submitted;
+    return this.updateGroupForm.get(componentName).invalid && this.submitted;
   }
 
   isFormInvalid(): boolean {
     return util.valueExist(this.failedMessage);
   }
 
-  create() {
+  save() {
     this.submitted = true;
-    if ( this.createGroupForm.valid && this.hasMembers() ) {
+    if ( this.updateGroupForm.valid && this.hasMembers() ) {
       this.failedMessage = null;
-      this.groupService.createGroup(this.createGroupForm.value, this.members).then((result) => {
+      this.groupService.updateGroup(this.updateGroupForm.value, this.members, this.selectedGroup._id).then((result) => {
         if ( result.success ) {
           this.cancel(result.returnValue);
         } else {
@@ -83,23 +93,26 @@ export class CreateGroupComponent implements OnInit {
     this.members.splice(0, this.members.length);
     this.submitted = false;
     this.failedMessage = null;
+    this.selectedGroup = null;
     this.cancelEmitter.emit(groupId);
   }
 
   loadUsers(keyword: string = '') {
-    this.groupService.searchMembers(keyword).then(result => {
+    if ( this.selectedGroup ) {
+      this.groupService.searchMembers(keyword, this.selectedGroup._id).then(result => {
 
-      this.suggestions.splice(0, this.suggestions.length);
-      if (result.success && result.returnValue && result.returnValue.length > 0) {
-        const users: User[]  = result.returnValue;
-        users.forEach(user => {
-          const index = this.members.findIndex(elt => elt._id === user._id);
-          if ( index < 0 ) {
-            this.suggestions.push(user);
-          }
-        });
-      }
-    });
+        this.suggestions.splice(0, this.suggestions.length);
+        if (result.success && result.returnValue && result.returnValue.length > 0) {
+          const users: User[]  = result.returnValue;
+          users.forEach(user => {
+            const index = this.members.findIndex(elt => elt._id === user._id);
+            if ( index < 0 ) {
+              this.suggestions.push(user);
+            }
+          });
+        }
+      });
+    }
   }
 
   hasMembers(): boolean {
@@ -114,6 +127,10 @@ export class CreateGroupComponent implements OnInit {
     const index = this.suggestions.findIndex(elt => elt._id === user._id);
     this.suggestions.splice(index, 1);
     this.members.push(user);
+  }
+
+  isMemberOwner(user: User): boolean {
+    return user._id === this.selectedGroup.createdBy._id;
   }
 
   removeMember(user: User) {
