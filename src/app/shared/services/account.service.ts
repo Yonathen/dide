@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { UserAccount } from 'api/server/models/user-account';
 import { R } from 'api/server/lib/response';
-import { UserType, AccountStatus, Profile } from 'api/server/models/user';
+import { UserType, AccountStatus, Profile, User } from 'api/server/models/user';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
+  private userAccount = new BehaviorSubject<User>(null);
+
   constructor() { }
 
+  get user() {
+    return this.userAccount.asObservable();
+  }
+
   castToUserAccount(formValue, create: boolean = true): UserAccount {
-    let castedValue: UserAccount = { profile: {} } as UserAccount;
+    const castedValue: UserAccount = { profile: {} } as UserAccount;
     castedValue.email = formValue.email;
     castedValue.password = formValue.password;
     if ( create ) {
@@ -39,11 +46,11 @@ export class AccountService {
 
   accessAccount(formValue: any): Promise<R> {
      return new Promise<R>((resolve, reject) => {
-      
       Meteor.loginWithPassword(formValue.email, formValue.password, (error) => {
         if (error) {
           return resolve({success: false, errorValue: error});
         }
+        this.trackAccount();
         resolve({success: true});
       });
 
@@ -60,6 +67,16 @@ export class AccountService {
         resolve({success: true});
       });
 
+    });
+  }
+
+  trackAccount() {
+    Tracker.autorun(() => {
+      if (Meteor.user()) {
+        this.userAccount.next(Meteor.user());
+      } else {
+        this.userAccount.next(null);
+      }
     });
   }
 }

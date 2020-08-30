@@ -34,9 +34,9 @@ export class NavigationService {
     const newTabId = 'EDITOR_TAB_' + random;
     let file = { name:'new_file', content: '' };
     let newFileMenuItem: MenuItem = {
-      id: newTabId, 
-      icon: 'icon icon-file', 
-      state: { 'data': file }, 
+      id: newTabId,
+      icon: 'icon icon-file',
+      state: { 'data': file },
       label: file.name
     };
     this.inject(newFileMenuItem);
@@ -46,9 +46,9 @@ export class NavigationService {
     const random = Math.random();
     const newTabId = 'EDITOR_TAB_' + random;
     let fileMenuItem: MenuItem = {
-      id: newTabId, 
-      icon: 'icon icon-file', 
-      state: { 'data': file }, 
+      id: newTabId,
+      icon: 'icon icon-file',
+      state: { 'data': file },
       label: file.name
     };
     const indexOfProfile = this.boardMenuItems.value.findIndex(item => item.id === newTabId);
@@ -56,5 +56,9 @@ export class NavigationService {
       this.inject(fileMenuItem);
     }
     this.router.navigate(['/editor'], { relativeTo: this.route, state: fileMenuItem.state });
+  }
+
+  openDashboard() {
+    this.router.navigate(['/dashboard'], { relativeTo: this.route, state: {} });
   }
 }

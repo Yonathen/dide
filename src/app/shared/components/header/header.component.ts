@@ -1,10 +1,11 @@
+import { NavigationService } from 'src/app/navigation.service';
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { LoideRoute } from '../../enums/loide-route';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { Profile } from 'api/server/models/user';
+import { Profile, User } from 'api/server/models/user';
 import { util } from 'api/server/lib/util';
 import { UserAccount } from 'api/server/models/user-account';
 import { Tracker } from 'meteor/tracker';
@@ -36,19 +37,23 @@ export class HeaderComponent implements OnInit {
     return util.valueExist(Meteor.user());
   }
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     private translateSevice: TranslateService,
     private changeDetectionRef: ChangeDetectorRef,
     private messageService: MessageService,
     private notificationService: NotificationService,
+    private navigationService: NavigationService,
     private accountService: AccountService) { }
 
   ngOnInit(): void {
-    Tracker.autorun(() => {
-      if (Meteor.user()) {
-        this.setUserAccount();
+    this.accountService.user.subscribe(user => {
+      if (user && user._id) {
+        this.setUserAccount(user);
         this.loadNotification();
         this.changeDetectionRef.detectChanges();
+      } else {
+        this.userAccount = null;
       }
     });
   }
@@ -57,22 +62,21 @@ export class HeaderComponent implements OnInit {
     this.notificationService.fetchNotification().then( result => {
       if ( result.success ) {
         this.notifications = result.returnValue;
-        console.log(this.notifications);
       }
     });
   }
 
-  setUserAccount() {
-    const user = Meteor.user();
+  setUserAccount(user: User) {
     if ( util.valueExist(user) ) {
-      this.userAccount = {} as UserAccount;
-      this.userAccount.email = user.emails && user.emails.length > 0 ? user.emails[0].address : null;
-      this.userAccount.profile = user.profile;
+      this.userAccount = {
+        email: user.emails && user.emails.length > 0 ? user.emails[0].address : null,
+        profile: user.profile
+      } as UserAccount;
     }
   }
 
   goToDashboard() {
-    this.router.navigate( [LoideRoute.Documents]);
+    this.router.navigate( ['/dashboard']);
   }
 
 
@@ -87,10 +91,10 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.accountService.exitAccount().then((result) => {
       if ( result.success ) {
-        this.goToDashboard();
+        this.navigationService.openDashboard();
         this.changeDetectionRef.detectChanges();
       }
-    })
+    });
   }
 
   onCancelCreate(created: boolean) {
@@ -104,9 +108,6 @@ export class HeaderComponent implements OnInit {
 
   onCancelAccess(logedIn: boolean) {
     this.accessAccountDialog = false;
-    if (logedIn) {
-      this.setUserAccount();
-    }
   }
 
 }

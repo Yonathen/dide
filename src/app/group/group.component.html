@@ -7,7 +7,7 @@
     </div>
     <div class="group__contentMain">
 
-        <ul class="grid" *ngIf="selectedMenuItems.id === groupMenuItemOpt.MyGroups">
+        <ul class="grid" *ngIf="isSelectedMenu(groupMenuItemOpt.MyGroups)">
             <li *ngFor="let group of groups">
                 <span class="grid__icon icon-group"></span>
                 <span class="grid__label">{{ group.name }}</span>
@@ -21,7 +21,7 @@
             <li class="grid__empty" *ngIf="groups && groups?.length === 0" translate>group.empty_group</li>
         </ul>
 
-        <ul class="grid" *ngIf="selectedMenuItems.id === groupMenuItemOpt.MemberIn">
+        <ul class="grid" *ngIf="isSelectedMenu(groupMenuItemOpt.MemberIn)">
             <li *ngFor="let group of memberGroups">
                 <span class="grid__icon icon-group"></span>
                 <span class="grid__label">{{ group.name }}</span>
@@ -35,7 +35,7 @@
             <li class="grid__empty" *ngIf="memberGroups && memberGroups?.length === 0" translate>group.empty_member_group</li>
         </ul>
 
-        <ul class="grid" *ngIf="selectedMenuItems.id === groupMenuItemOpt.MemberRequest">
+        <ul class="grid" *ngIf="isSelectedMenu(groupMenuItemOpt.MemberRequest)">
             <li *ngFor="let group of requestGroups">
                 <span class="grid__icon icon-group"></span>
                 <span class="grid__label">{{ group.name }}</span>
