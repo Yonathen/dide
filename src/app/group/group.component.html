@@ -39,7 +39,7 @@
     styleClass="loide-dialog"
     [style]="{width: '600px'}"
     [(visible)]="viewGroupDialog"
-    header="{{ 'group.create_group' | translate }}">
+    header="{{ 'group.see_group' | translate }}">
 
     <app-view-group [group]="selectedGroup"></app-view-group>
 
@@ -54,9 +54,9 @@
     styleClass="loide-dialog"
     [style]="{width: '600px'}"
     [(visible)]="confirmRemoveGroupDialog"
-    header="{{ 'group.create_group' | translate }}">
+    header="{{ 'group.confirm_remove_group' | translate }}">
 
-    <div class="col-12 form-component p-3">
+    <div class="col-12 form-component p-4">
         <div class="form-component__label form-component__label--white" translate>
             Are you sure you want to remove {{ this.selectedGroup?.name }}?
         </div>

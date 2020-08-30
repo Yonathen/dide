@@ -77,7 +77,8 @@
   },
   "group": {
     "create_group": "Create group",
-    "see_group": "See group",
+    "confirm_remove_group": "Confirm remove group",
+    "see_group": "View group",
     "remove_group": "Remove group",
     "add_member": "Add member",
     "remove_member": "Remove member",
