@@ -34,37 +34,37 @@
     </div>
 </div>
 
-<p-sidebar 
-    [(visible)]="notifySidebar" 
-    position="right" 
+<p-sidebar
+    [(visible)]="notifySidebar"
+    position="right"
     [baseZIndex]="10000">
-    <app-notifications (onNotificationChange)="loadNotification()" [notifications]="notifications"></app-notifications>
+    <app-notifications (onNotificationChange)="loadNotification()"></app-notifications>
 </p-sidebar>
 
-<p-dialog 
-    [modal]="true" 
-    [position]="'top'" 
+<p-dialog
+    [modal]="true"
+    [position]="'top'"
     [draggable]="false"
     [baseZIndex]="10000"
-    styleClass="loide-dialog" 
-    [style]="{width: '500px'}" 
-    [(visible)]="createAccountDialog" 
+    styleClass="loide-dialog"
+    [style]="{width: '500px'}"
+    [(visible)]="createAccountDialog"
     header="{{ 'account.create_account' | translate }}">
-    
+
     <app-create-account (cancel)="onCancelCreate($event)"></app-create-account>
 
 </p-dialog>
 
-<p-dialog 
-    [modal]="true" 
-    [position]="'top'" 
+<p-dialog
+    [modal]="true"
+    [position]="'top'"
     [draggable]="false"
     [baseZIndex]="10000"
-    styleClass="loide-dialog" 
-    [style]="{width: '500px'}" 
-    [(visible)]="accessAccountDialog" 
+    styleClass="loide-dialog"
+    [style]="{width: '500px'}"
+    [(visible)]="accessAccountDialog"
     header="{{ 'account.access_account' | translate }}">
-    
+
     <app-access-account (cancel)="onCancelAccess($event)"></app-access-account>
 
 </p-dialog>

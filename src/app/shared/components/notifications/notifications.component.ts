@@ -1,3 +1,4 @@
+import { NavigationService, DashboardState } from './../../../navigation.service';
 import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { Notification, NotificationStatus, NotificationType } from 'api/server/models/notification';
 import { NotificationService } from '../../services/notification.service';
@@ -5,6 +6,9 @@ import { MessageService, MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { LoideRoute } from '../../enums/loide-route';
+import { GroupMenuItems } from 'src/app/group/group.component';
+import { Group } from 'api/server/models/group';
 
 @Component({
   selector: 'app-notifications',
@@ -14,7 +18,7 @@ import { Subscription } from 'rxjs';
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
 
-  @Input() notifications: Notification[] = [];
+  notifications: Notification[] = [];
   @Output('onNotificationChange') notificationChangeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   private subscriptions = new Subscription();
@@ -22,6 +26,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   constructor(
     private notificationService: NotificationService,
+    private navigationService: NavigationService,
     private translateService: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
     private messageService: MessageService) { }
@@ -35,6 +40,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       })
     ).subscribe();
     this.subscriptions.add(translationSubscription);
+
+    this.notificationService.notification.subscribe(result => {
+      this.notifications.splice(0, this.notifications.length);
+      for ( const notification of result ) {
+        this.notifications.push(notification);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -78,6 +90,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       case NotificationType.GroupRequest:
         if (notification.status === NotificationStatus.New) {
           result.push({
+            label: this.menuLabels['notification.open_request'], icon: 'icon icon-remove_red_eye',
+            command: () => this.openRequest(notification.related)
+          }, {
             label: this.menuLabels['common.mark_seen'], icon: 'icon icon-supervised_user_circle',
             command: () => this.markNotificationAsSeen(notification._id)
           });
@@ -89,6 +104,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         break;
     }
     return result;
+  }
+
+  openRequest(group?: Group) {
+    const state: DashboardState = { accessSubPage: GroupMenuItems.MemberRequest, other: group };
+    this.navigationService.openDashboard(LoideRoute.Group, state);
   }
 
 }

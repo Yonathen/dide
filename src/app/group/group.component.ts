@@ -1,3 +1,4 @@
+import { util } from 'api/server/lib/util';
 import { NotificationType } from './../../../api/server/models/notification';
 import { NotifyMessage } from './../shared/model/notify-message';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
@@ -12,6 +13,7 @@ import { tap } from 'rxjs/operators';
 import { castToNotification, Notification } from 'api/server/models/notification';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { User } from 'api/server/models/user';
+import { DashboardState } from '../navigation.service';
 
 export enum GroupToolbarMenuItems {
   CreateGroup, RemoveAll
@@ -28,6 +30,8 @@ export enum GroupMenuItems {
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit, OnDestroy {
+
+  public state: DashboardState;
 
   public viewGroupDialog: boolean;
   public createGroupDialog: boolean;
@@ -54,6 +58,7 @@ export class GroupComponent implements OnInit, OnDestroy {
     private groupService: GroupService) { }
 
   ngOnInit(): void {
+    this.state = history.state.data;
     this.loadLists();
 
     const keys = ['common.group', 'group.see_group', 'group.remove_group', 'common.member', 'group.update_group',
@@ -82,6 +87,15 @@ export class GroupComponent implements OnInit, OnDestroy {
       {id: GroupMenuItems.MemberRequest, iconClass: 'icon-group_add', labelIndex: 'group.member_request', active: false}
     ];
     this.selectedMenuItems = this.groupMenuItems[0];
+
+    if ( this.state && this.state.accessSubPage ) {
+      this.onClickDashboardItem(this.state.accessSubPage);
+    }
+
+  }
+
+  isSelectedMenu(itemId: number | string): boolean {
+    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id;
   }
 
   getMenuItems(group: Group, user?: User): MenuItem[] {
@@ -217,13 +231,15 @@ export class GroupComponent implements OnInit, OnDestroy {
 
 
   onClickDashboardItem(event: number | string) {
-    this.groupMenuItems.forEach((item, index) => {
-      item.active = false;
-      if (item.id === event) {
-        item.active = true;
-        this.selectedMenuItems = item;
-      }
-    });
+    if (this.groupMenuItems) {
+      this.groupMenuItems.forEach((item, index) => {
+        item.active = false;
+        if (item.id === event) {
+          item.active = true;
+          this.selectedMenuItems = item;
+        }
+      });
+    }
 
     this.changeDetectorRef.detectChanges();
   }
