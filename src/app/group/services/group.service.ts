@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { R } from 'api/server/lib/response';
-import { Group, castToGroup } from 'api/server/models/group';
+import { Group, castToGroup, RequestStatus } from 'api/server/models/group';
 import { User } from 'api/server/models/user';
 import * as _ from 'lodash';
 
@@ -11,9 +11,21 @@ export class GroupService {
 
   constructor() { }
 
-  fetchGroup(): Promise<R> {
+  fetchMyGroup(): Promise<R> {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('getUserGroups', (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+
+    });
+  }
+
+  fetchMemberGroup(requestStatus: RequestStatus = RequestStatus.Accepted): Promise<R> {
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('getUserMemberGroups', requestStatus, (error, result) => {
         if (error) {
           return resolve(error);
         }
@@ -29,6 +41,20 @@ export class GroupService {
     const group = castToGroup(formValues.name, formValues.type, clonedMembers);
     return new Promise<R>((resolve, reject) => {
       Meteor.call('createGroup', group, (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+
+    });
+  }
+
+  updateGroup(formValues: any, memberUsers: User[], groupId: string): Promise<R> {
+    const clonedMembers = _.clone(memberUsers);
+    const group = castToGroup(formValues.name, formValues.type, clonedMembers);
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('updateGroup', groupId, group, (error, result) => {
         if (error) {
           return resolve(error);
         }
@@ -62,9 +88,9 @@ export class GroupService {
     });
   }
 
-  searchMembers(keywords: string) {
+  searchMembers(keywords: string, groupId?: string) {
     return new Promise<R>((resolve, reject) => {
-      Meteor.call('searchUser', keywords, (error, result) => {
+      Meteor.call('searchUser', keywords, groupId, (error, result) => {
         if (error) {
           return resolve(error);
         }
@@ -77,6 +103,18 @@ export class GroupService {
   addMembers(user: User, groupId: string): Promise<R> {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('addMember', user, groupId, (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+
+    });
+  }
+
+  acceptMembership(groupId: string): Promise<R> {
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('acceptMembership', groupId, (error, result) => {
         if (error) {
           return resolve(error);
         }

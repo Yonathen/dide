@@ -55,7 +55,8 @@
     "error_email": "Email is required",
     "error_password": "Password is required",
     "success_create_title": "Account created",
-    "success_create_detail": "Your account has been created successfully."
+    "success_create_detail": "Your account has been created successfully.",
+    "button_login": "Login"
   },
   "document": {
     "public_document": "Public documents",
@@ -76,11 +77,15 @@
     "placeholder_search_location": "Search location to store"
   },
   "group": {
+    "owner": "Owner",
     "create_group": "Create group",
+    "update_group": "Update group",
     "confirm_remove_group": "Confirm remove group",
     "see_group": "View group",
     "remove_group": "Remove group",
     "add_member": "Add member",
+    "accept_membership": "Accept membership",
+    "exit_group": "Exit group",
     "remove_member": "Remove member",
     "group_name": "Group name",
     "empty_member": "No member has been added",
@@ -90,7 +95,13 @@
     "placeholder_group_name": "Enter group name",
     "placeholder_search_member": "Search member",
     "type_open": "Open",
-    "type_closed": "Closed"
+    "type_closed": "Closed",
+    "my_group": "My group",
+    "member_in": "Member in",
+    "member_request": "Member request",
+    "empty_group": "No group is found",
+    "empty_member_group": "No group that you are a member is found",
+    "empty_request_group": "No group request is found"
   },
   "preference": {
     "update_preferences": "Update preferences",

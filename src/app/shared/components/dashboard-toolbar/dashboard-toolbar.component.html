@@ -1,6 +1,6 @@
 <div class="toolbar">
-    <div class="toolbar__menuLeft" *ngIf="this.toolbar.buttonMenu">
-        
+    <div class="toolbar__menuLeft" *ngIf="this.toolbar && this.toolbar.buttonMenu">
+
         <ng-template let-buttonMenu ngFor [ngForOf]="this.toolbar.buttonMenu">
             <button type="button" [ngClass]="buttonMenu.class" (click)="onClickToolbarButton(buttonMenu.id)">
                 <span [ngClass]="buttonMenu.iconClass"></span>

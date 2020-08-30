@@ -12,54 +12,16 @@ import { ObservableCursor } from 'meteor-rxjs';
 
 Meteor.methods({
 
-    sendNotificationToGroupMembers(title: string, message: string, groupId: string): R {
+    sendNotificationToUser(notification: Notification): R {
         try {
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
 
-            const group: Group = GroupsCollection.collection.findOne({ '_id': { $eq: groupId}});
-            
-            if ( !util.valueExist(group) ) {
-                throw new Meteor.Error('Group does not exist');
-            } 
-
-            let sent: string[] = []
-            group.members.forEach(member => {
-                const notification = castToNotification(title, message, member.user);
-                const result = NotificationsCollection.collection.insert(notification);
-                if (result) {
-                    sent.push(result);
-                } else {
-                    throw new Meteor.Error('Unable to notify one member');
-                }
-            });
-            if ( sent.length > 0 ) {
-                return response.fetchResponse(sent);
-            } else {
-                throw new Meteor.Error('No member is notified.');
-            }
-        }
-        catch(error){
-            return response.fetchResponse(error, false);
-        }
-
-    },
-    
-    sendNotificationToUser(title: string, message: string, userId: string): R {
-        try {
-            
-            if ( !this.userId ) {
-                throw new Meteor.Error('User is not logged.');
-            }
-
-            const user: User = UsersCollection.collection.findOne({ '_id': { $eq: userId}});
-            
+            const user: User = UsersCollection.collection.findOne({ _id: { $eq: notification.user._id }});
             if ( !util.valueExist(user) ) {
                 throw new Meteor.Error('User does not exist');
-            } 
-
-            const notification = castToNotification(title, message, user);
+            }
             const result = NotificationsCollection.collection.insert(notification);
             if ( result ) {
                 return response.fetchResponse(result);
@@ -67,7 +29,7 @@ Meteor.methods({
                 throw new Meteor.Error('Unable to notify user.');
             }
         }
-        catch(error){
+        catch (error){
             return response.fetchResponse(error, false);
         }
     },
@@ -77,9 +39,9 @@ Meteor.methods({
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
             }
-            
-            const setValues = { 'status': NotificationStatus.Seen };
-            const notification: Notification = NotificationsCollection.collection.findOne({ '_id': { $eq: notificationId}});
+
+            const setValues = { status: NotificationStatus.Seen };
+            const notification: Notification = NotificationsCollection.collection.findOne({ _id: { $eq: notificationId}});
             if (!util.valueExist(notification)) {
                 throw new Meteor.Error('Notification not found.');
             }
@@ -137,5 +99,5 @@ Meteor.methods({
             return response.fetchResponse(error, false);
         }
     }
-    
+
 })

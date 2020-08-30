@@ -33,10 +33,17 @@
                 height: 50%; left: 0;
             }
         }
+
+        li:hover {
+          .dashboard__menuBottom {
+            color: $color__dark-gray !important;
+            background-color: $color__light-gray !important;
+          }
+        }
     }
 
     &__menuTop {
-        top: 0; 
+        top: 0;
         width: 100%;
         background-color: $color__gray;
     }
@@ -70,7 +77,7 @@
         .dashboard__menuBottom {
             color: $color__white !important;
             background-color: $color__dark-orange !important;
-        } 
+        }
     }
-    
+
 }

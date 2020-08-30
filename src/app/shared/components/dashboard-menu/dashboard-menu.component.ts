@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LoideMenuItem } from '../../model/menu-item';
 
 @Component({
@@ -9,10 +9,15 @@ import { LoideMenuItem } from '../../model/menu-item';
 export class DashboardMenuComponent implements OnInit {
 
   @Input() menuItems: LoideMenuItem[] = [];
+  @Output('onItemClick') itemClickEmitter: EventEmitter<string | number> = new EventEmitter<string | number>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onItemClick(item: LoideMenuItem) {
+    this.itemClickEmitter.emit(item.id);
   }
 
 }

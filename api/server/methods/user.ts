@@ -9,6 +9,7 @@ import { GroupsCollection } from '../collections/groups-collection';
 import { SettingPreferencesCollection } from '../collections/setting-preferences-collection';
 import { NotificationsCollection } from '../collections/notifications-collection';
 import { UsersCollection } from '../collections/users-collection';
+import { RequestStatus, Member } from '../models/group';
 
 Meteor.methods({
 
@@ -74,7 +75,7 @@ Meteor.methods({
         return response.fetchResponse();
     },
 
-    searchUser(keywords: string): R {
+    searchUser(keywords: string, groupId?: string): R {
         try {
             if ( !this.userId ) {
                 throw new Meteor.Error('User is not logged.');
@@ -92,6 +93,16 @@ Meteor.methods({
                   user.emails[0].address.search(keywords) > -1 ) {
                     result.push(user);
                   }
+              });
+            }
+
+            if ( util.valueExist(groupId) ) {
+              const group = GroupsCollection.collection.findOne({ _id : { $eq: groupId } });
+              group.members.forEach(member => {
+                const memberIndex = result.findIndex( user => user._id === member.user._id );
+                if ( memberIndex > 0 ) {
+                  result.splice(memberIndex, 1);
+                }
               });
             }
 
@@ -136,6 +147,34 @@ Meteor.methods({
         catch(error){
             return response.fetchResponse(error, false);
         }
+    },
+
+
+    getUserMemberGroups(requestStatus: RequestStatus): R {
+      try {
+        if ( !this.userId ) {
+          throw new Meteor.Error('User is not logged.');
+        }
+
+        const result = GroupsCollection.collection.find({
+          'createdBy._id': { $ne: this.userId}
+        }).fetch();
+
+        result.forEach((elt, index) => {
+          const memberIndex = elt.members.findIndex(member => member.user._id === this.userId && member.requestStatus === requestStatus);
+          if ( memberIndex < 0 ) {
+            result.splice(index, 1);
+          }
+        });
+
+        if (util.valueExist(result)) {
+          return response.fetchResponse(result);
+        } else {
+          throw new Meteor.Error('Unable to query elements');
+        }
+      } catch (error){
+        return response.fetchResponse(error, false);
+      }
     },
 
     getUserPreferences(): R {

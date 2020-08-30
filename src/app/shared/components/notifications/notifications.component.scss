@@ -22,16 +22,17 @@
         height: calc(100% - 40px);
         padding-bottom: 40px;
 
-        ul {
+        ul:not(.menu) {
             @extend .common-style;
             height: 100%;
             margin: 0;
             padding: 0;
             margin-bottom: 40px
-        }      
+        }
 
-        li {
+        li:not(.menuItem) {
             @extend .common-style;
+            position: relative;
             margin: 0;
             padding: 5px;
             background-color: $color__dark-gray;
@@ -44,7 +45,76 @@
         @extend .common-style;
         font-size: 18px;
         padding: 5px;
+
+        span.title {
+          display: block;
+          float: left;
+          width: calc(100% - 30px);
+        }
     }
+
+    &__menu {
+      display: block;
+      float: right;
+      width: 30px;
+      height: 30px;
+
+      ul.menu, li.menuItem {
+        display: block;
+        float: left;
+        margin: 0;
+        padding: 0;
+      }
+
+      li.menuItem {
+        padding: 5px;
+        background-color: transparent;
+        color: $color__white;
+        cursor: pointer;
+        position: relative;
+        white-space: nowrap;
+      }
+
+      li.menuItem:hover {
+        background-color: $color__white-alpha-5;
+
+        ul.menu {
+          display: block;
+        }
+      }
+
+      li.menuItem ul.menu {
+        display: none;
+        position: absolute;
+        border-radius: 2px;
+        background-color: $color__white;
+        top: 25px;
+        right: 0;
+        padding: 5px;
+
+        li {
+          width: 100%;
+          color: $color__gray;
+          border-bottom: solid 1px $color__light-gray;
+
+          span.icon {
+            font-size: 20px;
+            margin-right: 10px;
+          }
+
+          span.label {
+            font-size: 18px;
+          }
+        }
+
+        li:hover {
+          background-color: $color__gray;
+          color: $color__white;
+          border-radius: 2px;
+        }
+      }
+    }
+
     &__message {
         @extend .common-style;
         font-size: 16px;
@@ -54,17 +124,5 @@
         @extend .common-style;
         font-size: 12px;
         padding: 5px;
-    }
-    &__menu {
-        @extend .common-style;
-        padding: 5px;
-        background-color: $color__white-alpha-3;
-
-        a {
-            display: block;
-            float: right;
-            cursor: pointer;
-            font-size: 14px;
-        }
     }
 }
