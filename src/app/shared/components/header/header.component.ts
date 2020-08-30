@@ -1,5 +1,5 @@
 import { NavigationService } from 'src/app/navigation.service';
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, NgZone } from '@angular/core';
 
 import { LoideRoute } from '../../enums/loide-route';
 import { Router } from '@angular/router';
@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public router: Router,
+    private ngZone: NgZone,
     private translateSevice: TranslateService,
     private changeDetectionRef: ChangeDetectorRef,
     private messageService: MessageService,
@@ -89,11 +90,13 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.accountService.exitAccount().then((result) => {
-      if ( result.success ) {
-        this.navigationService.openDashboard();
-        this.changeDetectionRef.detectChanges();
-      }
+    this.ngZone.run(() => {
+      this.accountService.exitAccount().then((result) => {
+        if ( result.success ) {
+          this.navigationService.openDashboard();
+          this.changeDetectionRef.detectChanges();
+        }
+      });
     });
   }
 

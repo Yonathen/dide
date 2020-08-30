@@ -64,6 +64,7 @@ export class AccountService {
         if (error) {
           return reject(error);
         }
+        this.userAccount.next(null);
         resolve({success: true});
       });
 
