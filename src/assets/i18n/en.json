@@ -7,7 +7,9 @@
     "member": "Member",
     "members": "Members",
     "admin": "Admin",
+    "user": "User",
     "preferences": "Preferences",
+    "date_created": "Date created",
     "archive": "Archive",
     "trash": "Trash",
     "download": "Download",
@@ -24,7 +26,9 @@
     "private": "Private",
     "type": "Type",
     "detail": "Detail",
-    "mark_seen": "Mark as seen"
+    "mark_seen": "Mark as seen",
+    "select": "Select",
+    "status": "Status"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -33,7 +37,7 @@
     "register": "Register",
     "login": "Login",
     "logout": "Logout"
-  }, 
+  },
   "account": {
     "create_account": "Create account",
     "access_account": "Access account",
@@ -67,38 +71,44 @@
     "folder": "Folder",
     "document_name": "Document name",
     "date_modified": "Date modified",
-    "date_created": "Date created",
     "placeholder_document_name": "Enter name of file or folder",
     "placeholder_select_group": "Select group",
     "placeholder_search_location": "Search location to store"
   },
   "group": {
     "create_group": "Create group",
-    "see_group": "See group",
+    "confirm_remove_group": "Confirm remove group",
+    "see_group": "View group",
     "remove_group": "Remove group",
     "add_member": "Add member",
     "remove_member": "Remove member",
     "group_name": "Group name",
+    "empty_member": "No member has been added",
+    "empty_search": "No search result",
+    "error_group_name": "Group name is required",
+    "error_empty_members": "At least one user should be selected as member",
     "placeholder_group_name": "Enter group name",
-    "placeholder_search_member": "Search member"
+    "placeholder_search_member": "Search member",
+    "type_open": "Open",
+    "type_closed": "Closed"
   },
   "preference": {
     "update_preferences": "Update preferences",
     "your_preferences": "Your preferences",
-    "solver": "Solver", 
-    "language": "Language", 
-    "language_modal": "Language modal", 
-    "appearance": "Appearance", 
+    "solver": "Solver",
+    "language": "Language",
+    "language_modal": "Language modal",
+    "appearance": "Appearance",
     "editor": "Editor",
-    "add_language": "Create new language", 
-    "add_appearance": "Create new appearance", 
-    "add_solver": "Create new solver", 
-    "theme_name": "Theme name", 
-    "placeholder_theme_name": "Enter theme name", 
-    "placeholder_language_name": "Enter language name", 
-    "theme_css": "Style file ( *.css )", 
+    "add_language": "Create new language",
+    "add_appearance": "Create new appearance",
+    "add_solver": "Create new solver",
+    "theme_name": "Theme name",
+    "placeholder_theme_name": "Enter theme name",
+    "placeholder_language_name": "Enter language name",
+    "theme_css": "Style file ( *.css )",
     "theme_js": "Script file ( *.js )"
-  }, 
+  },
   "editor": {
     "filter": "Filter"
   },
@@ -107,4 +117,3 @@
     "success_marked_title": "Notification marked as seen"
   }
 }
-  

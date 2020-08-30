@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "api": "cd api && meteor run",
-    "app": "./node_modules/.bin/meteor-client bundle -s api && sudo ng serve",
+    "app": "./node_modules/.bin/meteor-client bundle -s api && ng serve",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -27,6 +27,7 @@
     "@ngx-translate/http-loader": "^5.0.0",
     "bcrypt": "^5.0.0",
     "jquery": "^3.5.1",
+    "loadash": "^1.0.0",
     "meteor-node-stubs": "^1.0.0",
     "meteor-rxjs": "^0.4.14",
     "ng2-ace-editor": "^0.3.9",

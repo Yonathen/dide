@@ -1,63 +1,146 @@
 <div class="group">
+  <form [formGroup]="createGroupForm">
+    <div class="col-12 form-component" *ngIf="isFormInvalid()" >
+        <div class="form-component__label form-component__label--error" >
+            {{failedMessage}}
+        </div>
+    </div>
     <div class="col-12 form-component">
         <div class="form-component__label form-component__label--white" translate>
             group.group_name
         </div>
         <div class="col-12 p-0">
-            <input pInputText type="text" class="form-component__fluid" 
-                placeholder="{{ 'group.placeholder_group_name' | translate}}"/>
+            <input pInputText type="text"
+              name="name"
+              formControlName="name"
+              class="form-component__fluid"
+              placeholder="{{ 'group.placeholder_group_name' | translate}}"
+              [ngClass]="{'form-component__fluid--error': failedValidation('name') }"/>
+        </div>
+        <div class="form-component__label form-component__label--error" *ngIf="failedValidation('name')" translate>
+            group.error_group_name
         </div>
     </div>
-    
+
     <div class="col-12 form-component">
         <div class="form-component__label form-component__label--white" translate>
-            common.members
+            common.type
         </div>
+        <div class="col-8 p-0 create__component clearfix">
+            <div class="col-6 p-0 pt-2 float-left">
+                <p-radioButton name="groupType" formControlName="type" [value]="groupType.Open" [label]="'group.type_open' | translate"></p-radioButton>
+            </div>
+            <div class="col-6 p-0 pt-2 float-left">
+                <p-radioButton name="groupType" formControlName="type" [value]="groupType.Closed" [label]="'group.type_closed' | translate" ></p-radioButton>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="col-12 form-component">
         <div class="col-12 p-0 group__component">
             <div class="inputgroup">
-                <input class="inputgroup__input inputgroup__input--gray inputgroup__input--btn2" placeholder="{{ 'group.placeholder_search_member' | translate}}">
+                <input (keyup)="onSearchChange($event)"
+                  class="inputgroup__input inputgroup__input--gray "
+                  placeholder="{{ 'group.placeholder_search_member' | translate}}">
                 <button type="button" class="btn btn-warning inputgroup__btn m-0">
                     <span class="icon icon-search m-0"></span>
-                </button>
-                <button type="button" class="btn btn-success inputgroup__btn m-0">
-                    <span class="icon icon-add m-0"></span>
                 </button>
             </div>
         </div>
     </div>
 
     <div class="col-xs-12 form-component">
-        <p-table styleClass="loide-table" [columns]="cols" [value]="members" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
+        <p-table styleClass="loide-table" [columns]="cols" [value]="suggestions" [rowHover]="true" [scrollable]="true" scrollHeight="120px">
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
                         <span translate>{{col.header}}</span>
                         <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                     </th>
-                    <th class="col col--xs"></th>
+                    <th class="col col--sm"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr>
                     <td class="col" *ngFor="let col of columns">
-                        {{rowData[col.field]}}
+                      <span *ngIf="col.field === 'email'">
+                        {{rowData.emails[0].address}}
+                      </span>
+                      <span *ngIf="col.field === 'name'">
+                        {{rowData?.profile?.firstName}} {{rowData?.profile?.lastName}}
+                      </span>
                     </td>
-                    <td class="col col--xs">
-                        <button type="button" class="btn btn-danger btn--md m-0">
-                            <span class="icon icon-delete m-0"></span>
+                    <td class="col col--sm">
+                        <button type="button" (click)="selectMember(rowData)" class="btn btn-success btn--xs m-0">
+                            <span class="label" translate>common.select</span>
                         </button>
                     </td>
                 </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                  <td [attr.colspan]="columns.length" translate>
+                      group.empty_search
+                  </td>
+              </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+    <div class="col-12 form-component">
+        <div class="form-component__label form-component__label--white" translate>
+            common.members
+        </div>
+        <div class="form-component__label form-component__label--error" *ngIf="!hasMembers() && this.submitted" translate>
+            group.error_empty_members
+        </div>
+    </div>
+
+    <div class="col-xs-12 form-component">
+        <p-table styleClass="loide-table" [columns]="cols" [value]="members" [rowHover]="true" [scrollable]="true" scrollHeight="120px">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        <span translate>{{col.header}}</span>
+                        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th class="col col--sm"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td class="col" *ngFor="let col of columns">
+                      <span *ngIf="col.field === 'email'">
+                        {{rowData.emails[0].address}}
+                      </span>
+                      <span *ngIf="col.field === 'name'">
+                        {{rowData?.profile?.firstName}} {{rowData?.profile?.lastName}}
+                      </span>
+                    </td>
+                    <td class="col col--sm">
+                        <button type="button" (click)="removeMember(rowData)" class="btn btn-success btn--xs m-0">
+                            <span class="label" translate>common.remove</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                  <td [attr.colspan]="columns.length" translate>
+                      group.empty_member
+                  </td>
+              </tr>
             </ng-template>
         </p-table>
     </div>
 </div>
 
 <div class="dialog__footer">
-    <button type="button" class="btn btn-success btn--md float-right">
+    <button type="button" (click)="create()" class="btn btn-success btn--md float-right">
         <span class="label" translate>common.create</span>
     </button>
-    <button type="button" class="btn btn-warning btn--md float-right">
+    <button type="button" (click)="cancel()" class="btn btn-warning btn--md float-right">
         <span class="label" translate>common.cancel</span>
     </button>
 </div>

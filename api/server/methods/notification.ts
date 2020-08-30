@@ -81,14 +81,14 @@ Meteor.methods({
             const setValues = { 'status': NotificationStatus.Seen };
             const notification: Notification = NotificationsCollection.collection.findOne({ '_id': { $eq: notificationId}});
             if (!util.valueExist(notification)) {
-                throw new Meteor.Error('Folder not found.');
+                throw new Meteor.Error('Notification not found.');
             }
 
             const updated = NotificationsCollection.collection.update(notification._id, { $set: setValues });
             if ( updated ) {
                 return response.fetchResponse();
             } else {
-                throw new Meteor.Error('Unable to remove notification.');
+                throw new Meteor.Error('Unable to mark notification as seen.');
             }
         }
         catch(error){
