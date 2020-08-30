@@ -1,3 +1,4 @@
+import { DashboardState } from './../navigation.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+  public state: DashboardState;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.state = history.state.data;
   }
 
 }

@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public router: Router,
     private ngZone: NgZone,
-    private translateSevice: TranslateService,
+    private translateService: TranslateService,
     private changeDetectionRef: ChangeDetectorRef,
     private messageService: MessageService,
     private notificationService: NotificationService,
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToDashboard() {
-    this.router.navigate( ['/dashboard']);
+    this.router.navigate( [LoideRoute.Dashboard]);
   }
 
 
@@ -104,8 +104,8 @@ export class HeaderComponent implements OnInit {
     this.createAccountDialog = false;
     if (created) {
       this.messageService.add({key: 'createdToast', severity:'success',
-        summary: this.translateSevice.instant('account.success_create_title'),
-        detail: this.translateSevice.instant('account.success_create_detail')});
+        summary: this.translateService.instant('account.success_create_title'),
+        detail: this.translateService.instant('account.success_create_detail')});
     }
   }
 
