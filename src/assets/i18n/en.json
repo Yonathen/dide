@@ -55,7 +55,8 @@
     "error_email": "Email is required",
     "error_password": "Password is required",
     "success_create_title": "Account created",
-    "success_create_detail": "Your account has been created successfully."
+    "success_create_detail": "Your account has been created successfully.",
+    "button_login": "Login"
   },
   "document": {
     "public_document": "Public documents",
