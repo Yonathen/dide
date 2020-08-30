@@ -31,11 +31,11 @@
     float: left;
     display: block;
     width: 100%;
-    padding: 30px;   
+    padding: 30px;
     font-size: 36px;
     color: $color__red;
-    text-align: center;   
-    text-transform: uppercase; 
+    text-align: center;
+    text-transform: uppercase;
     font-family: 'LatoWebBold';
 }
 
@@ -120,7 +120,7 @@
             border: none;
             box-shadow: none !important;
         }
-        
+
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
             color: $color__gray-alpha-5;
         }
@@ -162,7 +162,7 @@
     margin: 0;
 }
 
-// Menu 
+// Menu
 
 // List
 .loide-list {
@@ -231,6 +231,19 @@
         float: right;
         width: 52px;
         height: 100%;
+    }
+
+
+    &__empty {
+      width: 100% !important;
+      text-align: center;
+      text-transform: uppercase;
+      background-color: transparent !important;
+      color: $color__gray-alpha-5 !important;
+      padding-top: 100px;
+      font-family: 'LatoWebBold';
+      font-size: 18px;
+      flex-grow: 8 !important;
     }
 
 

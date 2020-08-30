@@ -5,6 +5,7 @@
         padding: 0 !important;
     }
 
+    .ui-table-tbody > tr > td,
     .ui-table-thead > tr > th {
         font-family: 'LatoWeb';
         border: none;
@@ -19,17 +20,23 @@
     .ui-table-tbody > tr:nth-child(even) {
         background-color: $color__white-alpha-1 !important;
     }
-    
+
     .col {
         font-family: 'LatoWeb';
         border: 0 none;
         text-align: left;
         color: $color__white;
+        text-overflow: ellipsis;
+        overflow: hidden;
 
         &.col--xs {
             width: 55px;
         }
+
+        &.col--sm {
+            width: 80px;
+        }
     }
-    
-    
+
+
 }

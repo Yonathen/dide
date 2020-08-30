@@ -1,33 +1,123 @@
 <div class="group">
+    <div class="group__contentMenubar">
+      <app-dashboard-menu [menuItems]="groupMenuItems" (onItemClick)="onClickDashboardItem($event)"></app-dashboard-menu>
+    </div>
     <div class="group__contentToolbar">
         <app-dashboard-toolbar [toolbar]="groupToolbar" (onClickToolbarButton)="onClickToolbarButton($event)"></app-dashboard-toolbar>
     </div>
     <div class="group__contentMain">
-        <ul class="grid">
-            <li>
+
+        <ul class="grid" *ngIf="selectedMenuItems.id === groupMenuItemOpt.MyGroups">
+            <li *ngFor="let group of groups">
                 <span class="grid__icon icon-group"></span>
-                <span class="grid__label">Sample group</span>
+                <span class="grid__label">{{ group.name }}</span>
                 <span class="grid__menu">
-                    <p-menu #menu [popup]="true" [model]="gridItemMenu"></p-menu>
+                    <p-menu #menu [style]="{'width':'200px'}" [popup]="true" [model]="getMenuItems(group)"></p-menu>
                     <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
                         <span class="icon icon-keyboard_arrow_down m-0"></span>
                     </button>
                 </span>
             </li>
+            <li class="grid__empty" *ngIf="groups && groups?.length === 0" translate>group.empty_group</li>
+        </ul>
+
+        <ul class="grid" *ngIf="selectedMenuItems.id === groupMenuItemOpt.MemberIn">
+            <li *ngFor="let group of memberGroups">
+                <span class="grid__icon icon-group"></span>
+                <span class="grid__label">{{ group.name }}</span>
+                <span class="grid__menu">
+                    <p-menu #menu [style]="{'width':'200px'}" [popup]="true" [model]="getMenuItems(group)"></p-menu>
+                    <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
+                        <span class="icon icon-keyboard_arrow_down m-0"></span>
+                    </button>
+                </span>
+            </li>
+            <li class="grid__empty" *ngIf="memberGroups && memberGroups?.length === 0" translate>group.empty_member_group</li>
+        </ul>
+
+        <ul class="grid" *ngIf="selectedMenuItems.id === groupMenuItemOpt.MemberRequest">
+            <li *ngFor="let group of requestGroups">
+                <span class="grid__icon icon-group"></span>
+                <span class="grid__label">{{ group.name }}</span>
+                <span class="grid__menu">
+                    <p-menu #menu [style]="{'width':'200px'}" [popup]="true" [model]="getMenuItems(group)"></p-menu>
+                    <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
+                        <span class="icon icon-keyboard_arrow_down m-0"></span>
+                    </button>
+                </span>
+            </li>
+            <li class="grid__empty" *ngIf="requestGroups && requestGroups?.length === 0" translate>group.empty_request_group</li>
         </ul>
     </div>
 </div>
 
 
-<p-dialog 
-    [modal]="true" 
+<p-dialog
+    [modal]="true"
     [draggable]="false"
     [baseZIndex]="10000"
-    styleClass="loide-dialog" 
-    [style]="{width: '600px'}" 
-    [(visible)]="createGroupDialog" 
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="createGroupDialog"
     header="{{ 'group.create_group' | translate }}">
-    
-    <app-create-group></app-create-group>
+
+    <app-create-group (cancel)="onCreateCancel($event)"></app-create-group>
+
+</p-dialog>
+
+<p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="viewGroupDialog"
+    header="{{ 'group.see_group' | translate }}">
+
+    <app-view-group [group]="selectedGroup"></app-view-group>
+
+</p-dialog>
+
+
+
+<p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="confirmRemoveGroupDialog"
+    header="{{ 'group.confirm_remove_group' | translate }}">
+
+    <div class="col-12 form-component p-4">
+        <div class="form-component__label form-component__label--white" translate>
+            Are you sure you want to remove {{ this.selectedGroup?.name }}?
+        </div>
+    </div>
+
+    <div class="dialog__footer">
+        <button type="button" (click)="removeGroup()" class="btn btn-success btn--md float-right">
+            <span class="label" translate>common.remove</span>
+        </button>
+        <button type="button" (click)="cancelRemoveGroup()" class="btn btn-warning btn--md float-right">
+            <span class="label" translate>common.cancel</span>
+        </button>
+    </div>
+
+</p-dialog>
+
+<p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [baseZIndex]="10000"
+    styleClass="loide-dialog"
+    [style]="{width: '600px'}"
+    [(visible)]="manageMemberDialog"
+    header="{{ 'group.create_group' | translate }}">
+
+    <app-manage-group-member
+      (cancel)="onUpdateCancel($event)"
+      [selectedGroup]="selectedGroup">
+    </app-manage-group-member>
 
 </p-dialog>
