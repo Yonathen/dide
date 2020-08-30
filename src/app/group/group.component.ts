@@ -1,3 +1,4 @@
+import { util } from 'api/server/lib/util';
 import { NotificationType } from './../../../api/server/models/notification';
 import { NotifyMessage } from './../shared/model/notify-message';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
@@ -82,6 +83,10 @@ export class GroupComponent implements OnInit, OnDestroy {
       {id: GroupMenuItems.MemberRequest, iconClass: 'icon-group_add', labelIndex: 'group.member_request', active: false}
     ];
     this.selectedMenuItems = this.groupMenuItems[0];
+  }
+
+  isSelectedMenu(itemId: number | string): boolean {
+    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id;
   }
 
   getMenuItems(group: Group, user?: User): MenuItem[] {
