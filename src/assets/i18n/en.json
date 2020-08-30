@@ -124,6 +124,7 @@
     "filter": "Filter"
   },
   "notification": {
+    "open_request": "Open request",
     "success_remove_title": "Notification removed",
     "success_marked_title": "Notification marked as seen"
   }

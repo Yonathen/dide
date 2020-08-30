@@ -2,13 +2,20 @@ import { Injectable } from '@angular/core';
 import { R } from 'api/server/lib/response';
 import { NotifyMessage } from '../model/notify-message';
 import { Notification } from 'api/server/models/notification';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
+  private notificationSubject = new BehaviorSubject<Notification[]>([]);
+
   constructor() { }
+
+  get notification() {
+    return this.notificationSubject.asObservable();
+  }
 
   fetchNotification(): Promise<R> {
     return new Promise<R>((resolve, reject) => {
@@ -16,6 +23,7 @@ export class NotificationService {
         if (error) {
           return resolve(error);
         }
+        this.notificationSubject.next(result.returnValue);
         resolve(result);
       });
 
@@ -53,6 +61,7 @@ export class NotificationService {
         if (error) {
           return resolve(error);
         }
+        this.fetchNotification();
         resolve(result);
       });
 

@@ -1,7 +1,13 @@
+import { LoideRoute } from './shared/enums/loide-route';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router, ActivatedRoute } from '@angular/router';
+
+export interface DashboardState {
+  accessSubPage?: string | number;
+  other?: any;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -55,10 +61,10 @@ export class NavigationService {
     if ( indexOfProfile === -1 ) {
       this.inject(fileMenuItem);
     }
-    this.router.navigate(['/editor'], { relativeTo: this.route, state: fileMenuItem.state });
+    this.router.navigate([LoideRoute.Editor], { relativeTo: this.route, state: fileMenuItem.state });
   }
 
-  openDashboard() {
-    this.router.navigate(['/dashboard'], { relativeTo: this.route, state: {} });
+  openDashboard(route: LoideRoute = LoideRoute.Dashboard, stateD?: DashboardState ) {
+    this.router.navigate([route], { relativeTo: this.route, state: { data: stateD} });
   }
 }
