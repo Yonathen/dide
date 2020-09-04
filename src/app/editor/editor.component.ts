@@ -18,19 +18,12 @@ export class EditorComponent implements OnInit {
 
   public editorMenuItems: MenuItem[];
 
-  constructor(public navigationService: NavigationService, public scriptLoaderService: ScriptLoaderService) {
-    
-  }
+  constructor(
+    public navigationService: NavigationService,
+    public scriptLoaderService: ScriptLoaderService) {}
 
   ngOnInit(): void {
-
     this.navigationService.menu.subscribe( menuItems => this.editorMenuItems = menuItems);
-
-    /*
-    this.scriptLoaderService.load('jquery', 'popper', 'bootstrap').then(data => {
-      console.log(data);
-    }).catch(error => console.log(error));
-    */
   }
 
   get sidebarLeftVisible(): boolean {
@@ -42,7 +35,7 @@ export class EditorComponent implements OnInit {
   }
 
   toogleSidebarLeft($event: EventSidebar) {
-    this.sidebarEvent = $event; 
+    this.sidebarEvent = $event;
 
     if (this.sidebarEvent.left) {
       this.sidebarLeft = this.sidebarEvent.visible;

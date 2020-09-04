@@ -36,6 +36,8 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 import { AccessAccountComponent } from './components/access-account/access-account.component';
 import {ToastModule} from 'primeng/toast';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {TreeModule} from 'primeng/tree';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent],
@@ -50,6 +52,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     MessagesModule,
     MessageModule,
     PaginatorModule,
+    TreeModule,
     GMapModule,
     MenuModule,
     ToggleButtonModule,
@@ -70,8 +73,9 @@ import { NotificationsComponent } from './components/notifications/notifications
     DialogModule,
     TableModule,
     FileUploadModule,
-    ToastModule
-  ], 
+    ToastModule,
+    SplitButtonModule
+  ],
   exports: [
     HeaderComponent,
     FooterComponent,
@@ -87,6 +91,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     MessagesModule,
     MessageModule,
     PaginatorModule,
+    TreeModule,
     GMapModule,
     MenuModule,
     ToggleButtonModule,
@@ -106,7 +111,8 @@ import { NotificationsComponent } from './components/notifications/notifications
     SidebarModule,
     DialogModule,
     TableModule,
-    FileUploadModule
+    FileUploadModule,
+    SplitButtonModule
   ]
 })
 export class SharedModule { }
