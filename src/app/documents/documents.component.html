@@ -62,7 +62,7 @@
   [(visible)]="createDocumentDialog"
   header="{{ 'document.create_document' | translate }}">
 
-  <app-create-document (cancel)="this.onCancelCreateDocument($event)" [visible]="createDocumentDialog"></app-create-document>
+  <app-create-document (cancel)="this.onCancelChangeDocument($event)" [visible]="createDocumentDialog"></app-create-document>
 
 </p-dialog>
 
@@ -75,7 +75,7 @@
   [(visible)]="renameDocumentDialog"
   header="{{ 'document.rename' | translate }}">
 
-  <app-rename-document></app-rename-document>
+  <app-rename-document (cancel)="this.onCancelChangeDocument($event)" [breadcrumbItems]="breadcrumbItems" [selectedDocument]="selectedDocument"></app-rename-document>
 
 </p-dialog>
 
