@@ -1,26 +1,39 @@
 <div class="rename">
+  <div class="col-12 form-component" *ngIf="isFormInvalid()" >
+    <div class="form-component__label form-component__label--error" >
+        {{failedMessage}}
+    </div>
+  </div>
     <div class="col-12 form-component">
         <div class="form-component__label form-component__label--white">
-            Rename /public/../samplefile to 
+            Rename {{ path }} to
         </div>
     </div>
     <div class="col-12 form-component">
         <div class="form-component__label form-component__label--white" translate>
             document.document_name
         </div>
-        <div class="col-12 p-0 clearfix">
-            <input pInputText type="text" class="form-component__fluid" 
-                placeholder="{{ 'document.placeholder_document_name' | translate}}"/>
+        <div class="col-12 p-0">
+            <input pInputText
+              type="text"
+              [(ngModel)]="documentName"
+              class="form-component__fluid"
+              [ngClass]="{'form-component__fluid--error': failedValidation() }"
+              placeholder="{{ 'document.placeholder_document_name' | translate}}"/>
         </div>
+        <div class="form-component__label form-component__label--error" *ngIf="failedValidation()" translate>
+            document.error_document_name
+        </div>
+        <div class="clearfix"></div>
     </div>
-    
+
 </div>
 
 <div class="dialog__footer">
-    <button type="button" class="btn btn-success btn--md float-right">
+    <button type="button" class="btn btn-success btn--md float-right" (click)="save()">
         <span class="label" translate>common.save</span>
     </button>
-    <button type="button" class="btn btn-warning btn--md float-right">
+    <button type="button" class="btn btn-warning btn--md float-right" (click)="cancel()">
         <span class="label" translate>common.cancel</span>
     </button>
 </div>

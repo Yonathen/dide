@@ -41,9 +41,10 @@ export class DocumentsComponent implements OnInit {
   public selectedMenuItems: LoideMenuItem;
   public documentMenuItemOpt = DocumentMemberMenuItems;
 
-  public breadcrumbItems: MenuItem[] = [];
+  public selectedDocument: FileFolder;
   public selectedParentId = 'root';
   public visibleNodes: TreeNode[] = [];
+  public breadcrumbItems: MenuItem[] = [];
   private _publicDocuments: TreeNode[] = [];
   private _privateDocuments: TreeNode[] = [];
 
@@ -170,6 +171,7 @@ export class DocumentsComponent implements OnInit {
     this.documentService.fetchPublicDocuments().then(result => {
       if ( result.success && result.returnValue) {
         const returnValue: TreeNode[] = result.returnValue;
+        this._publicDocuments.splice(0, this._publicDocuments.length);
         returnValue.forEach( elt => {
           if ( this.hasAccess(elt.data, AccessType.Read) ) {
             this._publicDocuments.push(elt);
@@ -197,14 +199,16 @@ export class DocumentsComponent implements OnInit {
     }
   }
 
-  onCancelCreateDocument(created?: any) {
-    if (util.valueExist(created)) {
-      if ( created.privacy === FilePrivacy.Public ) {
+  onCancelChangeDocument(changed?: any) {
+    this.selectedDocument = null;
+    if (util.valueExist(changed)) {
+      if ( changed.privacy === FilePrivacy.Public ) {
         this.loadPublicDocument();
       } else {
         this.loadPrivateDocument();
       }
     }
+    this.renameDocumentDialog = false;
     this.createDocumentDialog = false;
   }
 
@@ -306,7 +310,9 @@ export class DocumentsComponent implements OnInit {
       result[0].items.splice(1, 0,
         {
           label: 'Rename', icon: 'icon icon-update',
-          command: () => { this.renameDocumentDialog = true; }
+          command: () => {
+            this.openRenameFileFolder(document)
+          }
         }
       );
       result.push({
@@ -335,6 +341,11 @@ export class DocumentsComponent implements OnInit {
         this.loadPublicDocument();
       }
     });
+  }
+
+  openRenameFileFolder(document: FileFolder) {
+    this.selectedDocument = document;
+    this.renameDocumentDialog = true;
   }
 
   openFileFolder(document: FileFolder ) {
