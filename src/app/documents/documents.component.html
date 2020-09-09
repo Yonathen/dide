@@ -7,10 +7,14 @@
     <app-dashboard-toolbar (onClickToolbarButton)="onClickToolbarButton($event)" [toolbar]="documentToolbar"></app-dashboard-toolbar>
   </div>
 
+  <div class="documents__contentBreadcrumb">
+    <p-breadcrumb [model]="breadcrumbItems" (onItemClick)="onClickBreadcrumb($event)"></p-breadcrumb>
+  </div>
+
   <div class="documents__contentMain">
 
     <ul class="grid" *ngIf="isSelectedMenu(documentMenuItemOpt.Public)">
-      <li *ngFor="let document of publicDocuments">
+      <li *ngFor="let document of publicDocuments" (dblclick)="openFileFolder(document.data)">
         <span class="grid__icon"
           [ngClass]="{
             'icon-folder': isDocumentFolder(document.data),
@@ -28,7 +32,7 @@
 
 
     <ul class="grid" *ngIf="isSelectedMenu(documentMenuItemOpt.Private)">
-      <li *ngFor="let document of privateDocuments">
+      <li *ngFor="let document of privateDocuments" (dblclick)="openFileFolder(document.data)">
         <span class="grid__icon"
           [ngClass]="{
             'icon-folder': isDocumentFolder(document.data),

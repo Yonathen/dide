@@ -38,6 +38,7 @@ import {ToastModule} from 'primeng/toast';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {TreeModule} from 'primeng/tree';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent],
@@ -74,7 +75,8 @@ import {TreeModule} from 'primeng/tree';
     TableModule,
     FileUploadModule,
     ToastModule,
-    SplitButtonModule
+    SplitButtonModule,
+    BreadcrumbModule
   ],
   exports: [
     HeaderComponent,
@@ -112,7 +114,8 @@ import {TreeModule} from 'primeng/tree';
     DialogModule,
     TableModule,
     FileUploadModule,
-    SplitButtonModule
+    SplitButtonModule,
+    BreadcrumbModule
   ]
 })
 export class SharedModule { }

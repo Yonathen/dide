@@ -1,3 +1,4 @@
+import { FilePrivacy } from './../models/file-folder';
 import { Meteor } from 'meteor/meteor';
 import { UserAccount } from '../models/user-account';
 import { response, R } from '../lib/response';
@@ -123,7 +124,10 @@ Meteor.methods({
                 throw new Meteor.Error('User is not logged.');
             }
 
-            const result = FileFoldersCollection.collection.find({ 'owner._id': { $eq: this.userId}}).fetch();
+            const result = FileFoldersCollection.collection.find({
+              'owner._id': { $eq: this.userId},
+              privacy: { $eq: FilePrivacy.Private }
+            }).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);
             }

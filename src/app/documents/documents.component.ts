@@ -1,3 +1,4 @@
+import { Children } from 'react';
 import { AccessType } from './../../../api/server/models/file-folder';
 import { DocumentService } from './services/document.service';
 import { FileFolder, FilePrivacy, FileType } from 'api/server/models/file-folder';
@@ -19,7 +20,7 @@ export enum DocumentMenuItems {
 }
 
 export enum DocumentToolbarMenuItems {
-  Import, CreateDocument
+  CreateFile, CreateDocument
 }
 
 @Component({
@@ -40,8 +41,36 @@ export class DocumentsComponent implements OnInit {
   public selectedMenuItems: LoideMenuItem;
   public documentMenuItemOpt = DocumentMemberMenuItems;
 
-  public publicDocuments: TreeNode[] = [];
-  public privateDocuments: TreeNode[] = [];
+  public breadcrumbItems: MenuItem[] = [];
+  public selectedParentId = 'root';
+  public visibleNodes: TreeNode[] = [];
+  private _publicDocuments: TreeNode[] = [];
+  private _privateDocuments: TreeNode[] = [];
+
+  get publicDocuments(): TreeNode[] {
+    this.breadcrumbItems.splice(0, this.breadcrumbItems.length);
+    if ( util.valueExist(this.selectedParentId) && this.selectedParentId !== 'root' ) {
+      const selectedNode: TreeNode = this.getNode(this._publicDocuments);
+      if ( util.valueExist(selectedNode) ) {
+        this.setPath(selectedNode, this._publicDocuments);
+        return selectedNode.children;
+      }
+      return [];
+    }
+    this.breadcrumbItems.splice(0, 0, {label: FilePrivacy.Public});
+    return this._publicDocuments;
+  }
+
+  get privateDocuments(): TreeNode[] {
+    this.breadcrumbItems.splice(0, this.breadcrumbItems.length);
+    if ( util.valueExist(this.selectedParentId) && this.selectedParentId !== 'root' ) {
+      const selectedNode: TreeNode = this.getNode(this._privateDocuments);
+      this.setPath(selectedNode, this._privateDocuments);
+      return util.valueExist(selectedNode) ? selectedNode.children : [];
+    }
+    this.breadcrumbItems.splice(0, 0, {label: FilePrivacy.Private});
+    return this._privateDocuments;
+  }
 
   constructor(
     public router: Router,
@@ -58,7 +87,6 @@ export class DocumentsComponent implements OnInit {
 
 
     const toolbarButtonMenu  = [
-      {id: DocumentToolbarMenuItems.Import, class: 'btn btn-info', iconClass: 'icon icon-document-public', labelIndex: 'common.import'},
       {id: DocumentToolbarMenuItems.CreateDocument, class: 'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_folder'}
     ];
 
@@ -66,7 +94,7 @@ export class DocumentsComponent implements OnInit {
       enableButtonMenu: true,
       enableSearch: true,
       enableSort: true,
-      searchPlaceholderIndex: 'placeholder_serarch',
+      searchPlaceholderIndex: 'document.placeholder_search_documents',
       buttonMenu: toolbarButtonMenu
     };
 
@@ -78,13 +106,73 @@ export class DocumentsComponent implements OnInit {
     this.selectedMenuItems = this.menuItems[0];
   }
 
+  getNode(tree: TreeNode[]): TreeNode {
+    if (!util.valueExist(tree)) {
+      return;
+    }
+
+    let result: TreeNode;
+    for ( const n of tree ) {
+      if ( n.key === this.selectedParentId ) {
+        result = n;
+        break;
+      }
+    }
+
+    if ( !util.valueExist(result) ) {
+      for ( const n of tree ) {
+        const r = this.getNode(n.children);
+        if ( util.valueExist(r) ) {
+          result = r;
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  getParent(node: TreeNode, tree: TreeNode[]): TreeNode {
+
+    let result: TreeNode;
+    for ( const n of tree ) {
+      if ( n.children.findIndex(elt => elt.key === node.key) >= 0 ) {
+        result = n;
+        break;
+      }
+    }
+
+    if ( !util.valueExist(result) ) {
+      for ( const n of tree ) {
+        const r = this.getParent(node, n.children);
+        if ( util.valueExist(r) ) {
+          result = r;
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  setPath(node: TreeNode, tree: TreeNode[]) {
+    this.breadcrumbItems.splice(0, 0, {label: node.data.name, state: node});
+
+    if ( node.data.parent !== 'root' ) {
+      const parent: TreeNode = this.getParent(node, tree);
+      this.setPath(parent, tree);
+    } else {
+      this.breadcrumbItems.splice(0, 0, {label: node.data.privacy});
+    }
+  }
+
   loadPublicDocument() {
     this.documentService.fetchPublicDocuments().then(result => {
       if ( result.success && result.returnValue) {
         const returnValue: TreeNode[] = result.returnValue;
         returnValue.forEach( elt => {
           if ( this.hasAccess(elt.data, AccessType.Read) ) {
-            this.publicDocuments.push(elt);
+            this._publicDocuments.push(elt);
           }
         });
       }
@@ -94,7 +182,7 @@ export class DocumentsComponent implements OnInit {
   loadPrivateDocument() {
     this.documentService.fetchPrivateDocuments().then(result => {
       if (result.success) {
-        this.privateDocuments = result.returnValue;
+        this._privateDocuments = result.returnValue;
       }
     });
   }
@@ -104,7 +192,7 @@ export class DocumentsComponent implements OnInit {
       case DocumentToolbarMenuItems.CreateDocument:
         this.createDocumentDialog = true;
         break;
-      case DocumentToolbarMenuItems.Import:
+      case DocumentToolbarMenuItems.CreateFile:
         break;
     }
   }
@@ -121,6 +209,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   onClickDashboardItem(event: number | string) {
+    this.selectedParentId = 'root';
     if (this.menuItems) {
       this.menuItems.forEach((item, index) => {
         item.active = false;
@@ -201,9 +290,13 @@ export class DocumentsComponent implements OnInit {
 
     if ( this.hasAccess(document, AccessType.Read) ) {
       result[0].items.splice(0, 0,
-        {label: 'Open', icon: 'icon icon-open_file', command: () => {
-          this.navigationService.openEditor({ name: document.name, content: document.content });
-        }},
+        {
+          label: 'Open',
+          icon: document.type === FileType.File ? 'icon icon-open_file' : 'icon icon-folder-open' ,
+          command: () => {
+            this.openFileFolder(document);
+          }
+        },
         {label: 'Download', icon: 'icon icon-file_download'},
         {label: 'Properties', icon: 'icon icon-settings', command: ($event) => {
           this.propertiesDocumentDialog = true;
@@ -228,5 +321,22 @@ export class DocumentsComponent implements OnInit {
     }
 
     return result;
+  }
+
+  openFileFolder(document) {
+    if ( document.type === FileType.Folder ) {
+      this.selectedParentId = document._id;
+    } else {
+      this.navigationService.openEditor({ name: document.name, content: document.content });
+    }
+  }
+
+  onClickBreadcrumb(event) {
+    const item: MenuItem = event.item;
+    this.selectedParentId = 'root';
+    if (util.valueExist(item.state)) {
+      const node: TreeNode = item.state;
+      this.selectedParentId = node.key;
+    }
   }
 }
