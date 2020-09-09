@@ -1,5 +1,5 @@
 import { Children } from 'react';
-import { AccessType } from './../../../api/server/models/file-folder';
+import { AccessType, FileStatus } from './../../../api/server/models/file-folder';
 import { DocumentService } from './services/document.service';
 import { FileFolder, FilePrivacy, FileType } from 'api/server/models/file-folder';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -291,14 +291,12 @@ export class DocumentsComponent implements OnInit {
     if ( this.hasAccess(document, AccessType.Read) ) {
       result[0].items.splice(0, 0,
         {
-          label: 'Open',
-          icon: document.type === FileType.File ? 'icon icon-open_file' : 'icon icon-folder-open' ,
-          command: () => {
-            this.openFileFolder(document);
-          }
+          label: 'Open', icon: document.type === FileType.File ? 'icon icon-open_file' : 'icon icon-folder-open' ,
+          command: () => { this.openFileFolder(document); }
         },
-        {label: 'Download', icon: 'icon icon-file_download'},
-        {label: 'Properties', icon: 'icon icon-settings', command: ($event) => {
+        { label: 'Download', icon: 'icon icon-file_download' },
+        {
+          label: 'Properties', icon: 'icon icon-settings', command: ($event) => {
           this.propertiesDocumentDialog = true;
         }}
       );
@@ -306,16 +304,23 @@ export class DocumentsComponent implements OnInit {
 
     if ( this.hasAccess(document, AccessType.Write) ) {
       result[0].items.splice(1, 0,
-        {label: 'Rename', icon: 'icon icon-update', command: ($event) => {
-          this.renameDocumentDialog = true;
-        }}
+        {
+          label: 'Rename', icon: 'icon icon-update',
+          command: () => { this.renameDocumentDialog = true; }
+        }
       );
       result.push({
         label: 'Move',
         items: [
-          {label: 'Move to', icon: 'icon icon-move'},
-          {label: 'Move to archive', icon: 'icon icon-archive'},
-          {label: 'Move to trash', icon: 'icon icon-delete'}
+          { label: 'Move to', icon: 'icon icon-move' },
+          {
+            label: 'Move to archive', icon: 'icon icon-archive',
+            command: () => { this.moveFileStatus(document, FileStatus.Archived); }
+          },
+          {
+            label: 'Move to trash', icon: 'icon icon-delete',
+            command: () => { this.moveFileStatus(document, FileStatus.Trashed); }
+          }
         ]
       });
     }
@@ -323,7 +328,16 @@ export class DocumentsComponent implements OnInit {
     return result;
   }
 
-  openFileFolder(document) {
+  moveFileStatus( document: FileFolder, fileStatus: FileStatus ) {
+    this.documentService.moveDocumentStatus(document._id, fileStatus).then( result => {
+      if ( result.success ) {
+        this.loadPrivateDocument();
+        this.loadPublicDocument();
+      }
+    });
+  }
+
+  openFileFolder(document: FileFolder ) {
     if ( document.type === FileType.Folder ) {
       this.selectedParentId = document._id;
     } else {

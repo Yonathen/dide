@@ -1,4 +1,4 @@
-import { FilePrivacy } from './../models/file-folder';
+import { FilePrivacy, FileStatus } from './../models/file-folder';
 import { Meteor } from 'meteor/meteor';
 import { UserAccount } from '../models/user-account';
 import { response, R } from '../lib/response';
@@ -125,8 +125,9 @@ Meteor.methods({
             }
 
             const result = FileFoldersCollection.collection.find({
-              'owner._id': { $eq: this.userId},
-              privacy: { $eq: FilePrivacy.Private }
+              'owner._id': { $eq: this.userId },
+              privacy: { $eq: FilePrivacy.Private },
+              status: { $eq: FileStatus.Normalized }
             }).fetch();
             if (util.valueExist(result)) {
                 return response.fetchResponse(result);

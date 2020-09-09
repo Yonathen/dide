@@ -1,4 +1,4 @@
-import { MemberAccess, Access, FileType } from './../../../../api/server/models/file-folder';
+import { MemberAccess, Access, FileType, FileStatus } from './../../../../api/server/models/file-folder';
 import { Injectable } from '@angular/core';
 import { R } from 'api/server/lib/response';
 import { FileFolder, castToFileFolder } from 'api/server/models/file-folder';
@@ -111,6 +111,17 @@ export class DocumentService {
   removeDocument(fileFolderId: string): Promise<R> {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('removeFileFolderPermanently', fileFolderId, (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+    });
+  }
+
+  moveDocumentStatus(fileFolderId: string, fileStatus: FileStatus): Promise<R> {
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('moveFileStatus', fileFolderId, fileStatus, (error, result) => {
         if (error) {
           return resolve(error);
         }

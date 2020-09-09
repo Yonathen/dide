@@ -4,6 +4,12 @@ import { DateTime } from './utility-date-time';
 import { Editor } from './editor';
 import { Children } from 'react';
 
+export enum FileStatus {
+  Normalized = 'Normalized',
+  Archived = 'Archived',
+  Trashed = 'Trashed'
+}
+
 export enum FilePrivacy {
     Private = 'Private',
     Public = 'Public'
@@ -63,6 +69,7 @@ export interface FileFolder {
     type: FileType;
     detail?: string;
     privacy: FilePrivacy;
+    status?: FileStatus;
     /*
     openFileInEditor(): any;
     notifyChanges(): any;
@@ -71,7 +78,7 @@ export interface FileFolder {
 
 export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.owner );
-    return ( userId !== fileFolder.owner._id && accessIndex !== -1 );
+    return ( userId === fileFolder.owner._id && accessIndex !== -1 );
 }
 
 export function memberHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
@@ -112,7 +119,8 @@ export function castToFileFolder(
     group: groupP,
     memberAccess: memberAccessP,
     type: typeP,
-    privacy: privacyP
+    privacy: privacyP,
+    status: FileStatus.Normalized
   } as FileFolder;
 }
 
