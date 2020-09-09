@@ -1,54 +1,50 @@
-<div class="create">
+<div class="create" *ngIf="visible">
+  <form [formGroup]="createDocumentForm">
+    <div class="col-12 form-component" *ngIf="isFormInvalid()" >
+      <div class="form-component__label form-component__label--error" >
+          {{failedMessage}}
+      </div>
+    </div>
     <div class="col-8 p-0 m-0 float-left">
         <div class="col-12 form-component">
             <div class="form-component__label form-component__label--white" translate>
                 document.document_name
             </div>
             <div class="col-12 p-0">
-                <input pInputText type="text" class="form-component__fluid" 
-                    placeholder="{{ 'document.placeholder_document_name' | translate}}"/>
+                <input
+                  pInputText
+                  type="text"
+                  name="name"
+                  formControlName="name"
+                  class="form-component__fluid"
+                  placeholder="{{ 'document.placeholder_document_name' | translate}}"
+                  [ngClass]="{'form-component__fluid--error': failedValidation('name') }"/>
+            </div>
+            <div class="form-component__label form-component__label--error" *ngIf="failedValidation('name')" translate>
+                document.error_document_name
             </div>
         </div>
+
         <div class="col-12 form-component">
             <div class="form-component__label form-component__label--white" translate>
                 document.location
             </div>
-            <div class="col-12 p-0 create__component">
-                <div class="inputgroup">
-                    <input class="inputgroup__input inputgroup__input--gray" placeholder="{{ 'document.placeholder_search_location' | translate}}">
-                    <button type="button" class="btn btn-warning inputgroup__btn m-0">
-                        <span class="icon icon-keyboard_arrow_down m-0"></span>
-                    </button>
-                </div>
+            <div class="col-12 pt-2 pb-2 create__component">
+              {{ path }}
             </div>
         </div>
 
-        <div class="col-xs-12 form-component">
-            <p-table styleClass="loide-table" [columns]="cols" [value]="folderTableValues" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
-                <ng-template pTemplate="header" let-columns>
-                    <tr>
-                        <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
-                            <span translate>{{col.header}}</span>
-                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                        </th>
-                        <th class="col col--xs"></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr>
-                        <td class="col" *ngFor="let col of columns">
-                            {{rowData[col.field]}}
-                        </td>
-                        <td class="col col--xs">
-                            <button type="button" class="btn btn-danger btn--md m-0">
-                                <span class="icon icon-delete m-0"></span>
-                            </button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+        <div class="create__fileTreeWrap">
+          <p-tree
+            styleClass="document__tree"
+            [value]="documents"
+            selectionMode="single"
+            [(selection)]="folderSelected"
+            [filter]="true" filterMode="strict"
+            (onNodeSelect)="nodeSelect($event)"
+            (onNodeUnselect)="nodeUnselect($event)"></p-tree>
         </div>
-    
+
     </div>
 
     <div class="col-4 p-0 m-0 float-right">
@@ -58,38 +54,87 @@
             </div>
             <div class="col-12 p-0 create__component clearfix">
                 <div class="col-6 p-0 pt-2 float-left">
-                    <p-radioButton name="privacy" [value]="'document.file' | translate" [label]="'document.file' | translate"></p-radioButton>
+                    <p-radioButton name="type"
+                      formControlName="type"
+                      [value]="fileTypeOpt.File"
+                      [label]="'document.file' | translate"></p-radioButton>
                 </div>
                 <div class="col-6 p-0 pt-2 float-left">
-                    <p-radioButton name="privacy" [value]="'document.folder' | translate" [label]="'document.folder' | translate" ></p-radioButton>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-12 form-component">
-            <div class="form-component__label form-component__label--white" translate>
-                common.privacy
-            </div>
-
-            <div class="col-12 p-0 create__component clearfix">
-                <div class="col-6 p-0 pt-2 float-left">
-                    <p-radioButton name="privacy" [value]="'public'" [label]="'common.public' | translate"></p-radioButton>
-                </div>
-                <div class="col-6 p-0 pt-2 float-left">
-                    <p-radioButton name="privacy" [value]="'private'" [label]="'common.private' | translate" ></p-radioButton>
+                    <p-radioButton name="type"
+                      formControlName="type"
+                      [value]="fileTypeOpt.Folder"
+                      [label]="'document.folder' | translate" ></p-radioButton>
                 </div>
             </div>
         </div>
 
+        <div class="col-6 form-component">
+          <div class="form-component__label form-component__label--white" translate>
+              common.privacy
+          </div>
+          <div class="col-12 p-0">
+            <p-dropdown [options]="privacyOpt"
+              formControlName="privacy" styleClass="loide-privacy-group"
+              placeholder="{{ 'document.placeholder_select_group' | translate }}"
+              (onChange)="loadDocument($event.value)"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="col-6 form-component">
+          <div class="form-component__label form-component__label--white" translate>
+              common.group
+          </div>
+          <div class="col-12 p-0">
+            <p-dropdown [options]="groupDropdownItems"
+              formControlName="group" styleClass="loide-access"
+              placeholder="{{ 'document.placeholder_select_group' | translate }}"
+              (onChange)="castMembersToTable($event.value)"></p-dropdown>
+          </div>
+        </div>
+
         <div class="col-12 form-component">
-            <p-table styleClass="loide-table" [columns]="colsMembers" [value]="members" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
+          <div class="form-component__label form-component__label--white" translate>
+              document.user_access
+          </div>
+
+          <div class="col-12 p-0 create__component clearfix">
+              <div class="col-4 p-0 pt-2 float-left">
+                <div class="col-12 p-0" translate>
+                  common.owner
+                </div>
+                <div class="col-12 p-0">
+                  <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="owner"></p-dropdown>
+                </div>
+              </div>
+              <div class="col-4 p-0 pt-2 float-left">
+                <div class="col-12 p-0" translate>
+                  common.member
+                </div>
+                <div class="col-12 p-0">
+                  <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="member"></p-dropdown>
+                </div>
+              </div>
+              <div class="col-4 p-0 pt-2 float-left">
+                <div class="col-12 p-0" translate>
+                  common.other
+                </div>
+                <div class="col-12 p-0">
+                  <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="other"></p-dropdown>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-12 form-component">
+            <p-table styleClass="loide-table" [columns]="colsMembersTable" [value]="membersTableValues" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
                             <span translate>{{col.header}}</span>
                             <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                         </th>
-                        <th class="col col--xs"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -97,23 +142,26 @@
                         <td class="col" *ngFor="let col of columns">
                             {{rowData[col.field]}}
                         </td>
-                        <td class="col col--xs">
-                            <button type="button" class="btn btn-danger btn--md m-0">
-                                <span class="icon icon-keyboard_arrow_down m-0"></span>
-                            </button>
-                        </td>
                     </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                      <td [attr.colspan]="columns.length" translate>
+                          group.empty_member
+                      </td>
+                  </tr>
                 </ng-template>
             </p-table>
         </div>
     </div>
+  </form>
 </div>
 
 <div class="dialog__footer">
-    <button type="button" class="btn btn-success btn--md float-right">
+    <button type="button" (click)="create()" class="btn btn-success btn--md float-right">
         <span class="label" translate>common.create</span>
     </button>
-    <button type="button" class="btn btn-warning btn--md float-right">
+    <button type="button" (click)="cancel()" class="btn btn-warning btn--md float-right">
         <span class="label" translate>common.cancel</span>
     </button>
 </div>

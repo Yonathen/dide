@@ -4,6 +4,7 @@
     "about": "About",
     "documents": "Documents",
     "group": "Group",
+    "owner": "Owner",
     "member": "Member",
     "members": "Members",
     "admin": "Admin",
@@ -28,6 +29,7 @@
     "detail": "Detail",
     "mark_seen": "Mark as seen",
     "select": "Select",
+    "selected": "Selected",
     "status": "Status"
   },
   "header": {
@@ -70,11 +72,15 @@
     "properties": "Properties",
     "file": "File",
     "folder": "Folder",
+    "user_access": "User access",
     "document_name": "Document name",
     "date_modified": "Date modified",
     "placeholder_document_name": "Enter name of file or folder",
     "placeholder_select_group": "Select group",
-    "placeholder_search_location": "Search location to store"
+    "placeholder_search_location": "Search location to store",
+    "placeholder_search_documents": "Search documents",
+    "error_document_name": "Document name is required",
+    "empty_document": "No document loaded"
   },
   "group": {
     "owner": "Owner",
