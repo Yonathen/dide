@@ -2,6 +2,13 @@ import { Group } from './group';
 import { User } from './user';
 import { DateTime } from './utility-date-time';
 import { Editor } from './editor';
+import { Children } from 'react';
+
+export enum FileStatus {
+  Normalized = 'Normalized',
+  Archived = 'Archived',
+  Trashed = 'Trashed'
+}
 
 export enum FilePrivacy {
     Private = 'Private',
@@ -9,8 +16,15 @@ export enum FilePrivacy {
 }
 
 export enum FileType {
-    File = 'File',
-    Folder = 'Folder'
+  File = 'File',
+  Folder = 'Folder'
+}
+
+export enum AccessType {
+    Read = 'r',
+    Write = 'w',
+    Execute = 'x',
+    Null = 'n'
 }
 
 export enum Access {
@@ -42,18 +56,20 @@ export interface FileProperty {
     changes: FileChange[];
 }
 
+
 export interface FileFolder {
-    _id: string;
+    _id?: string;
     name: string;
     parent?: string;
     content?: string;
-    properties: FileProperty;
+    properties?: FileProperty;
     owner: User;
-    group: Group;
+    group?: Group;
     memberAccess: MemberAccess;
     type: FileType;
-    detail: string;
-    privacy: FilePrivacy; 
+    detail?: string;
+    privacy: FilePrivacy;
+    status?: FileStatus;
     /*
     openFileInEditor(): any;
     notifyChanges(): any;
@@ -62,7 +78,7 @@ export interface FileFolder {
 
 export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.owner );
-    return ( userId !== fileFolder.owner._id && accessIndex !== -1 );
+    return ( userId === fileFolder.owner._id && accessIndex !== -1 );
 }
 
 export function memberHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
@@ -77,11 +93,34 @@ export function allHasAccess(accesses: Access[], fileFolder: FileFolder): boolea
 }
 
 export function newPropertyValue(change: FileChange, fileFolder: FileFolder): Object {
-    let updatedChanges: FileChange[] = fileFolder.properties.changes;
+    const updatedChanges: FileChange[] = fileFolder.properties.changes;
     updatedChanges.push(change);
     return {
-        'properties.lastModifiedDateTime': new Date(), 
-        'properties.lastModifiedBy': Accounts.user, 
+        'properties.lastModifiedDateTime': new Date(),
+        'properties.lastModifiedBy': Accounts.user,
         'properties.changes': updatedChanges
     };
 }
+
+export function castToFileFolder(
+  nameP: string,
+  ownerP: User,
+  memberAccessP: MemberAccess,
+  typeP: FileType,
+  privacyP: FilePrivacy,
+  parentIdP: string = 'root',
+  groupP?: Group,
+  contentP?: string): FileFolder {
+  return {
+    name: nameP,
+    parent: parentIdP,
+    content: contentP,
+    owner: ownerP,
+    group: groupP,
+    memberAccess: memberAccessP,
+    type: typeP,
+    privacy: privacyP,
+    status: FileStatus.Normalized
+  } as FileFolder;
+}
+

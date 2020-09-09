@@ -1,3 +1,4 @@
+import { AccountService } from 'src/app/shared/services/account.service';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -13,7 +14,11 @@ export class AppComponent implements OnInit {
   title = 'loide';
   route: string;
 
-  constructor(public translate: TranslateService, location: Location, router: Router) {
+  constructor(
+    private translate: TranslateService,
+    private accountService: AccountService,
+    private location: Location,
+    private router: Router) {
     translate.addLangs(['en', 'fr']);
     translate.setDefaultLang('en');
 
@@ -21,17 +26,18 @@ export class AppComponent implements OnInit {
     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
 
     router.events.subscribe((val) => {
-      if(location.path() != ''){
+      if (location.path() !== ''){
         this.route = location.path();
       }
     });
+
+    this.accountService.trackAccount();
   }
 
   ngOnInit() {
-    
   }
 
   get isEditor(): boolean {
     return this.route === LoideRoute.Editor;
-  } 
+  }
 }

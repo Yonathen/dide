@@ -15,3 +15,22 @@ div {
     padding: 0;
     margin: 0;
 }
+
+.ui-menu.ui-menu-dynamic {
+  z-index: 11100 !important;
+  border-radius: 0;
+  border: none !important;
+  /*background: $color__gray;
+
+  a {
+    .ui-menuitem-text {
+      color: $color__white !important;
+    }
+  }
+  a:hover {
+    .ui-menuitem-text {
+      color: $color__dark-gray !important;
+    }
+  }*/
+}
+

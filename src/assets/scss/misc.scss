@@ -325,7 +325,8 @@
 }
 
 
-:host ::ng-deep .ui-menu {
+:host ::ng-deep .ui-menu,
+:host ::ng-deep .ui-tree {
     .icon {
         font-family: "iconLoide" !important;
         speak: never;
@@ -355,6 +356,17 @@
         @extend .icon-person_add_disabled;
     }
 
+    .icon-folder-open {
+      @extend .icon-folder-open;
+    }
+
+    .icon-folder {
+      @extend .icon-folder;
+    }
+
+    .icon-file {
+      @extend .icon-insert_drive_file;
+    }
 
     .icon-open_file {
         @extend .icon-file-text2;
