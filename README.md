@@ -1,31 +1,55 @@
-# Loide
+# LoIDE
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.4.
+This project is Angular-Meteor application. 
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Install meteor
 
-## Code scaffolding
+For OSX / linux systems
+```bash
+curl https://install.meteor.com/ | sh
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+For Windows systems
+```bash
+choco install meteor
+```
 
-## Build
+2. Install angular
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
+npm install -g @angular/cli
+```
 
-## Running unit tests
+## Configuration
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Go to the api folder and remove node_modules, package_lock, and yarn.lock
+2. Create a new symbolic link
 
-## Running end-to-end tests
+For OSX / linux system
+```bash
+ln -s ../package.json 
+ln -s ../yarn.lock 
+ln -s ../tsconfig.json
+ln -s ../node_modules
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+For Windows system 
+``` run cmd ``` as admin and execute
+```bash
+C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\loide\api\yarn.lock C:\<PATH TO FILE>\loide\yarn.lock
+C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\loide\api\package.lock C:\<PATH TO FILE>\loide\package.lock
+C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\loide\api\node_modules C:\<PATH TO FILE>\loide\node_modules
+```
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-# loide2
-# loide2
-# loide
-# loide
+## Usage
+1. Open powershell go to the loide project
+2. In the first powershell tab run
+```bash
+npm run api
+```
+3. In the first powershell tab run
+```bash
+npm run app
+```
