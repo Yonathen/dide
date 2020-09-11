@@ -29,6 +29,7 @@ npm install -g @angular/cli
 
 For OSX / linux system
 ```bash
+cd <PATH TO FILE>/loide/api
 ln -s ../package.json 
 ln -s ../yarn.lock 
 ln -s ../tsconfig.json
