@@ -54,3 +54,12 @@ npm run api
 ```bash
 npm run app
 ```
+
+## Mis
+In the case that if there exist a process running on port 3000, use the following to kill the process
+```bash
+netstat -ano | findstr :3000
+  TCP    0.0.0.0:3000           0.0.0.0:0              LISTENING       2888
+taskkill /PID 2888 /F
+SUCCESS: The process with PID 2888 has been terminated.
+```
