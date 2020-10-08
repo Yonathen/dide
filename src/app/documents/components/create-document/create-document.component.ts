@@ -13,7 +13,7 @@ import { TreeNode } from 'primeng/api/treenode';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-interface MembersTableValue {
+export interface MembersTableValue {
   userId: string;
   name: string;
   email: string;

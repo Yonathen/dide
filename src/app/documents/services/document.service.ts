@@ -1,4 +1,4 @@
-import { MemberAccess, Access, FileType, FileStatus } from './../../../../api/server/models/file-folder';
+import { MemberAccess, Access, FileType, FileStatus, castToFileFolderSetting, FileFolderSetting } from './../../../../api/server/models/file-folder';
 import { Injectable } from '@angular/core';
 import { R } from 'api/server/lib/response';
 import { FileFolder, castToFileFolder } from 'api/server/models/file-folder';
@@ -141,9 +141,24 @@ export class DocumentService {
     });
   }
 
-  executeFile(file: FileFolder) {
+  executeFile(file: FileFolder): Promise<R> {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('moveFileFolder', file, (error, result) => {
+        // TODO Before start to use this finalize the function in BE
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+    });
+  }
+
+  updateDocumentSettings(formValues: any, documentId: string): Promise<R> {
+    const requestUpdateSetting: FileFolderSetting = castToFileFolderSetting(
+      formValues.owner, formValues.member,
+      formValues.other, formValues.group, formValues.privacy);
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('updateFileFolderSetting', requestUpdateSetting, documentId, (error, result) => {
         // TODO Before start to use this finalize the function in BE
         if (error) {
           return resolve(error);

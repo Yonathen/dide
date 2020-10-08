@@ -62,7 +62,10 @@
   [(visible)]="createDocumentDialog"
   header="{{ 'document.create_document' | translate }}">
 
-  <app-create-document (cancel)="this.onCancelChangeDocument($event)" [visible]="createDocumentDialog"></app-create-document>
+  <app-create-document
+    (cancel)="this.onCancelChangeDocument($event)"
+    [visible]="createDocumentDialog">
+  </app-create-document>
 
 </p-dialog>
 
@@ -75,7 +78,12 @@
   [(visible)]="renameDocumentDialog"
   header="{{ 'document.rename' | translate }}">
 
-  <app-rename-document (cancel)="this.onCancelChangeDocument($event)" [breadcrumbItems]="breadcrumbItems" [selectedDocument]="selectedDocument"></app-rename-document>
+  <app-rename-document
+    *ngIf="renameDocumentDialog"
+    (cancel)="this.onCancelChangeDocument($event)"
+    [breadcrumbItems]="breadcrumbItems"
+    [selectedDocument]="selectedDocument">
+  </app-rename-document>
 
 </p-dialog>
 
@@ -88,6 +96,11 @@
   [(visible)]="propertiesDocumentDialog"
   header="{{ 'document.properties' | translate }}">
 
-  <app-properties-document></app-properties-document>
+  <app-properties-document
+    *ngIf="propertiesDocumentDialog"
+    (cancel)="this.onCancelChangeDocument($event)"
+    [breadcrumbItems]="breadcrumbItems"
+    [selectedDocument]="selectedDocument">
+  </app-properties-document>
 
 </p-dialog>
