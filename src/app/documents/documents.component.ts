@@ -210,6 +210,7 @@ export class DocumentsComponent implements OnInit {
     }
     this.renameDocumentDialog = false;
     this.createDocumentDialog = false;
+    this.propertiesDocumentDialog = false;
   }
 
   onClickDashboardItem(event: number | string) {
@@ -295,14 +296,19 @@ export class DocumentsComponent implements OnInit {
     if ( this.hasAccess(document, AccessType.Read) ) {
       result[0].items.splice(0, 0,
         {
-          label: 'Open', icon: document.type === FileType.File ? 'icon icon-open_file' : 'icon icon-folder-open' ,
+          label: 'Open',
+          icon: document.type === FileType.File ? 'icon icon-open_file' : 'icon icon-folder-open' ,
           command: () => { this.openFileFolder(document); }
         },
-        { label: 'Download', icon: 'icon icon-file_download' },
         {
-          label: 'Properties', icon: 'icon icon-settings', command: ($event) => {
-          this.propertiesDocumentDialog = true;
-        }}
+          label: 'Download',
+          icon: 'icon icon-file_download'
+        },
+        {
+          label: 'Properties',
+          icon: 'icon icon-settings',
+          command: () => { this.openFileFolderProp(document); }
+        }
       );
     }
 
@@ -354,6 +360,11 @@ export class DocumentsComponent implements OnInit {
     } else {
       this.navigationService.openEditor({ name: document.name, content: document.content });
     }
+  }
+
+  openFileFolderProp(document: FileFolder ) {
+    this.selectedDocument = document;
+    this.propertiesDocumentDialog = true;
   }
 
   onClickBreadcrumb(event) {

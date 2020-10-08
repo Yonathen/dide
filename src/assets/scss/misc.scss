@@ -80,12 +80,14 @@
 .form-component {
     float: left;
     padding: 8px;
+    padding-top: 0;
 
     &__label {
         float: left;
         width: 100%;
         padding: 3px 0;
         font-size: 18px;
+        font-family: 'LatoWebBold';
 
         &--gray {
             color: $color__gray;
@@ -97,6 +99,7 @@
 
         &--value {
             font-size: 16px;
+            font-family: 'LatoWeb';
         }
 
         &--error {

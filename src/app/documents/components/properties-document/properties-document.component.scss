@@ -12,12 +12,24 @@
     }
 }
 
+:host ::ng-deep .ui-dropdown.loide-access {
+  min-width: 70px !important;
+}
+:host ::ng-deep .ui-dropdown.loide-privacy-group {
+  min-width: 100% !important;
+}
+
 :host ::ng-deep {
     .propertiesPanel {
         float: left;
         width: 100%;
         height: 100%;
         padding: 20px;
+
+        &__removeMember {
+          display: block;
+          cursor: pointer;
+        }
     }
 
     .ui-radiobutton-label {

@@ -3,7 +3,7 @@ import { response, R } from '../lib/response';
 import { util } from '../lib/util';
 import { Group } from '../models/group';
 import { FileFolder, Access, ownerHasAccess, memberHasAccess, FileType,
-  FileProperty, FileChange, newPropertyValue, FilePrivacy, FileStatus } from '../models/file-folder';
+  FileProperty, FileChange, newPropertyValue, FilePrivacy, FileStatus, FileFolderSetting } from '../models/file-folder';
 import { FileFoldersCollection } from '../collections/file-folders-collection';
 import { User } from '../models/user';
 
@@ -69,10 +69,10 @@ Meteor.methods({
           const fileChange: FileChange = {
               date: new Date(),
               info: util.valueExist(newGroup)
-                      ? 'Group is changed to ' + newGroup.name + ' from ' + fileFolder.group.name
-                      : fileFolder.group.name + ' is removed from group.'
+                      ? `Group is changed to ${newGroup.name} from ${fileFolder.group.name}`
+                      : `${fileFolder.group.name} is removed from group.`
           };
-          let setValues = newPropertyValue(fileChange, fileFolder);
+          const setValues = newPropertyValue(fileChange, fileFolder);
           setValues['group'] = newGroup;
 
           const updated = FileFoldersCollection.collection.update(fileFolderId, {$set: setValues});
@@ -83,9 +83,47 @@ Meteor.methods({
           }
 
       }
-      catch(error){
+      catch (error){
           return response.fetchResponse(error, false);
       }
+
+  },
+
+  updateFileFolderSetting(fileFolderSetting: FileFolderSetting, fileFolderId: string) {
+    try {
+      if ( !this.userId ) {
+          throw new Meteor.Error('User is not logged.');
+      }
+
+      const accesses: Access[] = [Access.nwx, Access.rwn, Access.rwx];
+      const fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+      if (!util.valueExist(fileFolder)) {
+          throw new Meteor.Error('Folder not found.');
+      } else if ( !ownerHasAccess(this.userId, accesses, fileFolder) &&
+          !memberHasAccess(this.userId, accesses, fileFolder)) {
+          throw new Meteor.Error('User does not have the right access');
+      }
+
+      const fileChange: FileChange = { date: new Date(), info: 'File setting change' };
+      const setValues = newPropertyValue(fileChange, fileFolder);
+      setValues['group'] = fileFolderSetting.group;
+      setValues['memberAccess'] = fileFolderSetting.memberAccess;
+      setValues['privacy'] = fileFolderSetting.privacy;
+
+      if ( fileFolderSetting.privacy !== fileFolder.privacy ) {
+        setValues['parent'] = 'root';
+      }
+
+      const updated = FileFoldersCollection.collection.update(fileFolderId, { $set: setValues });
+      if ( updated ) {
+          return response.fetchResponse(setValues);
+      } else {
+          throw new Meteor.Error('Unable to rename file or folder.');
+      }
+    }
+    catch (error) {
+      return response.fetchResponse(error, false);
+    }
 
   },
 
