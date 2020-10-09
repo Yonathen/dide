@@ -76,6 +76,12 @@ export interface FileFolder {
     */
 }
 
+export interface FileFolderSetting {
+  group?: Group;
+  privacy?: FilePrivacy;
+  memberAccess?: MemberAccess;
+}
+
 export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.owner );
     return ( userId === fileFolder.owner._id && accessIndex !== -1 );
@@ -122,5 +128,25 @@ export function castToFileFolder(
     privacy: privacyP,
     status: FileStatus.Normalized
   } as FileFolder;
+}
+
+export function castToFileFolderSetting(
+  ownerAccess: Access,
+  groupAccess: Access,
+  otherAccess: Access,
+  groupParam: Group,
+  privacyParam: FilePrivacy
+): FileFolderSetting {
+  const memberAccessParam: MemberAccess = {
+    owner: Access.rwx,
+    group: groupAccess,
+    other: otherAccess
+  };
+
+  return {
+    group: groupParam,
+    privacy: privacyParam,
+    memberAccess: memberAccessParam
+  };
 }
 
