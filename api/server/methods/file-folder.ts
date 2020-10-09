@@ -10,6 +10,32 @@ import { User } from '../models/user';
 
 Meteor.methods({
 
+  searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy): R {
+    try {
+      if ( !this.userId ) {
+        throw new Meteor.Error('User is not logged.');
+      }
+
+      const fileFolders: FileFolder[] = FileFoldersCollection.collection.find({
+        privacy: { $eq: FilePrivacy.Public },
+        status: { $eq: FileStatus.Normalized }
+      }).fetch();
+
+      const result: FileFolder[] = [];
+      fileFolders.forEach(value => {
+        if ( value.name.indexOf(keyword) !== -1 ) {
+            result.push(value);
+        }
+      });
+
+      if (util.valueExist(result)) {
+        return response.fetchResponse(result);
+      }
+    } catch (error) {
+      return response.fetchResponse(error, false);
+    }
+  },
+
   fetchPublicFileFolder(): R {
     try {
       if ( !this.userId ) {

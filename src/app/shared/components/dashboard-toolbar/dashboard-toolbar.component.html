@@ -15,8 +15,11 @@
         </button>
         <div class="toolbar__searchWrap float-right" *ngIf="this.toolbar && this.toolbar?.enableSearch">
             <div class="inputgroup">
-                <input class="inputgroup__input" placeholder="{{this.toolbar?.searchPlaceholderIndex | translate}}">
-                <button type="button" class="btn btn-warning inputgroup__btn">
+                <input #searchInput
+                  class="inputgroup__input"
+                  (keyup)="emitSearchDocument($event.target.value)"
+                  placeholder="{{this.toolbar?.searchPlaceholderIndex | translate}}">
+                <button type="button" class="btn btn-warning inputgroup__btn" (click)="emitSearchDocument(searchInput.value)">
                     <span class="icon icon-search m-0"></span>
                 </button>
             </div>

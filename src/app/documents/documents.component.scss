@@ -51,4 +51,11 @@
         background-color: $color__gray;
       }
     }
+
+    &__searchResult {
+      display: block;
+      float: left;
+      padding: 13px 0;
+      color: $color__gray;
+    }
 }
