@@ -1,8 +1,9 @@
 import { MemberAccess, Access, FileType, FileStatus, castToFileFolderSetting, FileFolderSetting } from './../../../../api/server/models/file-folder';
 import { Injectable } from '@angular/core';
 import { R } from 'api/server/lib/response';
-import { FileFolder, castToFileFolder } from 'api/server/models/file-folder';
+import { FileFolder, castToFileFolder, FilePrivacy } from 'api/server/models/file-folder';
 import { TreeNode } from 'primeng/api/treenode';
+import { resolve } from 'dns';
 
 
 
@@ -37,8 +38,15 @@ export class DocumentService {
 
   constructor() { }
 
-  searchDocumentByName(keyword: string) {
-
+  searchDocumentByName(keyword: string, filePrivacy: FilePrivacy) {
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('searchFileFolderByName', keyword, filePrivacy, (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+    });
   }
 
   fetchPublicDocuments(): Promise<R> {

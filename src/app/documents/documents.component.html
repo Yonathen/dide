@@ -1,17 +1,42 @@
 <div class="documents">
   <div class="documents__contentMenubar">
-    <app-dashboard-menu [menuItems]="menuItems" (onItemClick)="onClickDashboardItem($event)"></app-dashboard-menu>
+    <app-dashboard-menu
+      [menuItems]="menuItems"
+      (onItemClick)="onClickDashboardItem($event)">
+    </app-dashboard-menu>
   </div>
 
   <div class="documents__contentToolbar">
-    <app-dashboard-toolbar (onClickToolbarButton)="onClickToolbarButton($event)" [toolbar]="documentToolbar"></app-dashboard-toolbar>
+    <app-dashboard-toolbar
+      (changeSearch)="onSearchDocuments($event)"
+      (onClickToolbarButton)="onClickToolbarButton($event)"
+      [toolbar]="documentToolbar">
+    </app-dashboard-toolbar>
   </div>
 
   <div class="documents__contentBreadcrumb">
-    <p-breadcrumb [model]="breadcrumbItems" (onItemClick)="onClickBreadcrumb($event)"></p-breadcrumb>
+    <p-breadcrumb *ngIf="!isShowResult()" [model]="breadcrumbItems" (onItemClick)="onClickBreadcrumb($event)"></p-breadcrumb>
+    <span class="documents__searchResult" *ngIf="isShowResult()" translate>document.title_search_result</span>
   </div>
 
   <div class="documents__contentMain">
+
+    <ul class="grid" *ngIf="isShowResult()">
+      <li *ngFor="let document of searchResult" (dblclick)="openFileFolder(document)">
+        <span class="grid__icon"
+          [ngClass]="{
+            'icon-folder': isDocumentFolder(document),
+            'icon-insert_drive_file': !isDocumentFolder(document)}"></span>
+        <span class="grid__label">{{ document.name }}</span>
+        <span class="grid__menu">
+          <p-menu #menu [style]="{'width':'200px'}" [popup]="true" [model]="getMenuItems(document)"></p-menu>
+          <button type="button" class="btn btn-secondary" (click)="menu.toggle($event)">
+            <span class="icon icon-keyboard_arrow_down m-0"></span>
+          </button>
+        </span>
+      </li>
+      <li class="grid__empty" *ngIf="searchResult && searchResult?.length === 0" translate>document.empty_document</li>
+    </ul>
 
     <ul class="grid" *ngIf="isSelectedMenu(documentMenuItemOpt.Public)">
       <li *ngFor="let document of publicDocuments" (dblclick)="openFileFolder(document.data)">

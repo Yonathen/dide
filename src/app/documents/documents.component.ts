@@ -1,8 +1,7 @@
 import { Children } from 'react';
-import { AccessType, FileStatus } from './../../../api/server/models/file-folder';
+import { AccessType, FileStatus, FileFolder, FilePrivacy, FileType } from './../../../api/server/models/file-folder';
 import { DocumentService } from './services/document.service';
-import { FileFolder, FilePrivacy, FileType } from 'api/server/models/file-folder';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
@@ -10,6 +9,7 @@ import { LoideRoute } from '../shared/enums/loide-route';
 import { Router } from '@angular/router';
 import { NavigationService } from '../navigation.service';
 import { util } from 'api/server/lib/util';
+import { DashboardToolbarComponent } from '../shared/components/dashboard-toolbar/dashboard-toolbar.component';
 
 export enum DocumentMemberMenuItems {
   Public, Private
@@ -47,6 +47,12 @@ export class DocumentsComponent implements OnInit {
   public breadcrumbItems: MenuItem[] = [];
   private _publicDocuments: TreeNode[] = [];
   private _privateDocuments: TreeNode[] = [];
+
+  public searchValue: string = '';
+  public searchResult: FileFolder[] = [];
+  public showSearchResult: boolean = false;
+
+  @ViewChild(DashboardToolbarComponent) dashboardToolbarComponent: DashboardToolbarComponent;
 
   get publicDocuments(): TreeNode[] {
     this.breadcrumbItems.splice(0, this.breadcrumbItems.length);
@@ -189,6 +195,20 @@ export class DocumentsComponent implements OnInit {
     });
   }
 
+  onSearchDocuments(keyword: string) {
+    if (keyword && keyword !== '') {
+      const documentPrivacy: FilePrivacy = this.isSelectedMenu(DocumentMemberMenuItems.Public) ? FilePrivacy.Public : FilePrivacy.Private;
+      this.documentService.searchDocumentByName(keyword, documentPrivacy).then(value => {
+        if (value.success) {
+          this.searchResult = value.returnValue;
+          this.showSearchResult = true;
+        }
+      });
+    } else {
+      this.clearSearch();
+    }
+  }
+
   onClickToolbarButton(menuItem: DocumentToolbarMenuItems) {
     switch (menuItem) {
       case DocumentToolbarMenuItems.CreateDocument:
@@ -215,6 +235,7 @@ export class DocumentsComponent implements OnInit {
 
   onClickDashboardItem(event: number | string) {
     this.selectedParentId = 'root';
+    this.clearSearch();
     if (this.menuItems) {
       this.menuItems.forEach((item, index) => {
         item.active = false;
@@ -228,8 +249,12 @@ export class DocumentsComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  isShowResult(): boolean {
+    return this.showSearchResult;
+  }
+
   isSelectedMenu(itemId: number | string): boolean {
-    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id;
+    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id && !this.showSearchResult;
   }
 
   isDocumentFolder(document: FileFolder) {
@@ -356,6 +381,7 @@ export class DocumentsComponent implements OnInit {
 
   openFileFolder(document: FileFolder ) {
     if ( document.type === FileType.Folder ) {
+      this.clearSearch();
       this.selectedParentId = document._id;
     } else {
       this.navigationService.openEditor({ name: document.name, content: document.content });
@@ -373,6 +399,16 @@ export class DocumentsComponent implements OnInit {
     if (util.valueExist(item.state)) {
       const node: TreeNode = item.state;
       this.selectedParentId = node.key;
+    }
+  }
+
+  clearSearch() {
+    if (this.showSearchResult) {
+      this.showSearchResult = false;
+
+      const searchInputDOM: HTMLInputElement = this.dashboardToolbarComponent.searchInput.nativeElement as HTMLInputElement;
+      searchInputDOM.value = '';
+      this.searchResult.splice(0, this.searchResult.length);
     }
   }
 }

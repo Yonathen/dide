@@ -83,7 +83,9 @@
     "placeholder_search_location": "Search location to store",
     "placeholder_search_documents": "Search documents",
     "error_document_name": "Document name is required",
-    "empty_document": "No document loaded"
+    "empty_document": "No document loaded",
+    "empty_search": "Sorry, but nothing matched your search term.",
+    "title_search_result": "Search result"
   },
   "group": {
     "owner": "Owner",
