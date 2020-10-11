@@ -6,9 +6,10 @@ import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolb
 import { EditorSidebarComponent } from './components/editor-sidebar/editor-sidebar.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { EditorSidebarRightComponent } from './components/editor-sidebar-right/editor-sidebar-right.component';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 @NgModule({
-  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent],
+  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -10,6 +10,21 @@ import { User } from '../models/user';
 
 Meteor.methods({
 
+  getFileFolder(fileFolderId: string): R {
+    try {
+      if ( !this.userId ) {
+        throw new Meteor.Error('User is not logged.');
+      }
+
+      const fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+      if (util.valueExist(fileFolder)) {
+        return response.fetchResponse(fileFolder);
+      }
+    } catch (error) {
+      return response.fetchResponse(error, false);
+    }
+  },
+
   searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy): R {
     try {
       if ( !this.userId ) {

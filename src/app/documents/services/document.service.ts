@@ -38,6 +38,17 @@ export class DocumentService {
 
   constructor() { }
 
+  getFileFolder(fileFolderId: string) {
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('getFileFolder', fileFolderId, (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+    });
+  }
+
   searchDocumentByName(keyword: string, filePrivacy: FilePrivacy) {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('searchFileFolderByName', keyword, filePrivacy, (error, result) => {

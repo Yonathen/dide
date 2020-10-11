@@ -3,8 +3,7 @@
 $singleSidebarOpened: 240px;
 $bothSidebarOpened: 480px;
 
-:host ::ng-deep .ui-tabview.editor__tabView {
-    height: 100%;
+:host ::ng-deep .ui-tabmenu.editor__tabMenu {
     padding: 5px 0 0 !important;
 
     .icon {
@@ -17,34 +16,23 @@ $bothSidebarOpened: 480px;
         line-height: 1;
         -webkit-font-smoothing: antialiased;
         font-size: 24px;
-        color: $color__gray !important;
     }
 
     .icon-file {
         @extend .icon-insert_drive_file;
     }
 
-    .ui-tabview-panels {
-        height: calc(100% - 35px);
-        padding: 0 !important;
-        border: none;
-        background: transparent;
+    .ui-tabmenu-nav {
+      border-bottom: 1px solid $color__black;
     }
 
-    .ui-tabview-panel {
-        width: 100%;
-        padding: 0;
-        height: 100%;
-    }
-
-    .ui-tabview-nav li {
+    .ui-tabmenu-nav li {
         margin-right: 2px;
         font-family: 'LatoWeb';
         height: 30px;
         overflow: hidden;
         background-color: $color__gray;
         border: none;
-
     }
 
     .active-style {
@@ -56,15 +44,14 @@ $bothSidebarOpened: 480px;
         background-color: $color__white-alpha-5;
     }
 
-    .ui-tabview-nav li a,
-    .ui-tabview-nav li.ui-state-active a { 
-        font-weight: bold;
-        color: $color__dark-gray !important;
+    .ui-tabmenu-nav li a,
+    .ui-tabmenu-nav li.ui-state-active a {
+      display: block;
+      font-weight: bold;
+      padding: 8px 10px 0;
+      color: $color__dark-gray !important;
     }
-    
-
-
-    .ui-tabview-nav li.ui-state-active { 
+    .ui-tabmenu-nav li.ui-state-active {
         @extend .active-style;
         background-color: $color__white-alpha-3;
 
@@ -77,15 +64,38 @@ $bothSidebarOpened: 480px;
         }
     }
 
-    .ui-tabview-left-icon {
-        color: $color__dark-gray !important;
-        font-size: 16px !important;
+    .ui-menuitem-wrap {
+      float: left;
+      height: 20px;
     }
 
-    .ui-tabview-close {
+    .ui-menuitem-icon {
+      float: left;
+      width: 18px;
+      height: 20px;
+      margin: 0 !important;
+      color: $color__dark-gray !important;
+      font-size: 16px !important;
+    }
+
+    .ui-menuitem-iconClose {
+      float: right;
+      width: 15px;
+      height: 20px;
+      margin: 0 !important;
+
+      span {
         font-size: 11px;
         font-weight: bold;
         color: $color__black !important;
+      }
+    }
+
+    .ui-menuitem-text{
+      float: left;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      margin: 0 5px !important;
     }
 }
 
@@ -143,5 +153,35 @@ $bothSidebarOpened: 480px;
         &--singleSidebarOpen {
             width: calc(100% - 280px);
         }
+    }
+
+    &__tabs,
+    &__emptyTab {
+      float: left;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__tabsMenuWrap {
+      float: left;
+      width: 100%;
+      height: 40px;
+    }
+
+    &__tabsRoute{
+      float: left;
+      width: 100%;
+      height: calc(100% - 40px);
+    }
+
+    &__emptyTab {
+      padding-top: 15%;
+      color: $color__white-alpha-5;
+      text-align: center;
+
+      span {
+        font-family: 'LatoWebBold';
+        text-transform: uppercase;
+      }
     }
 }

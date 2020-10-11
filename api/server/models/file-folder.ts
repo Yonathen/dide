@@ -150,3 +150,13 @@ export function castToFileFolderSetting(
   };
 }
 
+export function newFileFolder(privacyParam: FilePrivacy = FilePrivacy.Public): FileFolder {
+  return {
+    name: 'New document',
+    parent: 'root',
+    privacy: privacyParam,
+    owner: Meteor.user(),
+    memberAccess: { owner: Access.rwx, group: Access.rnx, other: Access.rnx},
+    type: FileType.File
+  };
+}
