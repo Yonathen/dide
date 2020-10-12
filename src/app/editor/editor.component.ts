@@ -1,3 +1,4 @@
+import { EditorState } from './../navigation.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventSidebar } from './model/event-sidebar';
 import { ScriptLoaderService } from './services/script-loader.service';
@@ -9,6 +10,7 @@ import { DocumentService } from '../documents/services/document.service';
 import { FileFolder } from 'api/server/models/file-folder';
 import { LoideRoute } from '../shared/enums/loide-route';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
 
 export const EditorTabTag = 'EDITOR_TAB_';
 
@@ -23,7 +25,8 @@ export class EditorComponent implements OnInit {
   public sidebarEvent: EventSidebar;
   public sidebarLeft: boolean;
   public sidebarRight: boolean;
-  public selectedDocument: FileFolder;
+  public editorState: EditorState;
+  public documentChanged: boolean;
   public editorMenuItems: MenuItem[] = [];
 
   @ViewChild('editor', { static: true })
@@ -48,6 +51,10 @@ export class EditorComponent implements OnInit {
         this.editorMenuItems.push(item);
       });
     });
+
+    this.navigationService.active.subscribe(activeState => {
+      this.editorState = activeState;
+    });
   }
 
   get sidebarLeftVisible(): boolean {
@@ -63,27 +70,36 @@ export class EditorComponent implements OnInit {
     this.documentService.getFileFolder(id).then(value => {
       this.spinner.hide();
       if ( value.success ) {
-        this.selectedDocument = value.returnValue;
         this.setEditorMenuItem(value.returnValue);
       }
     });
   }
 
   setEditorMenuItem(document: FileFolder) {
-    const fileMenuItem: MenuItem = {
-      id: EditorTabTag + document._id,
-      icon: 'icon icon-file',
-      state: { data: document },
-      label: document.name,
-      routerLink: LoideRoute.Editor,
-      queryParams: { item: document._id}
-    };
-    if ( !this.navigationService.tabExist(fileMenuItem) ) {
+
+    const tabId = EditorTabTag + document._id;
+    if ( !this.navigationService.tabExist(tabId) ) {
+      const fileMenuItem: MenuItem = {
+        id: tabId,
+        icon: 'icon icon-file',
+        label: document.name,
+        routerLink: LoideRoute.Editor,
+        queryParams: { item: document._id}
+      };
       this.navigationService.inject(fileMenuItem);
+    }
+    this.navigationService.setEditorState(tabId, document);
+  }
+
+  onToolbarEvent($event: LoideToolbarItems) {
+    switch ($event) {
+      case LoideToolbarItems.SaveFile:
+        this.saveDocument();
+        break;
     }
   }
 
-  toogleSidebarLeft($event: EventSidebar) {
+  toggleSidebarLeft($event: EventSidebar) {
     this.sidebarEvent = $event;
 
     if (this.sidebarEvent.left) {
@@ -108,9 +124,31 @@ export class EditorComponent implements OnInit {
     return false;
   }
 
+  isChanged(editorState: EditorState): boolean {
+    return editorState && editorState.changed;
+  }
+
   closeItem(event, item) {
     this.navigationService.closeEditorTab(item);
     event.preventDefault();
+  }
+
+  saveDocument() {
+    if ( this.editorState && this.editorState.changed ) {
+      this.documentService.updateDocument(this.editorState.currentDocument._id, this.editorState.currentDocument.content).then( value => {
+        if ( value.success ) {
+          this.setEditorState(value.returnValue);
+        }
+      });
+    }
+  }
+
+  setEditorState(document) {
+    const tabId = EditorTabTag + document._id;
+    if ( this.navigationService.tabExist(tabId) ) {
+      this.navigationService.setEditorState(tabId, document);
+      this.navigationService.documentChanged(tabId, false);
+    }
   }
 
 }

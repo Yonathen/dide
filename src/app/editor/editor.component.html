@@ -1,10 +1,10 @@
 <div class="editor">
     <div class="editor__toolbar">
-        <app-editor-toolbar></app-editor-toolbar>
+        <app-editor-toolbar (toolbarClicked)="onToolbarEvent($event)"></app-editor-toolbar>
     </div>
     <div class="editor__body">
         <div class="editor__bodySidebar editor__bodySidebar--left" [ngClass]="{'editor__bodySidebar--open': sidebarLeftVisible}">
-            <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)"></app-editor-sidebar>
+            <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)"></app-editor-sidebar>
         </div>
         <div class="editor__bodyContent" [ngClass]="{'editor__bodyContent--singleSidebarOpen': isSingleBarOpen(), 'editor__bodyContent--bothSidebarOpen': isBothBarOpen()}">
             <!--<p-tabView styleClass="editor__tabView">
@@ -23,9 +23,9 @@
 
                     <div class="ui-menuitem-wrap">
                       <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon"></div>
-                      <div class="ui-menuitem-text"> {{item.label}} </div>
-                      <div class="ui-menuitem-iconClose" (click)="closeItem($event, item)" >
-                          <span class="pi pi-times"></span>
+                      <div class="ui-menuitem-text"> {{item.label}} <span *ngIf="isChanged(item.state)">*</span> </div>
+                      <div class="ui-menuitem-iconClose">
+                          <span (click)="closeItem($event, item)" class="pi pi-times"></span>
                       </div>
                     </div>
                   </ng-template>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="editor__bodySidebar editor__bodySidebar--right" [ngClass]="{'editor__bodySidebar--open': sidebarRightVisible}">
-            <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
+            <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
         </div>
 
 

@@ -85,7 +85,7 @@ export class DocumentService {
     });
   }
 
-  createDocument(formValues: any, selectedLocation: string, content?: string): Promise<R> {
+  createDocument(formValues: any, selectedLocation: string, content: string = ''): Promise<R> {
     const memberAccess: MemberAccess = {
       owner: Access.rwx,
       group: formValues.member,
@@ -93,7 +93,7 @@ export class DocumentService {
     };
     const fileFolder: FileFolder = castToFileFolder(
       formValues.name, Meteor.user(), memberAccess, formValues.type,
-      formValues.privacy, selectedLocation, formValues.group, content
+      formValues.privacy, selectedLocation, content, formValues.group
     );
     return new Promise<R>((resolve, reject) => {
       Meteor.call('createFileFolder', fileFolder, (error, result) => {

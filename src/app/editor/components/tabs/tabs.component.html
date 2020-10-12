@@ -1,1 +1,1 @@
-<ace-editor *ngIf="document" [mode]="'asp'" [(text)]="document.content" #editor style="height:100%;"></ace-editor>
+<ace-editor *ngIf="editorState" [mode]="'asp'" (textChanged)="onTextChange($event)" [(text)]="editorState.currentDocument.content" #editor style="height:100%;"></ace-editor>

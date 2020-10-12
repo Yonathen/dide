@@ -115,8 +115,8 @@ export function castToFileFolder(
   typeP: FileType,
   privacyP: FilePrivacy,
   parentIdP: string = 'root',
-  groupP?: Group,
-  contentP?: string): FileFolder {
+  contentP: string = '',
+  groupP?: Group): FileFolder {
   return {
     name: nameP,
     parent: parentIdP,
