@@ -132,7 +132,9 @@
     "theme_js": "Script file ( *.js )"
   },
   "editor": {
-    "filter": "Filter"
+    "filter": "Filter",
+    "empty_tabs": "No document is opened",
+    "empty_create_document": "Create new document"
   },
   "notification": {
     "open_request": "Open request",

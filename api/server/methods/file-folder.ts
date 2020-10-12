@@ -10,6 +10,21 @@ import { User } from '../models/user';
 
 Meteor.methods({
 
+  getFileFolder(fileFolderId: string): R {
+    try {
+      if ( !this.userId ) {
+        throw new Meteor.Error('User is not logged.');
+      }
+
+      const fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+      if (util.valueExist(fileFolder)) {
+        return response.fetchResponse(fileFolder);
+      }
+    } catch (error) {
+      return response.fetchResponse(error, false);
+    }
+  },
+
   searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy): R {
     try {
       if ( !this.userId ) {
@@ -268,7 +283,7 @@ Meteor.methods({
           }
 
           const accesses: Access[] = [Access.nwx, Access.rwn, Access.rwx];
-          let fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+          const fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
           if (!util.valueExist(fileFolder)) {
               throw new Meteor.Error('Folder not found.');
           } else if ( !ownerHasAccess(this.userId, accesses, fileFolder) &&
@@ -289,7 +304,8 @@ Meteor.methods({
 
           const updated = FileFoldersCollection.collection.update(fileFolderId, { $set: setValues });
           if ( updated ) {
-              return response.fetchResponse(setValues);
+            const updatedFileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+            return response.fetchResponse(updatedFileFolder);
           } else {
               throw new Meteor.Error('Unable to update file or folder.');
           }

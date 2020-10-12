@@ -39,6 +39,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {TreeModule} from 'primeng/tree';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent],
@@ -115,7 +116,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     TableModule,
     FileUploadModule,
     SplitButtonModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    NgxSpinnerModule
   ]
 })
 export class SharedModule { }

@@ -38,6 +38,6 @@ export class AppComponent implements OnInit {
   }
 
   get isEditor(): boolean {
-    return this.route === LoideRoute.Editor;
+    return this.route && this.route.indexOf(LoideRoute.Editor) !== -1;
   }
 }

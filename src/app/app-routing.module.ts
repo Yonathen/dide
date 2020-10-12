@@ -9,11 +9,15 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { TrashComponent } from './trash/trash.component';
 import { AdminPreferencesComponent } from './preferences/components/admin-preferences/admin-preferences.component';
+import { TabsComponent } from './editor/components/tabs/tabs.component';
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: 'editor', component: EditorComponent},
+  {path: 'editor', component: EditorComponent, children: [
+    {path: '', redirectTo: 'tabs', pathMatch: 'full'},
+    {path: 'tabs', component: TabsComponent}
+  ]},
   {path: 'dashboard', component: DashboardComponent, children: [
     {path: '', redirectTo: 'documents', pathMatch: 'full'},
     {path: 'documents', component: DocumentsComponent},
