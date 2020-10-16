@@ -146,32 +146,47 @@ $bothSidebarOpened: 480px;
         overflow: hidden;
 
         &--open {
-            min-width: $singleSidebarOpened;
+            // min-width: $singleSidebarOpened;
         }
 
         &--left {
             float: left;
-            border-right: 1px solid $color__black;
         }
 
         &--right {
             float: right;
-            border-left: 1px solid $color__black;
         }
+    }
+
+    &__bodyResizeHorizontal {
+      float: left;
+      width: 2px;
+      height: 100%;
+      cursor: ew-resize;
+      background-color: $color__white-alpha-5;
+    }
+
+    &__bodyResizeVertical {
+      float: left;
+      width: 100%;
+      height: 2px;
+      cursor: ns-resize;
+      background-color: $color__white-alpha-5;
     }
 
     &__bodyContent {
         float: left;
-        width: calc(100% - 80px);
+        // width: calc(100% - 80px);
         max-width: calc(100% - 80px);
+        padding: 0 3px;
         height: 100%;
 
         &--bothSidebarOpen {
-            width: calc(100% - 480px);
+            // width: calc(100% - 480px);
         }
 
         &--singleSidebarOpen {
-            width: calc(100% - 280px);
+            // width: calc(100% - 280px);
         }
     }
 

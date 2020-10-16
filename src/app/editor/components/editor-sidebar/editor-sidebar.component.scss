@@ -3,7 +3,7 @@
 
 .sidebar {
     float: left;
-    width: 100%;
+    width: calc(100% - 2px);
     height: 100%;
     position: relative;
 
@@ -16,10 +16,11 @@
         position: absolute;
         top: 0;
         height: 100%;
-        width: 40px;
+        width: 38px;
         margin: 0;
         padding: 0;
         padding-top: 25px;
+
         &--left {
             left: 0;
         }
@@ -31,7 +32,7 @@
 
 
     li {
-        width: 40px;
+        width: 38px;
         height: 30px;
         border-radius: 0;
         padding: 0 3px;
@@ -64,11 +65,11 @@
         background-color: $color__white-alpha-3;
 
         &--left {
-            left: 37px; 
+            left: 37px;
         }
 
         &--right {
-            right: 37px; 
+            right: 37px;
         }
     }
 
@@ -83,6 +84,10 @@
     &__panelTitle {
         float: left;
         font-size: 16px;
+        width: calc(100% - 20px);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         font-family: 'LatoWebBold';
     }
 
@@ -101,5 +106,5 @@
         border: solid 3px $color__white-alpha-3;
     }
 
-    
+
 }

@@ -1,17 +1,15 @@
-<div class="editor">
+<div #editorWrap class="editor">
     <div class="editor__toolbar">
         <app-editor-toolbar (toolbarClicked)="onToolbarEvent($event)"></app-editor-toolbar>
     </div>
     <div class="editor__body">
-        <div class="editor__bodySidebar editor__bodySidebar--left" [ngClass]="{'editor__bodySidebar--open': sidebarLeftVisible}">
-            <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)"></app-editor-sidebar>
+        <div class="editor__bodySidebar editor__bodySidebar--left"
+          [style.width.px]="widthBarLeft"
+          (window:mouseup)="setResizePanel($event, resizeOpt.None)">
+            <app-editor-sidebar [openByResize]="openSidebarLeftByResize" (onClickSidebar)="toggleSidebarLeft($event)"></app-editor-sidebar>
+            <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Left)"></div>
         </div>
-        <div class="editor__bodyContent" [ngClass]="{'editor__bodyContent--singleSidebarOpen': isSingleBarOpen(), 'editor__bodyContent--bothSidebarOpen': isBothBarOpen()}">
-            <!--<p-tabView styleClass="editor__tabView">
-                <p-tabPanel leftIcon="{{ editorItem.icon }}" header="{{ editorItem.label }}" [closable]="true" *ngFor="let editorItem of editorMenuItems">
-                    <ace-editor [mode]="'asp'" [(text)]="editorItem.state.content" #editor style="height:100%;"></ace-editor>
-                </p-tabPanel>
-            </p-tabView>-->
+        <div class="editor__bodyContent" [style.width.px]="widthBody" >
             <div class="editor__emptyTab" *ngIf="editorMenuItems.length === 0">
               <span translate>editor.empty_tabs</span><br>
               <a class="link-blue" translate>editor.empty_create_document</a>
@@ -36,10 +34,9 @@
               </div>
             </div>
         </div>
-        <div class="editor__bodySidebar editor__bodySidebar--right" [ngClass]="{'editor__bodySidebar--open': sidebarRightVisible}">
-            <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
+        <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >
+          <div class="editor__bodyResizeHorizontal"></div>
+          <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
         </div>
-
-
     </div>
 </div>

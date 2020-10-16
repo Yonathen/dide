@@ -1,5 +1,5 @@
 import { EditorState } from './../navigation.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { EventSidebar } from './model/event-sidebar';
 import { ScriptLoaderService } from './services/script-loader.service';
 import { NavigationService } from 'src/app/navigation.service';
@@ -13,6 +13,18 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
 
 export const EditorTabTag = 'EDITOR_TAB_';
+
+enum ResizePanel {
+  Left = 'Left',
+  Right = 'Right',
+  Bottom = 'Bottom',
+  None = 'None'
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
 
 @Component({
   selector: 'app-editor',
@@ -29,8 +41,19 @@ export class EditorComponent implements OnInit {
   public documentChanged: boolean;
   public editorMenuItems: MenuItem[] = [];
 
-  @ViewChild('editor', { static: true })
-  editor: AceEditorComponent;
+  public widthBody: number;
+  public widthBarLeft: number = 40;
+  public widthBarRight: number = 40;
+  public heightBarBottom: number = 40;
+
+  public mouse: MousePosition = { x : 0, y : 0};
+  public activeResize: ResizePanel = ResizePanel.None;
+  public resizeOpt = ResizePanel;
+  public openSidebarLeftByResize: boolean = false;
+
+  @ViewChild('editorWrap') editorWrap: ElementRef;
+
+  @ViewChild('editor', { static: true }) editor: AceEditorComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,6 +61,22 @@ export class EditorComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private navigationService: NavigationService,
     private scriptLoaderService: ScriptLoaderService) {}
+
+  public get winHeight() {
+    return window.innerHeight;
+  }
+
+  public get winWidth() {
+    return window.innerWidth;
+  }
+
+  get sidebarLeftVisible(): boolean {
+    return this.sidebarLeft;
+  }
+
+  get sidebarRightVisible(): boolean {
+    return this.sidebarRight;
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
@@ -55,14 +94,33 @@ export class EditorComponent implements OnInit {
     this.navigationService.active.subscribe(activeState => {
       this.editorState = activeState;
     });
+    this.setBodySize();
   }
 
-  get sidebarLeftVisible(): boolean {
-    return this.sidebarLeft;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.setBodySize();
   }
 
-  get sidebarRightVisible(): boolean {
-    return this.sidebarRight;
+  @HostListener('window:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent){
+    this.mouse.x = event.clientX;
+    this.mouse.y = event.clientY;
+
+    switch (this.activeResize) {
+      case ResizePanel.Left:
+        this.resizeLeft();
+        break;
+    }
+  }
+
+  setResizePanel(event: MouseEvent, resizePanel: ResizePanel) {
+    event.stopPropagation();
+    this.activeResize = resizePanel;
+  }
+
+  setBodySize() {
+    this.widthBody = this.winWidth - this.widthBarLeft - this.widthBarRight;
   }
 
   getDocumentById(id: string) {
@@ -103,10 +161,11 @@ export class EditorComponent implements OnInit {
     this.sidebarEvent = $event;
 
     if (this.sidebarEvent.left) {
-      this.sidebarLeft = this.sidebarEvent.visible;
+      this.widthBarLeft = this.sidebarEvent.visible ? 240 : 40;
     } else if (this.sidebarEvent.right) {
-      this.sidebarRight = this.sidebarEvent.visible;
+      this.widthBarRight = this.sidebarEvent.visible ? 240 : 40;
     }
+    this.setBodySize();
   }
 
   isSingleBarOpen(): boolean {
@@ -148,6 +207,21 @@ export class EditorComponent implements OnInit {
     if ( this.navigationService.tabExist(tabId) ) {
       this.navigationService.setEditorState(tabId, document);
       this.navigationService.documentChanged(tabId, false);
+    }
+  }
+
+  resizeLeft() {
+    if ( this.mouse.x > 40) {
+      this.widthBarLeft = this.mouse.x;
+      this.setBodySize();
+
+      if ( this.mouse.x >= 60 ) {
+        this.openSidebarLeftByResize = true;
+      } else {
+        this.openSidebarLeftByResize = false;
+      }
+    } else {
+      this.openSidebarLeftByResize = false;
     }
   }
 
