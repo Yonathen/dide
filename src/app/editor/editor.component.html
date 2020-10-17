@@ -35,8 +35,8 @@
             </div>
         </div>
         <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >
-          <div class="editor__bodyResizeHorizontal"></div>
-          <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
+          <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Right)"></div>
+          <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarRightByResize"  [positionRight]="true"></app-editor-sidebar>
         </div>
     </div>
 </div>

@@ -37,7 +37,6 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
         { id: LoideSidebarItemsLeft.PrivateDocument, iconClass: 'icon-folder_shared', labelIndex: 'document.private_document'}
       ];
     } else {
-
       this.sidebarMenuItems = [
         { id: LoideSidebarItemsRight.Language, iconClass: 'icon-translate', labelIndex: 'preference.language'},
         { id: LoideSidebarItemsRight.Group, iconClass: 'icon-group', labelIndex: 'common.group'},

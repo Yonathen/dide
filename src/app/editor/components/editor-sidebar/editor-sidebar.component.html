@@ -7,18 +7,38 @@
             </a>
         </li>
     </ul>
+    <div class="sidebar__panel sidebar__panel--right" *ngIf="isSidebarLeftOpen && isPositionRight()">
+      <div class="sidebar__panelHeader">
 
-    <div class="sidebar__panel" *ngIf="isSidebarLeftOpen"  [ngClass]="{'sidebar__panel--left': !isPositionRight(), 'sidebar__panel--right': isPositionRight()}">
+        <div class="sidebar__panelTitle"
+            *ngIf="activeSidebar.item === sidebarRight.Language" translate>
+            common.preferences
+        </div>
+
+        <div class="sidebar__panelClose" (click)="closeSidebar()">
+            <span class="icon-clear"></span>
+        </div>
+      </div>
+
+      <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Language">
+        <app-preference-language></app-preference-language>
+      </div>
+    </div>
+
+    <div class="sidebar__panel sidebar__panel--left" *ngIf="isSidebarLeftOpen && !isPositionRight()">
 
         <div class="sidebar__panelHeader">
+
             <div class="sidebar__panelTitle"
                 *ngIf="activeSidebar.item === sidebarLeft.PublicDocument" translate>
                 document.public_document
             </div>
+
             <div class="sidebar__panelTitle"
                 *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument" translate>
                 document.private_document
             </div>
+
             <div class="sidebar__panelClose" (click)="closeSidebar()">
                 <span class="icon-clear"></span>
             </div>

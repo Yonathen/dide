@@ -1,5 +1,6 @@
 {
   "common": {
+    "no": "No.",
     "loide": "LoIDE",
     "about": "About",
     "documents": "Documents",
@@ -119,15 +120,19 @@
     "your_preferences": "Your preferences",
     "solver": "Solver",
     "language": "Language",
+    "options": "Options",
     "language_modal": "Language modal",
     "appearance": "Appearance",
     "editor": "Editor",
+    "executor": "Executor",
     "add_language": "Create new language",
     "add_appearance": "Create new appearance",
     "add_solver": "Create new solver",
     "theme_name": "Theme name",
     "placeholder_theme_name": "Enter theme name",
     "placeholder_language_name": "Enter language name",
+    "placeholder_add_options": "Add options",
+    "info_add_options": "To add multiple values, use semicolon to separate the list of values.",
     "theme_css": "Style file ( *.css )",
     "theme_js": "Script file ( *.js )"
   },
