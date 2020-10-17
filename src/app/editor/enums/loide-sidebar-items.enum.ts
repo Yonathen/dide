@@ -3,5 +3,5 @@ export enum LoideSidebarItemsLeft {
 }
 
 export enum LoideSidebarItemsRight {
-  Group = 'Group', Language = 'Language', Appearance = 'Appearance', Solver = 'Solver', Filter = 'Filter'
+  Group = 'Group', Language = 'Language', Appearance = 'Appearance', Filter = 'Filter'
 }
