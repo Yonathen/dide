@@ -1,26 +1,34 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { NavigationService } from 'src/app/navigation.service';
+import { FileFolder, FileType } from 'api/server/models/file-folder';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { LoideSidebarItemsLeft, LoideSidebarItemsRight } from '../../enums/loide-sidebar-items.enum';
 import { EventSidebar } from '../../model/event-sidebar'
 import { LoideMenuItem } from 'src/app/shared/model/menu-item';
+import { TreeNode } from 'primeng/api/treenode';
+import { Tree } from 'primeng/tree/tree';
 
 @Component({
   selector: 'app-editor-sidebar',
   templateUrl: './editor-sidebar.component.html',
   styleUrls: ['./editor-sidebar.component.scss']
 })
-export class EditorSidebarComponent implements OnInit, OnChanges {
+export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() positionRight: boolean = false;
   @Input() openByResize: boolean = false;
+  @Input() privateDocuments: TreeNode[] = [];
+  @Input() publicDocuments: TreeNode[] = [];
 
+  public folderSelected: TreeNode;
   public sidebarLeft = LoideSidebarItemsLeft;
   public sidebarRight = LoideSidebarItemsRight;
   public sidebarMenuItems: LoideMenuItem[];
   public activeSidebar: EventSidebar = {} as EventSidebar;
 
   @Output('onClickSidebar') sidebarClickEmitter: EventEmitter<EventSidebar> = new EventEmitter<EventSidebar>();
+  @ViewChild('directoryTree') directoryTree: Tree;
 
-  constructor() { }
+  constructor(private navigationService: NavigationService) { }
 
   ngOnInit(): void {
     if (!this.isPositionRight()) {
@@ -38,6 +46,10 @@ export class EditorSidebarComponent implements OnInit, OnChanges {
         { id: LoideSidebarItemsRight.Filter, iconClass: 'icon-filter_list_alt', labelIndex: 'editor.filter'}
       ];
     }
+
+  }
+
+  ngAfterViewInit() {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -48,6 +60,11 @@ export class EditorSidebarComponent implements OnInit, OnChanges {
         this.closeSidebar(false);
       }
     }
+  }
+
+  interceptOnNodeClick(event, node) {
+    event.preventDefault();
+    this.openFile( node.data );
   }
 
   get isSidebarLeftOpen(): boolean {
@@ -81,6 +98,11 @@ export class EditorSidebarComponent implements OnInit, OnChanges {
       this.closeSidebar();
     } else {
       this.openSidebar(item);
+      if ( item === LoideSidebarItemsLeft.PrivateDocument || item === LoideSidebarItemsLeft.PublicDocument ) {
+        setTimeout(() => {
+          this.directoryTree.onNodeClick = this.interceptOnNodeClick.bind(this);
+        });
+      }
     }
   }
 
@@ -88,6 +110,12 @@ export class EditorSidebarComponent implements OnInit, OnChanges {
     this.activeSidebar.left = !this.isPositionRight();
     this.activeSidebar.right = this.isPositionRight();
     this.setSidebarPanel(item);
+  }
+
+  openFile(document: FileFolder ) {
+    if ( document.type === FileType.File ) {
+      this.navigationService.openEditor(document._id);
+    }
   }
 
 }

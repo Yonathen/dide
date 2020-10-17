@@ -3,14 +3,15 @@ import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular
 import { EventSidebar } from './model/event-sidebar';
 import { ScriptLoaderService } from './services/script-loader.service';
 import { NavigationService } from 'src/app/navigation.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, TreeNode } from 'primeng/api';
 import { AceEditorComponent } from 'ng2-ace-editor';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentService } from '../documents/services/document.service';
-import { FileFolder } from 'api/server/models/file-folder';
+import { FileFolder, FileType, AccessType } from 'api/server/models/file-folder';
 import { LoideRoute } from '../shared/enums/loide-route';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
+import { util } from 'api/server/lib/util';
 
 export const EditorTabTag = 'EDITOR_TAB_';
 
@@ -32,7 +33,7 @@ interface MousePosition {
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
-
+  public loggedUserId: string;
   public content: any;
   public sidebarEvent: EventSidebar;
   public sidebarLeft: boolean;
@@ -50,6 +51,10 @@ export class EditorComponent implements OnInit {
   public activeResize: ResizePanel = ResizePanel.None;
   public resizeOpt = ResizePanel;
   public openSidebarLeftByResize: boolean = false;
+
+  public breadcrumbItems: MenuItem[] = [];
+  public publicDocuments: TreeNode[] = [];
+  public privateDocuments: TreeNode[] = [];
 
   @ViewChild('editorWrap') editorWrap: ElementRef;
 
@@ -79,6 +84,10 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loggedUserId = Meteor.userId();
+    this.loadPrivateDocument();
+    this.loadPublicDocument();
+
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
       const documentId: string = queryParams.get('item');
       this.getDocumentById(documentId);
@@ -114,13 +123,76 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  isDocumentFolder(document: FileFolder) {
+    return document.type === FileType.Folder;
+  }
+
+  isOwner(document: FileFolder): boolean {
+    return document.owner._id === this.loggedUserId;
+  }
+
+  isInGroup(document: FileFolder): boolean {
+    if (!util.valueExist(document.group) ||
+      !util.valueExist(document.group.members)) {
+        return false;
+      }
+    const loggedUserIndex = document.group.members.findIndex(elt => elt.user._id === this.loggedUserId);
+    return loggedUserIndex >= 0;
+  }
+
+  hasAccess(document: FileFolder, accessType: AccessType): boolean {
+    const writeAccess: number[] = [2, 3, 6, 7];
+    const readAccess: number[] = [4, 5, 6, 7];
+    const executeAccess: number[] = [1, 3, 5, 7];
+
+    let userAccess: number = document.memberAccess.other;
+    if ( this.isOwner(document) ) {
+      userAccess = document.memberAccess.owner;
+    } else if ( this.isInGroup(document) ) {
+      userAccess = document.memberAccess.group;
+    }
+
+    switch (accessType) {
+      case AccessType.Write:
+        return writeAccess.includes(userAccess);
+      case AccessType.Read:
+        return readAccess.includes(userAccess);
+      case AccessType.Execute:
+        return executeAccess.includes(userAccess);
+    }
+
+    return false;
+  }
+
+  loadPublicDocument() {
+    this.documentService.fetchPublicDocuments().then(result => {
+      if ( result.success && result.returnValue) {
+        const returnValue: TreeNode[] = result.returnValue;
+        this.publicDocuments.splice(0, this.publicDocuments.length);
+        returnValue.forEach( elt => {
+          if ( this.hasAccess(elt.data, AccessType.Read) ) {
+            this.publicDocuments.push(elt);
+          }
+        });
+      }
+    });
+  }
+
+  loadPrivateDocument() {
+    this.documentService.fetchPrivateDocuments().then(result => {
+      if (result.success) {
+        this.privateDocuments = result.returnValue;
+      }
+    });
+  }
+
   setResizePanel(event: MouseEvent, resizePanel: ResizePanel) {
     event.stopPropagation();
     this.activeResize = resizePanel;
   }
 
   setBodySize() {
-    this.widthBody = this.winWidth - this.widthBarLeft - this.widthBarRight;
+    this.widthBody = this.winWidth - this.widthBarLeft - this.widthBarRight - 20;
   }
 
   getDocumentById(id: string) {
