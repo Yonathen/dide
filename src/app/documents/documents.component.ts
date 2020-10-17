@@ -384,7 +384,7 @@ export class DocumentsComponent implements OnInit {
       this.clearSearch();
       this.selectedParentId = document._id;
     } else {
-      this.navigationService.openEditor(document);
+      this.navigationService.openEditor(document._id);
     }
   }
 

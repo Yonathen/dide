@@ -26,6 +26,7 @@ export function castToTreeNode(fileFolder: FileFolder): TreeNode {
     expandedIcon: fileFolder.type === FileType.Folder ? 'icon icon-folder-open' : 'icon icon-file',
     collapsedIcon: fileFolder.type === FileType.Folder ? 'icon icon-folder' : 'icon icon-file',
     key: fileFolder._id,
+    type: fileFolder.type,
     selectable: fileFolder.type === FileType.Folder,
     children: []
   } as TreeNode;

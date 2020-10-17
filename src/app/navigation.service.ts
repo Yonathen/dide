@@ -64,6 +64,10 @@ export class NavigationService {
     const index = updatedItems.findIndex( updatedItem => updatedItem.id === item.id );
     updatedItems.splice(index, 1);
     this.boardMenuItems.next(updatedItems);
+    if ( this.boardMenuItems.value.length > 0 ) {
+      const firstItem = this.boardMenuItems.value[0];
+      this.openEditor(firstItem.queryParams.item);
+    }
   }
 
   tabExist(itemId: string): boolean {
@@ -91,8 +95,8 @@ export class NavigationService {
     this.inject(newFileMenuItem);
   }
 
-  openEditor(file: FileFolder) {
-    this.router.navigate([LoideRoute.Editor], { relativeTo: this.route, queryParams: { item: file._id }  });
+  openEditor(fileFolderId: string) {
+    this.router.navigate([LoideRoute.Editor], { relativeTo: this.route, queryParams: { item: fileFolderId }  });
   }
 
   openDashboard(route: LoideRoute = LoideRoute.Dashboard, stateD?: DashboardState ) {

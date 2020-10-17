@@ -1,7 +1,7 @@
 <div class="sidebar">
     <ul class="sidebar__menu" [ngClass]="{'sidebar__menu--left': !isPositionRight(), 'sidebar__menu--right': isPositionRight()}">
         <li *ngFor="let sidebarLeftItem of sidebarMenuItems">
-            <a (click)="navigateSidebar(sidebarLeftItem.id)" 
+            <a (click)="navigateSidebar(sidebarLeftItem.id)"
              [ngClass]="{ 'active': isSidebarItemActive(sidebarLeftItem.id)}">
                 <span class="{{ sidebarLeftItem.iconClass }}"></span>
             </a>
@@ -11,11 +11,11 @@
     <div class="sidebar__panel" *ngIf="isSidebarLeftOpen"  [ngClass]="{'sidebar__panel--left': !isPositionRight(), 'sidebar__panel--right': isPositionRight()}">
 
         <div class="sidebar__panelHeader">
-            <div class="sidebar__panelTitle" 
+            <div class="sidebar__panelTitle"
                 *ngIf="activeSidebar.item === sidebarLeft.PublicDocument" translate>
                 document.public_document
             </div>
-            <div class="sidebar__panelTitle" 
+            <div class="sidebar__panelTitle"
                 *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument" translate>
                 document.private_document
             </div>
@@ -23,8 +23,29 @@
                 <span class="icon-clear"></span>
             </div>
         </div>
-        <div class="sidebar__panelBody">
-            
+
+        <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarLeft.PublicDocument">
+          <p-tree
+            #directoryTree
+            [filter]="true"
+            filterMode="strict"
+            selectionMode="single"
+            [value]="publicDocuments"
+            styleClass="document__tree"
+            [(selection)]="folderSelected">
+          </p-tree>
+        </div>
+
+        <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument">
+          <p-tree
+            #directoryTree
+            [filter]="true"
+            filterMode="strict"
+            selectionMode="single"
+            [value]="privateDocuments"
+            styleClass="document__tree"
+            [(selection)]="folderSelected">
+          </p-tree>
         </div>
 
     </div>
