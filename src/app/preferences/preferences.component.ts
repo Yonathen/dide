@@ -13,18 +13,30 @@ export enum PreferenceToolbarMenuItems {
 export class PreferencesComponent implements OnInit {
 
   public preferenceToolbar: LoideToolbarMenu;
+  public updatePreferenceDialog: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
-    let toolbarButtonMenu  = [
-      {id: PreferenceToolbarMenuItems.UpdatePreferences, class:'btn btn-success', iconClass: 'icon icon-create', labelIndex: 'preference.update_preferences'}
+    const toolbarButtonMenu  = [
+      {id: PreferenceToolbarMenuItems.UpdatePreferences, class: 'btn btn-success', iconClass: 'icon icon-create', labelIndex: 'preference.update_preferences'}
     ];
 
     this.preferenceToolbar = {
       enableButtonMenu: true,
       buttonMenu: toolbarButtonMenu
+    };
+  }
+
+  onClickToolbarButton(menuItem: PreferenceToolbarMenuItems) {
+    switch (menuItem) {
+      case PreferenceToolbarMenuItems.UpdatePreferences:
+        this.updatePreferenceDialog = true;
+        break;
     }
   }
 
+  onCancelPreference() {
+    this.updatePreferenceDialog = false;
+  }
 }

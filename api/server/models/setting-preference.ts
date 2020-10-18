@@ -1,8 +1,7 @@
-import { SettingState } from './setting-state';
+import { SettingExecutor } from './setting-executor';
 import { SettingTheme } from './setting-theme';
 import { SettingSolver } from './setting-solver';
-import { Editor } from './editor';
-import { User } from './user';
+import { User, UserType } from './user';
 import { SettingLanguage } from './setting-language';
 
 export enum SettingTypes {
@@ -10,10 +9,13 @@ export enum SettingTypes {
 }
 
 export interface SettingPreference{
-    solver: SettingSolver;
-    SettingTheme: SettingTheme;
-    state: SettingState;
-    language: SettingLanguage;
-    other: any[];
-    user: User | string;
+  _id?: string;
+  theme: SettingTheme;
+  solver: SettingSolver;
+  language: SettingLanguage;
+  programingLanguage: SettingLanguage;
+  executor: SettingExecutor;
+  other?: any[];
+  user?: User;
+  userType: UserType;
 }

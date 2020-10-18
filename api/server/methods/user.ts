@@ -4,7 +4,7 @@ import { UserAccount } from '../models/user-account';
 import { response, R } from '../lib/response';
 import { util } from '../lib/util';
 import { Observable } from 'rxjs';
-import { Profile } from '../models/user';
+import { Profile, UserType } from '../models/user';
 import { FileFoldersCollection } from '../collections/file-folders-collection';
 import { GroupsCollection } from '../collections/groups-collection';
 import { SettingPreferencesCollection } from '../collections/setting-preferences-collection';
@@ -184,16 +184,16 @@ Meteor.methods({
 
     getUserPreferences(): R {
         try {
-            if ( !this.userId ) {
-                throw new Meteor.Error('User is not logged.');
+          let result = SettingPreferencesCollection.collection.findOne({ userType: { $eq: UserType.Default }});
+          if ( util.valueExist(this.userId) ) {
+            const userPreference = SettingPreferencesCollection.collection.findOne({ 'user._id': { $eq: this.userId}});
+            if ( util.valueExist(userPreference) ) {
+              result = userPreference;
             }
-
-            const result = SettingPreferencesCollection.collection.find({ 'user._id': { $eq: this.userId}});
-            if (util.valueExist(result)) {
-                return response.fetchResponse(result);
-            }
+          }
+          return response.fetchResponse(result);
         }
-        catch(error){
+        catch (error){
             return response.fetchResponse(error, false);
         }
     },
