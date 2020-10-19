@@ -1,31 +1,34 @@
 
-<div class="preference">
-  <div class="col-12 form-component preference__component">
-    <div class="form-component__label preference__label" translate>
-        preference.language
-    </div>
-    <div class="col-12 p-0">
-      <p-dropdown [options]="languageOpt" [(ngModel)]="preference.programingLanguage" styleClass="preference__dropdown"></p-dropdown>
-    </div>
-  </div>
+<div class="preference" *ngIf="isVisible()">
 
-  <div class="col-12 form-component preference__component">
-    <div class="form-component__label preference__label" translate>
-        preference.solver
+  <form [formGroup]="updatePreferenceForm">
+    <div class="col-12 form-component preference__component">
+      <div class="form-component__label preference__label" translate>
+          preference.programing_language
+      </div>
+      <div class="col-12 p-0">
+        <p-dropdown [options]="languageOpt" formControlName="language" (onChange)="onChangeOption($event, 'language')" styleClass="preference__dropdown"></p-dropdown>
+      </div>
     </div>
-    <div class="col-12 p-0">
-      <p-dropdown [options]="solverOpt" [(ngModel)]="preference.solver" styleClass="preference__dropdown"></p-dropdown>
-    </div>
-  </div>
 
-  <div class="col-12 form-component preference__component">
-    <div class="form-component__label preference__label" translate>
-        preference.executor
+    <div class="col-12 form-component preference__component">
+      <div class="form-component__label preference__label" translate>
+          preference.solver
+      </div>
+      <div class="col-12 p-0">
+        <p-dropdown [options]="solverOpt" formControlName="solver" (onChange)="onChangeOption($event, 'solver')" styleClass="preference__dropdown"></p-dropdown>
+      </div>
     </div>
-    <div class="col-12 p-0">
-      <p-dropdown [options]="executorOpt" [(ngModel)]="preference.executor" styleClass="preference__dropdown"></p-dropdown>
+
+    <div class="col-12 form-component preference__component">
+      <div class="form-component__label preference__label" translate>
+          preference.executor
+      </div>
+      <div class="col-12 p-0">
+        <p-dropdown [options]="executorOpt" formControlName="executor" (onChange)="onChangeOption($event, 'executor')" styleClass="preference__dropdown"></p-dropdown>
+      </div>
     </div>
-  </div>
+  </form>
 
   <div class="col-12 form-component preference__component">
     <div class="form-component__label preference__label" translate>
@@ -69,6 +72,12 @@
     </p-table>
 
     <button pButton type="button" icon="pi pi-trash" *ngIf="preference.other.length !== 0 " (click)="preference.other.splice(0, preference.other.length)" class="ui-button-warn preference__inputGroupButton"></button>
-</div>
+  </div>
+  <div class="col-12 form-component">
+    <button type="button" class="btn btn-warning btn--xs float-right" *ngIf="isChanged()" (click)="reset()">
+        <span class="label" translate>common.reset</span>
+    </button>
+
+  </div>
 
 </div>
