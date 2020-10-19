@@ -71,11 +71,15 @@ export class AccountService {
         if (error) {
           return resolve({success: false, errorValue: error});
         }
-        this.userPreference.next(result.returnValue);
+        this.setPreference(result.returnValue);
         resolve(result);
       });
 
     });
+  }
+
+  setPreference(preference: SettingPreference) {
+    this.userPreference.next(preference);
   }
 
   exitAccount(): Promise<R>  {
