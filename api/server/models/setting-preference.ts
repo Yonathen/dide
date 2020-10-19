@@ -20,3 +20,24 @@ export interface SettingPreference{
   user?: User;
   userType: UserType;
 }
+
+
+
+export function castToSettingPreference(
+  language: SettingLanguage,
+  programingLanguage: SettingLanguage,
+  solver: SettingSolver,
+  theme: SettingTheme,
+  executor: SettingExecutor,
+  other: PreferenceOptions[] = [],
+  userType: UserType = UserType.Member): SettingPreference {
+  return {
+    language,
+    programingLanguage,
+    solver,
+    theme,
+    executor,
+    other,
+    userType
+  } as SettingPreference;
+}
