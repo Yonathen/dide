@@ -3,6 +3,7 @@ import { SettingTheme } from './setting-theme';
 import { SettingSolver } from './setting-solver';
 import { User, UserType } from './user';
 import { SettingLanguage } from './setting-language';
+import { PreferenceOptions } from './preference-options';
 
 export enum SettingTypes {
     Solver, Theme, State, Language
@@ -15,7 +16,7 @@ export interface SettingPreference{
   language: SettingLanguage;
   programingLanguage: SettingLanguage;
   executor: SettingExecutor;
-  other?: any[];
+  other?: PreferenceOptions[];
   user?: User;
   userType: UserType;
 }

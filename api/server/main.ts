@@ -14,12 +14,12 @@ Meteor.startup(() => {
 
 
 
-  /*
+/*
   SettingLanguagesCollection.collection.remove({});
   SettingThemesCollection.collection.remove({});
   SettingExecutorCollection.collection.remove({});
   SettingSolversCollection.collection.remove({});
-  SettingPreferencesCollection.collection.remove({ user : UserType.DefaultUser });
+  SettingPreferencesCollection.collection.remove({ userType : UserType.Default });
 
   SettingLanguagesCollection.collection.insert({label: 'ASP', value: 'asp', type: LanguageType.Programing});
   SettingLanguagesCollection.collection.insert({label: 'Italian', value: 'it', type: LanguageType.Human});
@@ -69,11 +69,10 @@ Meteor.startup(() => {
     programingLanguage: defaultProgramingLanguage,
     solver: defaultSolver,
     executor: defaultExecutor,
-    userType: UserType.Default
+    userType: UserType.Default,
+    other: []
   });
-  */
-
-
+*/
 
 
 });
