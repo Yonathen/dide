@@ -7,6 +7,7 @@ import { SettingPreferencesCollection } from '../collections/setting-preferences
 import { SettingThemesCollection } from '../collections/setting-themes-collection';
 import { SettingLanguagesCollection } from '../collections/setting-languages-collection';
 import { SettingExecutorCollection } from '../collections/setting-executor-collection';
+import { UserType } from '../models/user';
 
 Meteor.methods({
   updatePreference(settingPreference: SettingPreference): R {
@@ -14,10 +15,21 @@ Meteor.methods({
           if ( !util.valueExist(this.userId) ) {
               throw new Meteor.Error('User is not logged.');
           }
-          const result = SettingPreferencesCollection.collection.update(this.userId,  {$set: settingPreference});
-          if (result) {
-            const userPreference = SettingPreferencesCollection.collection.findOne({ 'user._id': { $eq: this.userId}});
-            return response.fetchResponse(userPreference);
+          const userPreference = SettingPreferencesCollection.collection.findOne({ 'user._id': { $eq: this.userId}});
+
+          let updated: boolean = false;
+          if ( util.valueExist(userPreference) ) {
+            const result = SettingPreferencesCollection.collection.update(userPreference._id,  {$set: settingPreference});
+            updated = util.valueExist(result);
+          } else {
+            settingPreference.user = Meteor.user();
+            const result = SettingPreferencesCollection.collection.insert(settingPreference);
+            updated = util.valueExist(result);
+          }
+
+          if (updated) {
+            const updatedPreference = SettingPreferencesCollection.collection.findOne({ 'user._id': { $eq: this.userId}});
+            return response.fetchResponse(updatedPreference);
           } else {
               throw new Meteor.Error('Unable to update preferences.');
           }

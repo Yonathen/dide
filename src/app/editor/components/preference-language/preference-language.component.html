@@ -1,10 +1,11 @@
+
 <div class="preference">
   <div class="col-12 form-component preference__component">
     <div class="form-component__label preference__label" translate>
         preference.language
     </div>
     <div class="col-12 p-0">
-      <p-dropdown [options]="languageOpt" styleClass="preference__dropdown"></p-dropdown>
+      <p-dropdown [options]="languageOpt" [(ngModel)]="preference.programingLanguage" styleClass="preference__dropdown"></p-dropdown>
     </div>
   </div>
 
@@ -13,7 +14,7 @@
         preference.solver
     </div>
     <div class="col-12 p-0">
-      <p-dropdown [options]="solverOpt" styleClass="preference__dropdown"></p-dropdown>
+      <p-dropdown [options]="solverOpt" [(ngModel)]="preference.solver" styleClass="preference__dropdown"></p-dropdown>
     </div>
   </div>
 
@@ -22,7 +23,7 @@
         preference.executor
     </div>
     <div class="col-12 p-0">
-      <p-dropdown [options]="executorOpt" styleClass="preference__dropdown"></p-dropdown>
+      <p-dropdown [options]="executorOpt" [(ngModel)]="preference.executor" styleClass="preference__dropdown"></p-dropdown>
     </div>
   </div>
 
@@ -43,7 +44,7 @@
   </div>
 
   <div class="col-12 form-component">
-    <p-table styleClass="loide-table" [columns]="optionsTableColumns" [value]="optionsTableValues" [rowHover]="true" [scrollable]="true" scrollHeight="150px">
+    <p-table styleClass="loide-table" [columns]="optionsTableColumns" [value]="preference.other" [rowHover]="true" [scrollable]="true" scrollHeight="150px">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -67,7 +68,7 @@
         </ng-template>
     </p-table>
 
-    <button pButton type="button" icon="pi pi-trash" *ngIf="optionsTableValues.length !== 0 " (click)="optionsTableValues.splice(0, optionsTableValues.length)" class="ui-button-warn preference__inputGroupButton"></button>
+    <button pButton type="button" icon="pi pi-trash" *ngIf="preference.other.length !== 0 " (click)="preference.other.splice(0, preference.other.length)" class="ui-button-warn preference__inputGroupButton"></button>
 </div>
 
 </div>
