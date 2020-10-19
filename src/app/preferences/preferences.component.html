@@ -36,17 +36,17 @@
 </div>
 
 <p-dialog
-[modal]="true"
-[draggable]="false"
-[baseZIndex]="10000"
-styleClass="loide-dialog"
-[style]="{width: '500px'}"
-[(visible)]="updatePreferenceDialog"
-header="{{ 'preference.update_preferences' | translate }}">
+  [modal]="true"
+  [draggable]="false"
+  [baseZIndex]="10000"
+  styleClass="loide-dialog"
+  [style]="{width: '500px'}"
+  [(visible)]="updatePreferenceDialog"
+  header="{{ 'preference.update_preferences' | translate }}">
 
-<app-update-preferences
-  (cancel)="onCancelPreference()"
-  [visible]="updatePreferenceDialog">
-</app-update-preferences>
+  <app-update-preferences
+    (cancel)="onCancelPreference()"
+    [visible]="updatePreferenceDialog">
+  </app-update-preferences>
 
 </p-dialog>
