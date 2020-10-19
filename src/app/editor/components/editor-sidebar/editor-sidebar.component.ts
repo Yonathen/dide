@@ -37,12 +37,10 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
         { id: LoideSidebarItemsLeft.PrivateDocument, iconClass: 'icon-folder_shared', labelIndex: 'document.private_document'}
       ];
     } else {
-
       this.sidebarMenuItems = [
         { id: LoideSidebarItemsRight.Language, iconClass: 'icon-translate', labelIndex: 'preference.language'},
         { id: LoideSidebarItemsRight.Group, iconClass: 'icon-group', labelIndex: 'common.group'},
         { id: LoideSidebarItemsRight.Appearance, iconClass: 'icon-appearance', labelIndex: 'preference.appearance'},
-        { id: LoideSidebarItemsRight.Solver, iconClass: 'icon-new-tab', labelIndex: 'preference.solver'},
         { id: LoideSidebarItemsRight.Filter, iconClass: 'icon-filter_list_alt', labelIndex: 'editor.filter'}
       ];
     }

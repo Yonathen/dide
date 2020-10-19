@@ -51,6 +51,7 @@ export class EditorComponent implements OnInit {
   public activeResize: ResizePanel = ResizePanel.None;
   public resizeOpt = ResizePanel;
   public openSidebarLeftByResize: boolean = false;
+  public openSidebarRightByResize: boolean = false;
 
   public breadcrumbItems: MenuItem[] = [];
   public publicDocuments: TreeNode[] = [];
@@ -119,6 +120,9 @@ export class EditorComponent implements OnInit {
     switch (this.activeResize) {
       case ResizePanel.Left:
         this.resizeLeft();
+        break;
+      case ResizePanel.Right:
+        this.resizeRight();
         break;
     }
   }
@@ -294,6 +298,22 @@ export class EditorComponent implements OnInit {
       }
     } else {
       this.openSidebarLeftByResize = false;
+    }
+  }
+
+  resizeRight() {
+    const rightX = this.winWidth - this.mouse.x;
+    if ( rightX > 40) {
+      this.widthBarRight = rightX;
+      this.setBodySize();
+
+      if ( rightX >= 60 ) {
+        this.openSidebarRightByResize = true;
+      } else {
+        this.openSidebarRightByResize = false;
+      }
+    } else {
+      this.openSidebarRightByResize = false;
     }
   }
 

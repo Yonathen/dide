@@ -7,9 +7,10 @@ import { EditorSidebarComponent } from './components/editor-sidebar/editor-sideb
 import { AceEditorModule } from 'ng2-ace-editor';
 import { EditorSidebarRightComponent } from './components/editor-sidebar-right/editor-sidebar-right.component';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { PreferenceLanguageComponent } from './components/preference-language/preference-language.component';
 
 @NgModule({
-  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent],
+  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent, PreferenceLanguageComponent],
   imports: [
     CommonModule,
     SharedModule,

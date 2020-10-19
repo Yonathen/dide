@@ -1,4 +1,4 @@
-export interface SettingSolver {
+export interface SettingExecutor {
     _id?: string;
     label: string;
     value: string;
