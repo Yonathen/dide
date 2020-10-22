@@ -93,6 +93,39 @@
         float: left;
     }
 
+    &__menuBottom {
+      position: absolute;
+      top: 0;
+      height: 24px;
+      width: calc(100% - 40px);
+      margin: 0;
+      padding: 0;
+
+      li {
+        height: 100%;
+        border-radius: 0;
+        padding: 5px;
+        margin: 0;
+        overflow: hidden;
+
+        a {
+          padding: 0;
+          height: 100%;
+          font-size: 12px;
+          cursor: pointer;
+          text-align: center;
+          font-family: "LatoWebLight";
+          color: $color__white-alpha-5;
+        }
+
+        a.active,
+        a:hover {
+          color: $color__white;
+        }
+      }
+
+    }
+
     &__menu {
         position: absolute;
         top: 0;
@@ -109,55 +142,62 @@
         &--right {
             right: 0;
         }
-    }
 
 
-    li {
-        width: 38px;
-        height: 30px;
-        border-radius: 0;
-        padding: 0 3px;
-        margin-top: 10px;
-        overflow: hidden;
+        li {
+            width: 38px;
+            height: 30px;
+            border-radius: 0;
+            padding: 0 3px;
+            margin-top: 10px;
+            overflow: hidden;
 
-        a {
-            height: 100%;
-            width: 100%;
-            padding: 3px;
-            font-size: 24px;
-            color: $color__white-alpha-5;
-            text-align: center;
-            cursor: pointer;
-        }
+            a {
+                height: 100%;
+                width: 100%;
+                padding: 3px;
+                font-size: 24px;
+                color: $color__white-alpha-5;
+                text-align: center;
+                cursor: pointer;
+            }
 
-        a.active,
-        a:hover {
-          color: $color__white;
+            a.active,
+            a:hover {
+              color: $color__white;
+            }
         }
     }
 
     &__panel {
-        position: absolute;
-        top: 0px;
-        width: calc(100% - 37px);
-        height: 100%;
+      top: 0;
+      height: 100%;
+      position: absolute;
+      width: calc(100% - 37px);
 
-        &--left {
-            left: 37px;
-            border-left: solid 1px $color__black;
-        }
+      &--left {
+        left: 37px;
+        border-left: solid 1px $color__black;
+      }
 
-        &--right {
-            right: 37px;
-        }
+      &--right {
+        right: 37px;
+      }
+
+      &--bottom {
+        left: 0;
+        top: 24px;
+        width: 100%;
+        height: calc(100% - 37px);
+      }
     }
 
     &__panelHeader {
-        float: left;
-        width: 100%;
-        height: 30px;
-        padding: 10px;
-        color: $color__white-alpha-5;
+      float: left;
+      width: 100%;
+      height: 30px;
+      padding: 10px;
+      color: $color__white-alpha-5;
     }
 
     &__panelTitle {

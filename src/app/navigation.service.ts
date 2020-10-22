@@ -1,11 +1,14 @@
+import { WebsocketService } from './shared/services/websocket.service';
 import { FileFolder, newFileFolder } from './../../api/server/models/file-folder';
 import { LoideRoute } from './shared/enums/loide-route';
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router, ActivatedRoute } from '@angular/router';
 import { isNgTemplate } from '@angular/compiler';
 import * as _ from 'lodash';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { util } from 'api/server/lib/util';
 
 export interface DashboardState {
   accessSubPage?: string | number;
@@ -13,6 +16,7 @@ export interface DashboardState {
 }
 
 export interface EditorState {
+  output?: any[];
   persistedDocument?: FileFolder;
   currentDocument?: FileFolder;
   changed?: boolean;
@@ -25,7 +29,7 @@ export class NavigationService {
   private boardMenuItems = new BehaviorSubject<MenuItem[]>([]);
   private activeEditor = new BehaviorSubject<EditorState>(null);
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute, private websocketService: WebsocketService) { }
 
   get editorState(): EditorState {
     return {
@@ -53,6 +57,7 @@ export class NavigationService {
     const selectedItem = updatedItems.find( existingItem => existingItem.id === itemId );
 
     selectedItem.state = this.editorState;
+    selectedItem.state.output = [];
     selectedItem.state.currentDocument = document;
     selectedItem.state.persistedDocument = _.clone(document);
     this.boardMenuItems.next(updatedItems);

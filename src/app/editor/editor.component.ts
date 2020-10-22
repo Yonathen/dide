@@ -1,3 +1,8 @@
+import { RequestExecutor } from './../shared/model/executor';
+import { SettingPreference } from './../../../api/server/models/setting-preference';
+import { AccountService } from './../shared/services/account.service';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { SocketioService } from './../shared/services/socketio.service';
 import { EditorState } from './../navigation.service';
 import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { EventSidebar } from './model/event-sidebar';
@@ -12,10 +17,12 @@ import { LoideRoute } from '../shared/enums/loide-route';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
 import { util } from 'api/server/lib/util';
+import { map } from 'rxjs/operators';
+import { WebsocketService } from '../shared/services/websocket.service';
 
 export const EditorTabTag = 'EDITOR_TAB_';
 
-enum ResizePanel {
+export enum ResizePanel {
   Left = 'Left',
   Right = 'Right',
   Bottom = 'Bottom',
@@ -42,20 +49,25 @@ export class EditorComponent implements OnInit {
   public documentChanged: boolean;
   public editorMenuItems: MenuItem[] = [];
 
+  public heightBody: number;
   public widthBody: number;
   public widthBarLeft: number = 40;
   public widthBarRight: number = 40;
-  public heightBarBottom: number = 40;
+  public heightBarBottom: number = 24;
 
   public mouse: MousePosition = { x : 0, y : 0};
   public activeResize: ResizePanel = ResizePanel.None;
   public resizeOpt = ResizePanel;
   public openSidebarLeftByResize: boolean = false;
   public openSidebarRightByResize: boolean = false;
+  public openSidebarBottomByResize: boolean = false;
 
   public breadcrumbItems: MenuItem[] = [];
   public publicDocuments: TreeNode[] = [];
   public privateDocuments: TreeNode[] = [];
+
+  public preference: SettingPreference;
+  public webSocketSubject: WebSocketSubject<any>;
 
   @ViewChild('editorWrap') editorWrap: ElementRef;
 
@@ -64,8 +76,10 @@ export class EditorComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private documentService: DocumentService,
+    private accountService: AccountService,
     private spinner: NgxSpinnerService,
     private navigationService: NavigationService,
+    private websocketService: WebsocketService,
     private scriptLoaderService: ScriptLoaderService) {}
 
   public get winHeight() {
@@ -88,7 +102,6 @@ export class EditorComponent implements OnInit {
     this.loggedUserId = Meteor.userId();
     this.loadPrivateDocument();
     this.loadPublicDocument();
-
     this.activatedRoute.queryParamMap.subscribe(queryParams => {
       const documentId: string = queryParams.get('item');
       this.getDocumentById(documentId);
@@ -102,14 +115,32 @@ export class EditorComponent implements OnInit {
     });
 
     this.navigationService.active.subscribe(activeState => {
-      this.editorState = activeState;
+      if ( util.valueExist(activeState)) {
+        this.editorState = activeState;
+      }
     });
-    this.setBodySize();
+
+    this.webSocketSubject = this.websocketService.create();
+    this.webSocketSubject.subscribe(
+      R => {
+        this.editorState.output.push(R);
+      },
+      E => {
+        console.log(E);
+      }
+    );
+
+    this.accountService.preference.subscribe(R => {
+      this.preference = R;
+    });
+    this.setBodyWidth();
+    this.setBodyHeight();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.setBodySize();
+    this.setBodyWidth();
+    this.setBodyHeight();
   }
 
   @HostListener('window:mousemove', ['$event'])
@@ -124,6 +155,8 @@ export class EditorComponent implements OnInit {
       case ResizePanel.Right:
         this.resizeRight();
         break;
+      case ResizePanel.Bottom:
+        this.resizeBottom();
     }
   }
 
@@ -195,8 +228,12 @@ export class EditorComponent implements OnInit {
     this.activeResize = resizePanel;
   }
 
-  setBodySize() {
+  setBodyWidth() {
     this.widthBody = this.winWidth - this.widthBarLeft - this.widthBarRight - 20;
+  }
+
+  setBodyHeight() {
+    this.heightBody = this.winHeight - this.heightBarBottom - 85;
   }
 
   getDocumentById(id: string) {
@@ -222,6 +259,7 @@ export class EditorComponent implements OnInit {
       };
       this.navigationService.inject(fileMenuItem);
     }
+
     this.navigationService.setEditorState(tabId, document);
   }
 
@@ -230,6 +268,8 @@ export class EditorComponent implements OnInit {
       case LoideToolbarItems.SaveFile:
         this.saveDocument();
         break;
+      case LoideToolbarItems.ExecuteFile:
+        this.executeDocument();
     }
   }
 
@@ -240,8 +280,15 @@ export class EditorComponent implements OnInit {
       this.widthBarLeft = this.sidebarEvent.visible ? 240 : 40;
     } else if (this.sidebarEvent.right) {
       this.widthBarRight = this.sidebarEvent.visible ? 240 : 40;
+    } else if ( this.sidebarEvent.bottom) {
+      this.heightBarBottom = this.sidebarEvent.visible ? 240 : 24;
     }
-    this.setBodySize();
+
+    if ( this.sidebarEvent.left || this.sidebarEvent.right ) {
+      this.setBodyWidth();
+    } else if ( this.sidebarEvent.bottom ) {
+      this.setBodyHeight();
+    }
   }
 
   isSingleBarOpen(): boolean {
@@ -268,6 +315,18 @@ export class EditorComponent implements OnInit {
     event.preventDefault();
   }
 
+  executeDocument() {
+
+    const requestExecutor: RequestExecutor = {
+      language: this.preference.programingLanguage.value,
+      engine: this.preference.solver.value,
+      option: [],
+      program: [this.editorState.currentDocument.content]
+    };
+
+    this.editorState.webSocketSubject.next(requestExecutor);
+  }
+
   saveDocument() {
     if ( this.editorState && this.editorState.changed ) {
       this.documentService.updateDocument(this.editorState.currentDocument._id, this.editorState.currentDocument.content).then( value => {
@@ -289,7 +348,7 @@ export class EditorComponent implements OnInit {
   resizeLeft() {
     if ( this.mouse.x > 40) {
       this.widthBarLeft = this.mouse.x;
-      this.setBodySize();
+      this.setBodyWidth();
 
       if ( this.mouse.x >= 60 ) {
         this.openSidebarLeftByResize = true;
@@ -305,7 +364,7 @@ export class EditorComponent implements OnInit {
     const rightX = this.winWidth - this.mouse.x;
     if ( rightX > 40) {
       this.widthBarRight = rightX;
-      this.setBodySize();
+      this.setBodyWidth();
 
       if ( rightX >= 60 ) {
         this.openSidebarRightByResize = true;
@@ -314,6 +373,17 @@ export class EditorComponent implements OnInit {
       }
     } else {
       this.openSidebarRightByResize = false;
+    }
+  }
+
+  resizeBottom() {
+    const bottomY = this.winHeight - this.mouse.y;
+    if ( bottomY > 24) {
+      this.heightBarBottom = bottomY;
+      this.setBodyHeight();
+      this.openSidebarBottomByResize = true;
+    } else {
+      this.openSidebarBottomByResize = false;
     }
   }
 

@@ -14,6 +14,8 @@ import { EditorModule } from './editor/editor.module';
 import { GroupModule } from './group/group.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { TrashModule } from './trash/trash.module';
+import { SocketioService } from './shared/services/socketio.service';
+import { navigationInterceptorProvider } from './shared/enums/interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -44,7 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
   })
   ],
-  providers: [],
+  providers: [SocketioService, navigationInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -33,7 +33,8 @@
     "mark_seen": "Mark as seen",
     "select": "Select",
     "selected": "Selected",
-    "status": "Status"
+    "status": "Status",
+    "terminal": "Terminal"
   },
   "header": {
     "dashboard": "Dashboard",
