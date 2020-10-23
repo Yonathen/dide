@@ -115,8 +115,8 @@ export function castToFileFolder(
   typeP: FileType,
   privacyP: FilePrivacy,
   parentIdP: string = 'root',
-  contentP: string = '',
-  groupP?: Group): FileFolder {
+  groupP?: Group,
+  contentP?: string): FileFolder {
   return {
     name: nameP,
     parent: parentIdP,
@@ -150,13 +150,3 @@ export function castToFileFolderSetting(
   };
 }
 
-export function newFileFolder(privacyParam: FilePrivacy = FilePrivacy.Public): FileFolder {
-  return {
-    name: 'New document',
-    parent: 'root',
-    privacy: privacyParam,
-    owner: Meteor.user(),
-    memberAccess: { owner: Access.rwx, group: Access.rnx, other: Access.rnx},
-    type: FileType.File
-  };
-}

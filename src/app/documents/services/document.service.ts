@@ -26,7 +26,6 @@ export function castToTreeNode(fileFolder: FileFolder): TreeNode {
     expandedIcon: fileFolder.type === FileType.Folder ? 'icon icon-folder-open' : 'icon icon-file',
     collapsedIcon: fileFolder.type === FileType.Folder ? 'icon icon-folder' : 'icon icon-file',
     key: fileFolder._id,
-    type: fileFolder.type,
     selectable: fileFolder.type === FileType.Folder,
     children: []
   } as TreeNode;
@@ -38,17 +37,6 @@ export function castToTreeNode(fileFolder: FileFolder): TreeNode {
 export class DocumentService {
 
   constructor() { }
-
-  getFileFolder(fileFolderId: string) {
-    return new Promise<R>((resolve, reject) => {
-      Meteor.call('getFileFolder', fileFolderId, (error, result) => {
-        if (error) {
-          return resolve(error);
-        }
-        resolve(result);
-      });
-    });
-  }
 
   searchDocumentByName(keyword: string, filePrivacy: FilePrivacy) {
     return new Promise<R>((resolve, reject) => {
@@ -86,7 +74,7 @@ export class DocumentService {
     });
   }
 
-  createDocument(formValues: any, selectedLocation: string, content: string = ''): Promise<R> {
+  createDocument(formValues: any, selectedLocation: string, content?: string): Promise<R> {
     const memberAccess: MemberAccess = {
       owner: Access.rwx,
       group: formValues.member,
@@ -94,7 +82,7 @@ export class DocumentService {
     };
     const fileFolder: FileFolder = castToFileFolder(
       formValues.name, Meteor.user(), memberAccess, formValues.type,
-      formValues.privacy, selectedLocation, content, formValues.group
+      formValues.privacy, selectedLocation, formValues.group, content
     );
     return new Promise<R>((resolve, reject) => {
       Meteor.call('createFileFolder', fileFolder, (error, result) => {
