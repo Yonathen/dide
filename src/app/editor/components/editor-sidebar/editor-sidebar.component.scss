@@ -97,7 +97,7 @@
       position: absolute;
       top: 0;
       height: 24px;
-      width: calc(100% - 40px);
+      width: 100%;
       margin: 0;
       padding: 0;
 
@@ -122,6 +122,10 @@
         a:hover {
           color: $color__white;
         }
+      }
+
+      li.right {
+        float: right;
       }
 
     }

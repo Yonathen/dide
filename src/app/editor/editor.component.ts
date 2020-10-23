@@ -18,6 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
 import { util } from 'api/server/lib/util';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { WebsocketService } from '../shared/services/websocket.service';
 
 export const EditorTabTag = 'EDITOR_TAB_';
@@ -69,6 +70,8 @@ export class EditorComponent implements OnInit {
   public preference: SettingPreference;
   public webSocketSubject: WebSocketSubject<any>;
 
+  outputEvent: Subject<void> = new Subject<void>();
+
   @ViewChild('editorWrap') editorWrap: ElementRef;
 
   @ViewChild('editor', { static: true }) editor: AceEditorComponent;
@@ -117,18 +120,23 @@ export class EditorComponent implements OnInit {
     this.navigationService.active.subscribe(activeState => {
       if ( util.valueExist(activeState)) {
         this.editorState = activeState;
+
+
+        this.webSocketSubject = this.websocketService.create();
+        this.webSocketSubject.subscribe(
+          R => {
+            console.log(R);
+            if (R.model !== 'Running..'){
+              this.editorState.output.push(R);
+              this.outputEvent.next();
+            }
+          },
+          E => {
+            console.log(E);
+          }
+        );
       }
     });
-
-    this.webSocketSubject = this.websocketService.create();
-    this.webSocketSubject.subscribe(
-      R => {
-        this.editorState.output.push(R);
-      },
-      E => {
-        console.log(E);
-      }
-    );
 
     this.accountService.preference.subscribe(R => {
       this.preference = R;
@@ -273,6 +281,10 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  clear() {
+    this.editorState.output.splice(0, this.editorState.output.length);
+  }
+
   toggleSidebarLeft($event: EventSidebar) {
     this.sidebarEvent = $event;
 
@@ -324,7 +336,7 @@ export class EditorComponent implements OnInit {
       program: [this.editorState.currentDocument.content]
     };
 
-    this.editorState.webSocketSubject.next(requestExecutor);
+    this.webSocketSubject.next(requestExecutor);
   }
 
   saveDocument() {

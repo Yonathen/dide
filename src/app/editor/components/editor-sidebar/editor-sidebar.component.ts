@@ -8,6 +8,7 @@ import { LoideMenuItem } from 'src/app/shared/model/menu-item';
 import { TreeNode } from 'primeng/api/treenode';
 import { Tree } from 'primeng/tree/tree';
 import { ResizePanel } from '../../editor.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-editor-sidebar',
@@ -31,7 +32,11 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
   public activeSidebar: EventSidebar = {} as EventSidebar;
 
   @Output('onClickSidebar') sidebarClickEmitter: EventEmitter<EventSidebar> = new EventEmitter<EventSidebar>();
+
+  @Output() clearOutput: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('directoryTree') directoryTree: Tree;
+
+  @Input() outputEvent: Observable<void>;
 
   constructor(private navigationService: NavigationService) { }
 
@@ -67,6 +72,14 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
         this.closeSidebar(false);
       }
     }
+
+    if ( changes && changes.outputEvent && this.outputEvent ) {
+      this.outputEvent.subscribe(() => {
+        if ( !this.isSidebarOpen ) {
+          this.navigateSidebar(this.sidebarMenuItems[0].id);
+        }
+      });
+    }
   }
 
   interceptOnNodeClick(event, node) {
@@ -92,6 +105,10 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
     this.sidebarClickEmitter.emit(this.activeSidebar);
   }
 
+  clear() {
+    this.clearOutput.emit();
+  }
+
   closeSidebar(clicked = true) {
     this.activeSidebar.item = null;
     this.activeSidebar.visible = false;
@@ -100,7 +117,7 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
     }
   }
 
-  setSidebarPanel(item:  LoideSidebarItemsLeft | LoideSidebarItemsRight) {
+  setSidebarPanel(item: string | number) {
     if (this.activeSidebar.visible && this.activeSidebar.item === item) {
       this.closeSidebar();
     } else {
@@ -113,7 +130,7 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
     }
   }
 
-  navigateSidebar(item: LoideSidebarItemsLeft | LoideSidebarItemsRight) {
+  navigateSidebar(item: string | number) {
     this.activeSidebar.left = this.isPanel(this.panelOpt.Left);
     this.activeSidebar.right = this.isPanel(this.panelOpt.Right);
     this.activeSidebar.bottom = this.isPanel(this.panelOpt.Bottom);

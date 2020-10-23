@@ -35,7 +35,7 @@
             </div>
             <div class="editor__bodyBottomBar" [style.height.px]="heightBarBottom">
               <div class="editor__bodyResizeVertical" (mousedown)="setResizePanel($event, resizeOpt.Bottom)"></div>
-              <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarBottomByResize" [panel]="resizeOpt.Bottom"></app-editor-sidebar>
+              <app-editor-sidebar [editorState]="editorState" [outputEvent]="outputEvent" (clearOutput)="clear()" (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarBottomByResize" [panel]="resizeOpt.Bottom"></app-editor-sidebar>
             </div>
         </div>
         <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >

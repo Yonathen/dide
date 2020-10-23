@@ -56,10 +56,12 @@ export class NavigationService {
     const updatedItems = this.boardMenuItems.value;
     const selectedItem = updatedItems.find( existingItem => existingItem.id === itemId );
 
-    selectedItem.state = this.editorState;
-    selectedItem.state.output = [];
-    selectedItem.state.currentDocument = document;
-    selectedItem.state.persistedDocument = _.clone(document);
+    if ( !util.valueExist(selectedItem.state) ) {
+      selectedItem.state = this.editorState;
+      selectedItem.state.output = [];
+      selectedItem.state.currentDocument = document;
+      selectedItem.state.persistedDocument = _.clone(document);
+    }
     this.boardMenuItems.next(updatedItems);
     this.activeEditor.next(selectedItem.state);
   }

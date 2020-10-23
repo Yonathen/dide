@@ -14,11 +14,17 @@
             <span translate>{{ sidebarBottomItem.labelIndex }}</span>
         </a>
     </li>
+    <li class="right" *ngIf="isSidebarOpen">
+      <a (click)="closeSidebar()"><span class="icon-clear"></span></a>
+    </li>
+    <li class="right" *ngIf="isSidebarOpen">
+      <a  (click)="clear()">clear</a>
+    </li>
   </ul>
 
   <!-- Bottom Side Bar -->
   <div class="sidebar__panel sidebar__panel--bottom" *ngIf="isPanel(panelOpt.Bottom) && isSidebarOpen">
-    <app-editor-terminal></app-editor-terminal>
+    <app-editor-terminal [editorState]="editorState" [event]="outputEvent"></app-editor-terminal>
   </div>
 
   <!-- Right Side Bar -->
