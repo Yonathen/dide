@@ -9,11 +9,15 @@ import { SettingPreferencesCollection } from './collections/setting-preferences-
 import { SettingTheme } from './models/setting-theme';
 import { SettingLanguage, LanguageType } from './models/setting-language';
 import { UserType } from './models/user';
+import { WebApp } from 'meteor/webapp';
+
+WebApp.rawConnectHandlers.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization,Content-Type');
+  return next();
+});
 
 Meteor.startup(() => {
-
-
-
 /*
   SettingLanguagesCollection.collection.remove({});
   SettingThemesCollection.collection.remove({});
