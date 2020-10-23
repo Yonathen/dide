@@ -1,5 +1,4 @@
-import { LoideToolbarItems } from './../../enums/loide-toolbar-items.enum';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-editor-toolbar',
@@ -8,16 +7,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class EditorToolbarComponent implements OnInit {
 
-  toolbarEvent = LoideToolbarItems;
-
-  @Output() toolbarClicked: EventEmitter<LoideToolbarItems> = new EventEmitter<LoideToolbarItems>();
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  emitToolbarClick(action: LoideToolbarItems) {
-    this.toolbarClicked.emit(action);
   }
 
 }

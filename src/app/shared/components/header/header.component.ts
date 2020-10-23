@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   public notifications: Notification[];
 
   get isEditor(): boolean {
-    return this.route && this.route.indexOf(LoideRoute.Editor) !== -1;
+    return this.route === LoideRoute.Editor;
   }
 
   get isLogedIn(): boolean {
