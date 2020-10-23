@@ -1,9 +1,90 @@
 @import "../../../../assets/scss/shared.scss";
 
+:host ::ng-deep .ui-tree.document__tree {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+
+  .ui-tree-wrapper {
+    overflow: auto;
+    height: calc(100% - 40px);
+  }
+
+  .ui-treenode .ui-treenode-content {
+    box-shadow: none !important;
+    border-radius: 0;
+
+    &:hover {
+      background-color: $color__white-alpha-3;
+      cursor: pointer;
+    }
+  }
+
+  .ui-treenode {
+    border: none !important;
+    padding: 0;
+
+  }
+
+  .ui-tree-filter-container .ui-tree-filter {
+    width: 100%;
+    padding: 3px;
+    border-radius: 0;
+    padding-right: 2em;
+    background-color: $color__white-alpha-3;
+    color: $color__white;
+    border: none;
+  }
+
+  .ui-tree-filter-container .ui-tree-filter-icon {
+    top: 50%;
+    left: auto;
+    margin-top: -0.5em;
+    right: 12px;
+    color: $color__white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .ui-treenode-content .ui-treenode-icon {
+    font-size: 14px;
+  }
+
+  .ui-treenode-content .ui-treenode-label {
+    color: white;
+    width: calc(100% - 50px);
+    font-size: 12px;
+    font-family: 'LatoWebLight';
+
+    span {
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block;
+      float: left;
+      overflow: hidden;
+    }
+  }
+
+  .ui-treenode-content .ui-tree-toggler {
+    vertical-align: middle;
+    display: inline-block;
+    float: none;
+    margin: 0 0.143em 0 0;
+    font-size: 18px;
+    width: 14px;
+    height: 18px;
+  }
+
+
+}
 
 .sidebar {
     float: left;
-    width: 100%;
+    width: calc(100% - 2px);
     height: 100%;
     position: relative;
 
@@ -12,14 +93,52 @@
         float: left;
     }
 
+    &__menuBottom {
+      position: absolute;
+      top: 0;
+      height: 24px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+      li {
+        height: 100%;
+        border-radius: 0;
+        padding: 5px;
+        margin: 0;
+        overflow: hidden;
+
+        a {
+          padding: 0;
+          height: 100%;
+          font-size: 12px;
+          cursor: pointer;
+          text-align: center;
+          font-family: "LatoWebLight";
+          color: $color__white-alpha-5;
+        }
+
+        a.active,
+        a:hover {
+          color: $color__white;
+        }
+      }
+
+      li.right {
+        float: right;
+      }
+
+    }
+
     &__menu {
         position: absolute;
         top: 0;
         height: 100%;
-        width: 40px;
+        width: 38px;
         margin: 0;
         padding: 0;
         padding-top: 25px;
+
         &--left {
             left: 0;
         }
@@ -27,79 +146,89 @@
         &--right {
             right: 0;
         }
-    }
 
 
-    li {
-        width: 40px;
-        height: 30px;
-        border-radius: 0;
-        padding: 0 3px;
-        margin-top: 10px;
-        overflow: hidden;
+        li {
+            width: 38px;
+            height: 30px;
+            border-radius: 0;
+            padding: 0 3px;
+            margin-top: 10px;
+            overflow: hidden;
 
-        a {
-            height: 100%;
-            width: 100%;
-            padding: 3px;
-            font-size: 24px;
-            color: $color__white-alpha-5;
-            text-align: center;
-            cursor: pointer;
-        }
+            a {
+                height: 100%;
+                width: 100%;
+                padding: 3px;
+                font-size: 24px;
+                color: $color__white-alpha-5;
+                text-align: center;
+                cursor: pointer;
+            }
 
-        a.active,
-        a:hover {
-            color: $color__dark-gray;
-            background-color: $color__white-alpha-3;
+            a.active,
+            a:hover {
+              color: $color__white;
+            }
         }
     }
 
     &__panel {
-        position: absolute;
-        top: 0px;
-        width: calc(100% - 37px);
-        height: 100%;
+      top: 0;
+      height: 100%;
+      position: absolute;
+      width: calc(100% - 37px);
 
-        background-color: $color__white-alpha-3;
+      &--left {
+        left: 37px;
+        border-left: solid 1px $color__black;
+      }
 
-        &--left {
-            left: 37px; 
-        }
+      &--right {
+        right: 37px;
+      }
 
-        &--right {
-            right: 37px; 
-        }
+      &--bottom {
+        left: 0;
+        top: 24px;
+        width: 100%;
+        height: calc(100% - 37px);
+      }
     }
 
     &__panelHeader {
-        float: left;
-        width: 100%;
-        height: 30px;
-        padding: 10px;
-        color: $color__dark-gray;
+      float: left;
+      width: 100%;
+      height: 30px;
+      padding: 10px;
+      color: $color__white-alpha-5;
     }
 
     &__panelTitle {
-        float: left;
-        font-size: 16px;
-        font-family: 'LatoWebBold';
+      float: left;
+      font-size: 12px;
+      width: calc(100% - 20px);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      font-family: "LatoWebLight";
+      text-transform: uppercase;
+      color: $color__white;
     }
 
     &__panelClose {
-        float: right;
-        font-size: 18px;
-        cursor: pointer;
+      float: right;
+      font-size: 12px;
+      cursor: pointer;
     }
 
     &__panelBody {
         float: left;
         width: 100%;
         height: calc(100% - 40px);
-        padding: 10px;
+        padding: 0;
         background-color: $color__dark-gray;
-        border: solid 3px $color__white-alpha-3;
     }
 
-    
+
 }

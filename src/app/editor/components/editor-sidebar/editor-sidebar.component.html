@@ -1,31 +1,94 @@
 <div class="sidebar">
-    <ul class="sidebar__menu" [ngClass]="{'sidebar__menu--left': !isPositionRight(), 'sidebar__menu--right': isPositionRight()}">
-        <li *ngFor="let sidebarLeftItem of sidebarMenuItems">
-            <a (click)="navigateSidebar(sidebarLeftItem.id)" 
-             [ngClass]="{ 'active': isSidebarItemActive(sidebarLeftItem.id)}">
-                <span class="{{ sidebarLeftItem.iconClass }}"></span>
-            </a>
-        </li>
-    </ul>
+  <ul class="sidebar__menu" *ngIf="!isPanel(panelOpt.Bottom)" [ngClass]="{'sidebar__menu--left': isPanel(panelOpt.Left), 'sidebar__menu--right': isPanel(panelOpt.Right)}">
+    <li *ngFor="let sidebarLeftItem of sidebarMenuItems">
+      <a (click)="navigateSidebar(sidebarLeftItem.id)"
+        [ngClass]="{ 'active': isSidebarItemActive(sidebarLeftItem.id)}">
+        <span class="{{ sidebarLeftItem.iconClass }}"></span>
+      </a>
+    </li>
+  </ul>
 
-    <div class="sidebar__panel" *ngIf="isSidebarLeftOpen"  [ngClass]="{'sidebar__panel--left': !isPositionRight(), 'sidebar__panel--right': isPositionRight()}">
+  <ul class="sidebar__menuBottom" *ngIf="isPanel(panelOpt.Bottom)">
+    <li *ngFor="let sidebarBottomItem of sidebarMenuItems">
+        <a (click)="navigateSidebar(sidebarBottomItem.id)" [ngClass]="{ 'active': isSidebarItemActive(sidebarBottomItem.id)}">
+            <span translate>{{ sidebarBottomItem.labelIndex }}</span>
+        </a>
+    </li>
+    <li class="right" *ngIf="isSidebarOpen">
+      <a (click)="closeSidebar()"><span class="icon-clear"></span></a>
+    </li>
+    <li class="right" *ngIf="isSidebarOpen">
+      <a  (click)="clear()">clear</a>
+    </li>
+  </ul>
 
-        <div class="sidebar__panelHeader">
-            <div class="sidebar__panelTitle" 
-                *ngIf="activeSidebar.item === sidebarLeft.PublicDocument" translate>
-                document.public_document
-            </div>
-            <div class="sidebar__panelTitle" 
-                *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument" translate>
-                document.private_document
-            </div>
-            <div class="sidebar__panelClose" (click)="closeSidebar()">
-                <span class="icon-clear"></span>
-            </div>
-        </div>
-        <div class="sidebar__panelBody">
-            
-        </div>
+  <!-- Bottom Side Bar -->
+  <div class="sidebar__panel sidebar__panel--bottom" *ngIf="isPanel(panelOpt.Bottom) && isSidebarOpen">
+    <app-editor-terminal [editorState]="editorState" [event]="outputEvent"></app-editor-terminal>
+  </div>
 
+  <!-- Right Side Bar -->
+  <div class="sidebar__panel sidebar__panel--right" *ngIf="isPanel(panelOpt.Right) && isSidebarOpen">
+    <div class="sidebar__panelHeader">
+
+      <div class="sidebar__panelTitle"
+          *ngIf="activeSidebar.item === sidebarRight.Language" translate>
+          common.preferences
+      </div>
+
+      <div class="sidebar__panelClose" (click)="closeSidebar()">
+          <span class="icon-clear"></span>
+      </div>
     </div>
+
+    <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Language">
+      <app-preference-language></app-preference-language>
+    </div>
+  </div>
+
+  <!-- Left Side Bar -->
+  <div class="sidebar__panel sidebar__panel--left" *ngIf="isPanel(panelOpt.Left) && isSidebarOpen">
+
+    <div class="sidebar__panelHeader">
+
+        <div class="sidebar__panelTitle"
+            *ngIf="activeSidebar.item === sidebarLeft.PublicDocument" translate>
+            document.public_document
+        </div>
+
+        <div class="sidebar__panelTitle"
+            *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument" translate>
+            document.private_document
+        </div>
+
+        <div class="sidebar__panelClose" (click)="closeSidebar()">
+            <span class="icon-clear"></span>
+        </div>
+    </div>
+
+    <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarLeft.PublicDocument">
+      <p-tree
+        #directoryTree
+        [filter]="true"
+        filterMode="strict"
+        selectionMode="single"
+        [value]="publicDocuments"
+        styleClass="document__tree"
+        [(selection)]="folderSelected">
+      </p-tree>
+    </div>
+
+    <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarLeft.PrivateDocument">
+      <p-tree
+        #directoryTree
+        [filter]="true"
+        filterMode="strict"
+        selectionMode="single"
+        [value]="privateDocuments"
+        styleClass="document__tree"
+        [(selection)]="folderSelected">
+      </p-tree>
+    </div>
+
+  </div>
 </div>

@@ -23,3 +23,4 @@ autopublish@1.0.7             # Publish all data to the clients (for prototyping
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 accounts-base@1.7.0
 accounts-password@1.6.2
+joncursi:socket-io-client

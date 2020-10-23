@@ -5,7 +5,8 @@ import { UserAccount } from './user-account';
 export enum UserType {
     Outside = 'Outside',
     Member = 'Member',
-    Admin = 'Admin'
+    Admin = 'Admin',
+    Default = 'Default'
 }
 
 export enum AccountStatus {
