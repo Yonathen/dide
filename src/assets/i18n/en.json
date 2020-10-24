@@ -19,6 +19,7 @@
     "import": "Import",
     "remove_all": "Remove All",
     "create": "Create",
+    "created_by": "Created by",
     "save": "Save",
     "remove": "Remove",
     "update": "Update",

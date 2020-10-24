@@ -9,9 +9,10 @@ import { EditorSidebarRightComponent } from './components/editor-sidebar-right/e
 import { TabsComponent } from './components/tabs/tabs.component';
 import { PreferenceLanguageComponent } from './components/preference-language/preference-language.component';
 import { EditorTerminalComponent } from './components/editor-terminal/editor-terminal.component';
+import { PreferenceGroupComponent } from './components/preference-group/preference-group.component';
 
 @NgModule({
-  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent, PreferenceLanguageComponent, EditorTerminalComponent],
+  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent, PreferenceLanguageComponent, EditorTerminalComponent, PreferenceGroupComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -40,7 +40,7 @@
         </div>
         <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >
           <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Right)"></div>
-          <app-editor-sidebar (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarRightByResize" [panel]="resizeOpt.Right"></app-editor-sidebar>
+          <app-editor-sidebar [editorState]="editorState" (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarRightByResize" [panel]="resizeOpt.Right"></app-editor-sidebar>
         </div>
     </div>
 </div>

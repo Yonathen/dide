@@ -9,6 +9,8 @@ import { TreeNode } from 'primeng/api/treenode';
 import { Tree } from 'primeng/tree/tree';
 import { ResizePanel } from '../../editor.component';
 import { Observable } from 'rxjs';
+import { Group } from 'api/server/models/group';
+import { util } from 'api/server/lib/util';
 
 @Component({
   selector: 'app-editor-sidebar',
@@ -66,7 +68,7 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
 
   ngOnChanges(changes: SimpleChanges) {
     if ( changes && changes.openByResize ) {
-      if ( this.openByResize ) {
+      if ( this.openByResize && !( util.valueExist(this.activeSidebar) && this.activeSidebar.visible ) ) {
         this.openSidebar(this.sidebarMenuItems[0].id);
       } else {
         this.closeSidebar(false);
@@ -89,6 +91,13 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
 
   get isSidebarOpen(): boolean {
     return this.activeSidebar && this.activeSidebar.visible;
+  }
+
+  get group(): Group {
+    if ( this.editorState ) {
+      return this.editorState.currentDocument.group;
+    }
+    return;
   }
 
   isPanel(currentPanel: ResizePanel): boolean {
