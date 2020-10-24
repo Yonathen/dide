@@ -1,0 +1,7 @@
+{
+  "/EmbASPServerExecutor": {
+    "target": "ws://localhost:8080/EmbASPServerExecutor/home",
+    "secure": false,
+    "ws": true
+  }
+}

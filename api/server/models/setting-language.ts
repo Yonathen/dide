@@ -1,7 +1,12 @@
-import { SettingState } from './setting-state';
+
+
+export enum LanguageType {
+  Human, Programing
+}
 
 export interface SettingLanguage {
-    name: string;
-    meta: any;
-    state: SettingState;
+  _id?: string;
+  label: string;
+  value: string;
+  type: LanguageType;
 }

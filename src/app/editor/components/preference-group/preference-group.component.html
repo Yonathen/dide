@@ -1,0 +1,19 @@
+<div class="preference" *ngIf="groupDetail">
+  <p-scrollPanel [style]="{width: '100%', height: '100%'}">
+    <div class="preference__label mt-2" translate>group.group_name</div>
+    <div class="preference__value">{{ groupDetail.name }}</div>
+    <div class="preference__label mt-2" translate>common.date_created</div>
+    <div class="preference__value">{{ groupDetail.createdOn | date: 'medium' }}</div>
+    <div class="preference__label mt-2" translate>common.created_by</div>
+    <div class="preference__value">{{ groupDetail.createdBy | userFullName }}</div>
+    <div class="preference__label mt-2" translate>common.type</div>
+    <div class="preference__value">{{ groupDetail.type }}</div>
+    <div class="preference__label mt-2" translate>common.members</div>
+    <ul class="preference__membersList">
+      <li *ngFor="let member of members">
+        <div class="preference__label">{{ member.user.profile.firstName + ' ' + member.user.profile.lastName }}</div>
+        <div class="preference__value">{{ member.requestStatus }}</div>
+      </li>
+    </ul>
+  </p-scrollPanel>
+</div>

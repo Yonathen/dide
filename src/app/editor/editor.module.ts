@@ -6,9 +6,13 @@ import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolb
 import { EditorSidebarComponent } from './components/editor-sidebar/editor-sidebar.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { EditorSidebarRightComponent } from './components/editor-sidebar-right/editor-sidebar-right.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { PreferenceLanguageComponent } from './components/preference-language/preference-language.component';
+import { EditorTerminalComponent } from './components/editor-terminal/editor-terminal.component';
+import { PreferenceGroupComponent } from './components/preference-group/preference-group.component';
 
 @NgModule({
-  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent],
+  declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent, PreferenceLanguageComponent, EditorTerminalComponent, PreferenceGroupComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -1,0 +1,14 @@
+<div #terminal class="terminal" *ngIf="editorState">
+  <ul class="terminal__content">
+    <li *ngIf="output.length === 0">
+      <span class="text">{{ editorState.currentDocument.name }}</span>
+      <span class="icon icon-keyboard_arrow_right"></span>
+    </li>
+    <li *ngFor="let value of output">
+      <span class="text">{{ editorState.currentDocument.name }}</span>
+      <span class="icon icon-keyboard_arrow_right"></span>
+      <span class="text" *ngIf="!isEmpty(value.model)">{{ value.model }}</span>
+      <span class="text text--error" *ngIf="!isEmpty(value.error)">{{ value.error }}</span>
+    </li>
+  </ul>
+</div>

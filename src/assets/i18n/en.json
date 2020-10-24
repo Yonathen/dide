@@ -1,5 +1,6 @@
 {
   "common": {
+    "no": "No.",
     "loide": "LoIDE",
     "about": "About",
     "documents": "Documents",
@@ -18,10 +19,12 @@
     "import": "Import",
     "remove_all": "Remove All",
     "create": "Create",
+    "created_by": "Created by",
     "save": "Save",
     "remove": "Remove",
     "update": "Update",
     "cancel": "Cancel",
+    "reset": "Reset",
     "see_detail": "See detail",
     "privacy": "Privacy",
     "public": "Public",
@@ -31,7 +34,8 @@
     "mark_seen": "Mark as seen",
     "select": "Select",
     "selected": "Selected",
-    "status": "Status"
+    "status": "Status",
+    "terminal": "Terminal"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -119,20 +123,27 @@
     "your_preferences": "Your preferences",
     "solver": "Solver",
     "language": "Language",
+    "programing_language": "Programing language",
+    "options": "Options",
     "language_modal": "Language modal",
     "appearance": "Appearance",
     "editor": "Editor",
+    "executor": "Executor",
     "add_language": "Create new language",
     "add_appearance": "Create new appearance",
     "add_solver": "Create new solver",
     "theme_name": "Theme name",
     "placeholder_theme_name": "Enter theme name",
     "placeholder_language_name": "Enter language name",
+    "placeholder_add_options": "Add options",
+    "info_add_options": "To add multiple values, use semicolon to separate the list of values.",
     "theme_css": "Style file ( *.css )",
     "theme_js": "Script file ( *.js )"
   },
   "editor": {
-    "filter": "Filter"
+    "filter": "Filter",
+    "empty_tabs": "No document is opened",
+    "empty_create_document": "Create new document"
   },
   "notification": {
     "open_request": "Open request",
