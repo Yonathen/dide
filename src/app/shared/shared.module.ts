@@ -40,9 +40,10 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {TreeModule} from 'primeng/tree';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { UserFullNamePipe } from './pipes/user-full-name.pipe';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent, UserFullNamePipe],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -117,7 +118,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FileUploadModule,
     SplitButtonModule,
     BreadcrumbModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    UserFullNamePipe
   ]
 })
 export class SharedModule { }

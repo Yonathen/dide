@@ -1,3 +1,4 @@
+import { User } from './../models/user';
 
 export class Util {
     constructor() {
@@ -10,6 +11,10 @@ export class Util {
 
     isEmpty(value) {
       return value === '' || !this.valueExist(value);
+    }
+
+    fullName(user: User) {
+      return user.profile.firstName + ' ' + user.profile.lastName;
     }
 }
 

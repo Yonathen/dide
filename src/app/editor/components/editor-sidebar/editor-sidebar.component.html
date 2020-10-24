@@ -36,6 +36,11 @@
           common.preferences
       </div>
 
+      <div class="sidebar__panelTitle"
+          *ngIf="activeSidebar.item === sidebarRight.Group" translate>
+          common.group
+      </div>
+
       <div class="sidebar__panelClose" (click)="closeSidebar()">
           <span class="icon-clear"></span>
       </div>
@@ -43,6 +48,10 @@
 
     <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Language">
       <app-preference-language></app-preference-language>
+    </div>
+
+    <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Group">
+      <app-preference-group [group]="group"></app-preference-group>
     </div>
   </div>
 
