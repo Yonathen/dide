@@ -138,7 +138,8 @@
     "placeholder_add_options": "Add options",
     "info_add_options": "To add multiple values, use semicolon to separate the list of values.",
     "theme_css": "Style file ( *.css )",
-    "theme_js": "Script file ( *.js )"
+    "theme_js": "Script file ( *.js )",
+    "no_group": "No group is assigned"
   },
   "editor": {
     "filter": "Filter",
