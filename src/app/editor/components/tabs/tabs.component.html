@@ -1,1 +1,1 @@
-<ace-editor *ngIf="editorState" [mode]="'asp'" (textChanged)="onTextChange($event)" [(text)]="editorState.currentDocument.content" #editor style="height:100%;"></ace-editor>
+<ace-editor *ngIf="editorState && preference" [theme]="preference.theme.name" [mode]="'asp'" (textChanged)="onTextChange($event)" [(text)]="editorState.currentDocument.content" #editor style="height:100%;"></ace-editor>

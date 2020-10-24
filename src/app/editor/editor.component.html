@@ -6,7 +6,13 @@
         <div class="editor__bodySidebar editor__bodySidebar--left"
           [style.width.px]="widthBarLeft"
           (window:mouseup)="setResizePanel($event, resizeOpt.None)">
-            <app-editor-sidebar  [panel]="resizeOpt.Left" [publicDocuments]="publicDocuments" [privateDocuments]="privateDocuments" [openByResize]="openSidebarLeftByResize" (onClickSidebar)="toggleSidebarLeft($event)"></app-editor-sidebar>
+            <app-editor-sidebar
+              [panel]="resizeOpt.Left"
+              [publicDocuments]="publicDocuments"
+              [privateDocuments]="privateDocuments"
+              [openByResize]="openSidebarLeftByResize"
+              (onClickSidebar)="toggleSidebarLeft($event)">
+            </app-editor-sidebar>
             <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Left)"></div>
         </div>
         <div class="editor__bodyContent" [style.width.px]="widthBody" >
@@ -35,12 +41,24 @@
             </div>
             <div class="editor__bodyBottomBar" [style.height.px]="heightBarBottom">
               <div class="editor__bodyResizeVertical" (mousedown)="setResizePanel($event, resizeOpt.Bottom)"></div>
-              <app-editor-sidebar [editorState]="editorState" [outputEvent]="outputEvent" (clearOutput)="clear()" (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarBottomByResize" [panel]="resizeOpt.Bottom"></app-editor-sidebar>
+              <app-editor-sidebar
+                [panel]="resizeOpt.Bottom"
+                [editorState]="editorState"
+                [outputEvent]="outputEvent"
+                (clearOutput)="clear()"
+                (onClickSidebar)="toggleSidebarLeft($event)"
+                [openByResize]="openSidebarBottomByResize"></app-editor-sidebar>
             </div>
         </div>
         <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >
           <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Right)"></div>
-          <app-editor-sidebar [editorState]="editorState" (onClickSidebar)="toggleSidebarLeft($event)" [openByResize]="openSidebarRightByResize" [panel]="resizeOpt.Right"></app-editor-sidebar>
+          <app-editor-sidebar
+            [editorState]="editorState"
+            [publicDocuments]="publicDocuments"
+            [privateDocuments]="privateDocuments"
+            (onClickSidebar)="toggleSidebarLeft($event)"
+            [openByResize]="openSidebarRightByResize"
+            [panel]="resizeOpt.Right"></app-editor-sidebar>
         </div>
     </div>
 </div>

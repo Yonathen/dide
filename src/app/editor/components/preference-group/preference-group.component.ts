@@ -50,4 +50,8 @@ export class PreferenceGroupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isGroupDetail(): boolean {
+    return util.valueExist(this.groupDetail);
+  }
+
 }

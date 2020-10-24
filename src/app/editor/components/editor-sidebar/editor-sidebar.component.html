@@ -31,14 +31,20 @@
   <div class="sidebar__panel sidebar__panel--right" *ngIf="isPanel(panelOpt.Right) && isSidebarOpen">
     <div class="sidebar__panelHeader">
 
-      <div class="sidebar__panelTitle"
-          *ngIf="activeSidebar.item === sidebarRight.Language" translate>
+      <div class="sidebar__panelTitle" *ngIf="activeSidebar.item === sidebarRight.Language" translate>
           common.preferences
       </div>
 
-      <div class="sidebar__panelTitle"
-          *ngIf="activeSidebar.item === sidebarRight.Group" translate>
+      <div class="sidebar__panelTitle" *ngIf="activeSidebar.item === sidebarRight.Group" translate>
           common.group
+      </div>
+
+      <div class="sidebar__panelTitle" *ngIf="activeSidebar.item === sidebarRight.Appearance" translate>
+          preference.appearance
+      </div>
+
+      <div class="sidebar__panelTitle" *ngIf="activeSidebar.item === sidebarRight.Filter" translate>
+          editor.filter
       </div>
 
       <div class="sidebar__panelClose" (click)="closeSidebar()">
@@ -52,6 +58,10 @@
 
     <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Group">
       <app-preference-group [group]="group"></app-preference-group>
+    </div>
+
+    <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Appearance">
+      <app-preference-appearance></app-preference-appearance>
     </div>
   </div>
 
