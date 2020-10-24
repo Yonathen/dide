@@ -1,11 +1,8 @@
-
 import { Injectable } from '@angular/core';
-import { SettingPreference } from 'api/server/models/setting-preference';
-import { BehaviorSubject } from 'rxjs';
-
-import { R } from 'api/server/lib/response';
 import { UserAccount } from 'api/server/models/user-account';
+import { R } from 'api/server/lib/response';
 import { UserType, AccountStatus, Profile, User } from 'api/server/models/user';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +10,11 @@ import { UserType, AccountStatus, Profile, User } from 'api/server/models/user';
 export class AccountService {
 
   private userAccount = new BehaviorSubject<User>(null);
-  private userPreference = new BehaviorSubject<SettingPreference>(null);
 
   constructor() { }
 
   get user() {
     return this.userAccount.asObservable();
-  }
-
-  get preference() {
-    return this.userPreference.asObservable();
   }
 
   castToUserAccount(formValue, create: boolean = true): UserAccount {
@@ -63,23 +55,6 @@ export class AccountService {
       });
 
     });
-  }
-
-  getUserPreferences(): Promise<R> {
-     return new Promise<R>((resolve, reject) => {
-      Meteor.call('getUserPreferences', (error, result) => {
-        if (error) {
-          return resolve({success: false, errorValue: error});
-        }
-        this.setPreference(result.returnValue);
-        resolve(result);
-      });
-
-    });
-  }
-
-  setPreference(preference: SettingPreference) {
-    this.userPreference.next(preference);
   }
 
   exitAccount(): Promise<R>  {

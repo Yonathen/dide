@@ -5,8 +5,8 @@
 .wrapper {
     float: left;
     width: 100%;
-    min-width: 1024px;
-    min-height: 768px;
+    min-width: 1200px;
+    min-height: 900px;
     height: 100%;
     background: $color__dark-gray;
 
@@ -16,7 +16,7 @@
         height: 65px;
         background: $color__gray;
         color: $color__white;
-
+    
         &--editor {
             height: 40px;
         }
@@ -26,7 +26,7 @@
         float: left;
         width: 100%;
         height: calc(100% - 65px);
-
+    
         &--editor {
             height: calc(100% - 40px);
         }

@@ -3,8 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  SOCKET_ENDPOINT: 'ws://localhost:8080/EmbASPServerExecutor/home'
+  production: false
 };
 
 /*

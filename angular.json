@@ -34,9 +34,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/meteor-client.js",
-              "node_modules/ace-builds/src-min/ace.js",
-              "src/assets/script/mode-asp.js"
+              "node_modules/meteor-client.js"
             ]
           },
           "configurations": {
@@ -73,8 +71,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "loide:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "loide:build"
           },
           "configurations": {
             "production": {
