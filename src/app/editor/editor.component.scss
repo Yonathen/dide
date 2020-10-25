@@ -226,3 +226,28 @@ $bothSidebarOpened: 480px;
       }
     }
 }
+
+:host ::ng-deep .ui-toast.editor__toast {
+  width: 100%;
+  bottom: 0;
+  left: 0;
+
+  .ui-toast-message.ui-toast-message-warn {
+    background-color: $color__dark-orange;
+    margin: 0;
+  }
+
+  .ui-toast-message-content {
+    padding: 3px;
+  }
+
+  .ui-toast-detail {
+    text-align: center;
+    color: $color__white;
+    font-family: 'LatoWebBold';
+  }
+
+  .ui-toast-icon {
+    display: none;
+  }
+}
