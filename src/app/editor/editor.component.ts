@@ -141,6 +141,7 @@ export class EditorComponent implements OnInit {
           E => {
             console.log(E);
             this.executorConnected = false;
+            this.messageService.clear();
             this.messageService.add({
               key: 'executeToast', severity: 'warn', sticky: true, closable: false,
               summary: '',
@@ -355,26 +356,6 @@ export class EditorComponent implements OnInit {
       };
 
       this.webSocketSubject.next(requestExecutor);
-    }
-  }
-
-  loadTabBackward() {
-    if ( this.editorState ) {
-      const activeIndex = this.editorMenuItems.findIndex(item => item.state.currentDocument._id === this.editorState.currentDocument._id);
-      if ( activeIndex > 0 ) {
-        const prevItem = this.editorMenuItems[activeIndex - 1];
-        this.navigationService.openEditor(prevItem.state.currentDocument._id);
-      }
-    }
-  }
-
-  loadTabForward() {
-    if ( this.editorState ) {
-      const activeIndex = this.editorMenuItems.findIndex(item => item.state.currentDocument._id === this.editorState.currentDocument._id);
-      if ( activeIndex < this.editorMenuItems.length - 1 ) {
-        const nextItem = this.editorMenuItems[activeIndex + 1];
-        this.navigationService.openEditor(nextItem.state.currentDocument._id);
-      }
     }
   }
 
