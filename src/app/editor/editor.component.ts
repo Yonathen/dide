@@ -141,6 +141,7 @@ export class EditorComponent implements OnInit {
           E => {
             console.log(E);
             this.executorConnected = false;
+            this.messageService.clear();
             this.messageService.add({
               key: 'executeToast', severity: 'warn', sticky: true, closable: false,
               summary: '',
