@@ -378,26 +378,6 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  loadTabBackward() {
-    if ( this.editorState ) {
-      const activeIndex = this.editorMenuItems.findIndex(item => item.state.currentDocument._id === this.editorState.currentDocument._id);
-      if ( activeIndex > 0 ) {
-        const prevItem = this.editorMenuItems[activeIndex - 1];
-        this.navigationService.openEditor(prevItem.state.currentDocument._id);
-      }
-    }
-  }
-
-  loadTabForward() {
-    if ( this.editorState ) {
-      const activeIndex = this.editorMenuItems.findIndex(item => item.state.currentDocument._id === this.editorState.currentDocument._id);
-      if ( activeIndex < this.editorMenuItems.length - 1 ) {
-        const nextItem = this.editorMenuItems[activeIndex + 1];
-        this.navigationService.openEditor(nextItem.state.currentDocument._id);
-      }
-    }
-  }
-
   saveDocument() {
     if ( this.editorState && this.editorState.changed ) {
       this.documentService.updateDocument(this.editorState.currentDocument._id, this.editorState.currentDocument.content).then( value => {
