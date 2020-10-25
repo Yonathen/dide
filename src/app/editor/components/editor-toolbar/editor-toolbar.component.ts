@@ -1,7 +1,7 @@
 import { NavigationService, EditorState } from './../../../navigation.service';
 import { util } from './../../../../../api/server/lib/util';
 import { LoideToolbarItems } from './../../enums/loide-toolbar-items.enum';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 
 export interface EditorToolbarEvent {
@@ -20,8 +20,11 @@ export class EditorToolbarComponent implements OnInit {
   public editorMenuItems: MenuItem[] = [];
   public editorState: EditorState;
 
+  @Input() executorConnected: boolean;
+
   @Output() toolbarClicked: EventEmitter<EditorToolbarEvent> = new EventEmitter<EditorToolbarEvent>();
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private navigationService: NavigationService
   ) { }
 
@@ -63,6 +66,10 @@ export class EditorToolbarComponent implements OnInit {
       return activeIndex < this.editorMenuItems.length - 1;
     }
     return false;
+  }
+
+  enableExecutor(): boolean {
+    return this.executorConnected;
   }
 
   showDropdownNav() {

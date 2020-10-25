@@ -1,6 +1,9 @@
+
+<p-toast key="executeToast" position="bottom-left" styleClass="editor__toast"></p-toast>
+
 <div #editorWrap class="editor">
     <div class="editor__toolbar">
-        <app-editor-toolbar (toolbarClicked)="onToolbarEvent($event)"></app-editor-toolbar>
+        <app-editor-toolbar (toolbarClicked)="onToolbarEvent($event)" [executorConnected]="executorConnected"></app-editor-toolbar>
     </div>
     <div class="editor__body">
         <div class="editor__bodySidebar editor__bodySidebar--left"
