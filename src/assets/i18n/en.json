@@ -35,7 +35,8 @@
     "select": "Select",
     "selected": "Selected",
     "status": "Status",
-    "terminal": "Terminal"
+    "terminal": "Terminal",
+    "search": "Search"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -139,7 +140,8 @@
     "info_add_options": "To add multiple values, use semicolon to separate the list of values.",
     "theme_css": "Style file ( *.css )",
     "theme_js": "Script file ( *.js )",
-    "no_group": "No group is assigned"
+    "no_group": "No group is assigned",
+    "filter_result_info": "{{resultCount}} results in {{files}}."
   },
   "editor": {
     "filter": "Filter",

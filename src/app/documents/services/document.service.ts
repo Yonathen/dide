@@ -61,6 +61,17 @@ export class DocumentService {
     });
   }
 
+  filterFileFolder(keyword: string, filePrivacy: FilePrivacy = FilePrivacy.Public) {
+    return new Promise<R>((resolve, reject) => {
+      Meteor.call('filterFileFolder', keyword, filePrivacy, (error, result) => {
+        if (error) {
+          return resolve(error);
+        }
+        resolve(result);
+      });
+    });
+  }
+
   fetchPublicDocuments(): Promise<R> {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('fetchPublicFileFolder', (error, result) => {

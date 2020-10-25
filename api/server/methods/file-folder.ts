@@ -1,3 +1,4 @@
+import { FilterFileFolder, FilterResult } from './../models/file-folder';
 import { Meteor } from 'meteor/meteor';
 import { response, R } from '../lib/response';
 import { util } from '../lib/util';
@@ -25,14 +26,14 @@ Meteor.methods({
     }
   },
 
-  searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy): R {
+  searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy = FilePrivacy.Public): R {
     try {
       if ( !this.userId ) {
         throw new Meteor.Error('User is not logged.');
       }
 
       const fileFolders: FileFolder[] = FileFoldersCollection.collection.find({
-        privacy: { $eq: FilePrivacy.Public },
+        privacy: { $eq: filePrivacy },
         status: { $eq: FileStatus.Normalized }
       }).fetch();
 
@@ -40,6 +41,50 @@ Meteor.methods({
       fileFolders.forEach(value => {
         if ( value.name.indexOf(keyword) !== -1 ) {
             result.push(value);
+        }
+      });
+
+      if (util.valueExist(result)) {
+        return response.fetchResponse(result);
+      }
+    } catch (error) {
+      return response.fetchResponse(error, false);
+    }
+  },
+
+  filterFileFolder(keyword: string, filePrivacy: FilePrivacy = FilePrivacy.Public): R {
+    try {
+      if ( !this.userId ) {
+        throw new Meteor.Error('User is not logged.');
+      }
+
+      const fileFolders: FileFolder[] = FileFoldersCollection.collection.find({
+        privacy: { $eq: filePrivacy },
+        status: { $eq: FileStatus.Normalized }
+      }).fetch();
+
+      const result: FilterFileFolder[] = [];
+      fileFolders.forEach(value => {
+        if ( util.valueExist(value.content) && value.content.indexOf(keyword) !== -1 ) {
+          const content = value.content;
+          const lines = content.split('\n');
+          console.log(lines);
+          const resultItem: FilterFileFolder = {
+            document: value,
+            filterResult: []
+          } as FilterFileFolder;
+          lines.forEach( (line, index) => {
+            if (line.indexOf(keyword) !== -1) {
+              const filterResult: FilterResult = {
+                from: line.indexOf(keyword),
+                end: line.indexOf(keyword) + keyword.length,
+                lineNumber: index + 1,
+                textSnippet: line
+              } as FilterResult;
+              resultItem.filterResult.push(filterResult);
+            }
+          });
+          result.push(resultItem);
         }
       });
 

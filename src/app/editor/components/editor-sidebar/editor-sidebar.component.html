@@ -63,6 +63,10 @@
     <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Appearance">
       <app-preference-appearance></app-preference-appearance>
     </div>
+
+    <div class="sidebar__panelBody" *ngIf="activeSidebar.item === sidebarRight.Filter">
+      <app-preference-filter></app-preference-filter>
+    </div>
   </div>
 
   <!-- Left Side Bar -->
