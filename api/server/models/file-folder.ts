@@ -82,6 +82,18 @@ export interface FileFolderSetting {
   memberAccess?: MemberAccess;
 }
 
+export interface FilterFileFolder {
+  document: FileFolder;
+  filterResult: FilterResult[];
+}
+
+export interface FilterResult {
+  from: number;
+  end: number;
+  lineNumber: number;
+  textSnippet: string;
+}
+
 export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.owner );
     return ( userId === fileFolder.owner._id && accessIndex !== -1 );

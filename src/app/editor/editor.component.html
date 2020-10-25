@@ -54,8 +54,6 @@
           <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Right)"></div>
           <app-editor-sidebar
             [editorState]="editorState"
-            [publicDocuments]="publicDocuments"
-            [privateDocuments]="privateDocuments"
             (onClickSidebar)="toggleSidebarLeft($event)"
             [openByResize]="openSidebarRightByResize"
             [panel]="resizeOpt.Right"></app-editor-sidebar>
