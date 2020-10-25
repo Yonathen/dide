@@ -146,7 +146,8 @@
   "editor": {
     "filter": "Filter",
     "empty_tabs": "No document is opened",
-    "empty_create_document": "Create new document"
+    "empty_create_document": "Create new document",
+    "warn_connect_detail": "Unable to connect to executor. Please refresh to retry to connect to the executor"
   },
   "notification": {
     "open_request": "Open request",

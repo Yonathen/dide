@@ -31,7 +31,9 @@
     </li>
     <li>
         <ul>
-            <li (click)="emitToolbarClick(toolbarEvent.ExecuteFile)"><a><span class="icon-play_arrow"></span></a></li>
+            <li [ngClass]="{'disabled': !enableExecutor()}" >
+              <a (click)="emitToolbarClick(toolbarEvent.ExecuteFile)"><span class="icon-play_arrow"></span></a>
+            </li>
         </ul>
     </li>
 </ul>

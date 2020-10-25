@@ -95,6 +95,7 @@ import { SearchResultPipe } from './pipes/search-result.pipe';
     ButtonModule,
     MessagesModule,
     MessageModule,
+    ToastModule,
     PaginatorModule,
     TreeModule,
     GMapModule,
