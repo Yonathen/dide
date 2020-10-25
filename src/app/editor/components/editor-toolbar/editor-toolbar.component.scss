@@ -46,3 +46,58 @@ a:hover {
     color: $color__white;
     background-color: $color__white-alpha-3;
 }
+
+li.disabled {
+  a {
+    color: $color__white-alpha-3 !important;
+  }
+
+  a.active,
+  a:hover {
+    color: $color__white-alpha-3 !important;
+    background-color: transparent;
+    cursor: default;
+  }
+}
+
+:host ::ng-deep .ui-menu.toolbar_nav {
+  background-color: $color__gray;
+
+  .ui-menuitem-link {
+    background-color: transparent;
+    padding: 5px;
+
+    display: block;
+    float: left;
+    width: 100%;
+
+    &:hover {
+      background-color: $color__white-alpha-3;
+    }
+  }
+
+  .ui-menuitem-link-active {
+    background-color: $color__white-alpha-3;
+
+    &:hover {
+      background-color: $color__white-alpha-3;
+      cursor: default;
+    }
+  }
+
+  .ui-menuitem-icon,
+  .ui-menuitem-text {
+    color: $color__white !important;
+    display: block;
+    float: left;
+  }
+
+  .ui-menuitem-icon {
+    margin: 0;
+  }
+
+  .ui-menuitem-text {
+    padding: 3px;
+    font-family: 'LatoWebLight';
+  }
+}
