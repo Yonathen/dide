@@ -1,0 +1,83 @@
+
+<div class="preference" *ngIf="isVisible()">
+
+  <form [formGroup]="updatePreferenceForm">
+    <div class="col-12 form-component preference__component">
+      <div class="form-component__label preference__label" translate>
+          preference.programing_language
+      </div>
+      <div class="col-12 p-0">
+        <p-dropdown [options]="languageOpt" formControlName="language" (onChange)="onChangeOption($event, 'language')" styleClass="preference__dropdown"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="col-12 form-component preference__component">
+      <div class="form-component__label preference__label" translate>
+          preference.solver
+      </div>
+      <div class="col-12 p-0">
+        <p-dropdown [options]="solverOpt" formControlName="solver" (onChange)="onChangeOption($event, 'solver')" styleClass="preference__dropdown"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="col-12 form-component preference__component">
+      <div class="form-component__label preference__label" translate>
+          preference.executor
+      </div>
+      <div class="col-12 p-0">
+        <p-dropdown [options]="executorOpt" formControlName="executor" (onChange)="onChangeOption($event, 'executor')" styleClass="preference__dropdown"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="col-12 form-component preference__component">
+    <div class="form-component__label preference__label" translate>
+        preference.options
+    </div>
+    <div class="col-12 p-0">
+      <div class="preference__inputGroup">
+        <input type="text" pInputText class="preference__inputGroupOption"
+          [(ngModel)]="optionValues" placeholder="{{ 'preference.placeholder_add_options' | translate}}">
+        <button pButton type="button" icon="pi pi-plus" (click)="addOptionValues()" class="ui-button-warn preference__inputGroupButton"></button>
+      </div>
+    </div>
+    <div class="form-component__label preference__info" translate>
+      preference.info_add_options
+    </div>
+  </div>
+
+  <div class="col-12 form-component">
+    <p-table styleClass="loide-table" [columns]="optionsTableColumns" [value]="preference.other" [rowHover]="true" [scrollable]="true" scrollHeight="150px">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    <span translate>{{col.header}}</span>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td class="col" *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+              <td [attr.colspan]="columns.length" translate>
+                  group.empty_member
+              </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    <button pButton type="button" icon="pi pi-trash" *ngIf="preference.other.length !== 0 " (click)="preference.other.splice(0, preference.other.length)" class="ui-button-warn preference__inputGroupButton"></button>
+  </div>
+  <div class="col-12 form-component">
+    <button type="button" class="btn btn-warning btn--xs float-right" *ngIf="isChanged()" (click)="reset()">
+        <span class="label" translate>common.reset</span>
+    </button>
+
+  </div>
+
+</div>

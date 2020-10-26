@@ -1,18 +1,26 @@
 <ul>
     <li>
         <ul>
-            <li><a><span class="icon-arrow_back_ios"></span></a></li>
-            <li><a><span class="icon-arrow_forward_ios"></span></a></li>
-            <li><a><span class="icon-arrow_drop_down"></span></a></li>
+            <li [ngClass]="{'disabled': !enableBackward()}">
+              <a (click)="emitToolbarClick(toolbarEvent.TabBackward)"><span class="icon-arrow_back_ios"></span></a>
+            </li>
+            <li [ngClass]="{'disabled': !enableForward()}">
+              <a (click)="emitToolbarClick(toolbarEvent.TabForward)"><span class="icon-arrow_forward_ios"></span></a>
+            </li>
+            <li *ngIf="showDropdownNav()"><a>
+              <span class="icon-arrow_drop_down" (click)="menu.toggle($event)"></span>
+              <p-menu styleClass="toolbar_nav" #menu [popup]="true" [model]="editorMenuItems"></p-menu>
+            </a></li>
             <li><a><span class="icon-undo"></span></a></li>
             <li><a><span class="icon-redo"></span></a></li>
         </ul>
     </li>
     <li>
         <ul>
-            <li><a><span class="icon-insert_drive_file"></span></a></li>
-            <li><a><span class="icon-folder_open"></span></a></li>
-            <li><a><span class="icon-save"></span></a></li>
+            <li><a (click)="emitToolbarClick(toolbarEvent.CreateNewFile)"><span class="icon-insert_drive_file"></span></a></li>
+            <li [ngClass]="{'disabled': !enableSave()}">
+              <a (click)="emitToolbarClick(toolbarEvent.SaveFile)"><span class="icon-save"></span></a>
+            </li>
             <li><a><span class="icon-file_download"></span></a></li>
         </ul>
     </li>
@@ -25,7 +33,9 @@
     </li>
     <li>
         <ul>
-            <li><a><span class="icon-play_arrow"></span></a></li>
+            <li [ngClass]="{'disabled': !enableExecutor()}" >
+              <a (click)="emitToolbarClick(toolbarEvent.ExecuteFile)"><span class="icon-play_arrow"></span></a>
+            </li>
         </ul>
     </li>
 </ul>

@@ -1,22 +1,83 @@
-<div class="editor">
+
+<p-toast key="executeToast" position="bottom-left" styleClass="editor__toast"></p-toast>
+
+<div #editorWrap class="editor">
     <div class="editor__toolbar">
-        <app-editor-toolbar></app-editor-toolbar>
+        <app-editor-toolbar (toolbarClicked)="onToolbarEvent($event)" [executorConnected]="executorConnected"></app-editor-toolbar>
     </div>
     <div class="editor__body">
-        <div class="editor__bodySidebar editor__bodySidebar--left" [ngClass]="{'editor__bodySidebar--open': sidebarLeftVisible}">
-            <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)"></app-editor-sidebar>
+        <div class="editor__bodySidebar editor__bodySidebar--left"
+          [style.width.px]="widthBarLeft"
+          (window:mouseup)="setResizePanel($event, resizeOpt.None)">
+            <app-editor-sidebar
+              [panel]="resizeOpt.Left"
+              [publicDocuments]="publicDocuments"
+              [privateDocuments]="privateDocuments"
+              [openByResize]="openSidebarLeftByResize"
+              (onClickSidebar)="toggleSidebarLeft($event)">
+            </app-editor-sidebar>
+            <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Left)"></div>
         </div>
-        <div class="editor__bodyContent" [ngClass]="{'editor__bodyContent--singleSidebarOpen': isSingleBarOpen(), 'editor__bodyContent--bothSidebarOpen': isBothBarOpen()}">
-            <p-tabView styleClass="editor__tabView">
-                <p-tabPanel leftIcon="{{ editorItem.icon }}" header="{{ editorItem.label }}" [closable]="true" *ngFor="let editorItem of editorMenuItems">
-                    <ace-editor [(text)]="editorItem.state.content" #editor style="height:100%;"></ace-editor>
-                </p-tabPanel>
-            </p-tabView>
-        </div>
-        <div class="editor__bodySidebar editor__bodySidebar--right" [ngClass]="{'editor__bodySidebar--open': sidebarRightVisible}">
-            <app-editor-sidebar (onClickSidebar)="toogleSidebarLeft($event)" [positionRight]="true"></app-editor-sidebar>
-        </div>
+        <div class="editor__bodyContent" [style.width.px]="widthBody" >
+            <div class="editor__emptyTab" *ngIf="editorMenuItems.length === 0">
+              <span translate>editor.empty_tabs</span><br>
+              <a class="link-blue" (click)="onCreateDocumentClick()" translate>editor.empty_create_document</a>
+            </div>
+            <div class="editor__tabs" [style.height.px]="heightBody" *ngIf="editorMenuItems.length !== 0">
+              <div class="editor__tabsMenuWrap">
+                <p-tabMenu [model]="editorMenuItems" styleClass="editor__tabMenu">
+                  <ng-template pTemplate="item" let-item let-i="index">
 
-        
+                    <div class="ui-menuitem-wrap">
+                      <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon"></div>
+                      <div class="ui-menuitem-text"> {{item.label}} <span *ngIf="isChanged(item.state)">*</span> </div>
+                      <div class="ui-menuitem-iconClose">
+                          <span (click)="closeItem($event, item)" class="pi pi-times"></span>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-tabMenu>
+              </div>
+              <div class="editor__tabsRoute">
+                <router-outlet></router-outlet>
+              </div>
+            </div>
+            <div class="editor__bodyBottomBar" [style.height.px]="heightBarBottom">
+              <div class="editor__bodyResizeVertical" (mousedown)="setResizePanel($event, resizeOpt.Bottom)"></div>
+              <app-editor-sidebar
+                [panel]="resizeOpt.Bottom"
+                [editorState]="editorState"
+                [outputEvent]="outputEvent"
+                (clearOutput)="clear()"
+                (onClickSidebar)="toggleSidebarLeft($event)"
+                [openByResize]="openSidebarBottomByResize"></app-editor-sidebar>
+            </div>
+        </div>
+        <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >
+          <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Right)"></div>
+          <app-editor-sidebar
+            [editorState]="editorState"
+            (onClickSidebar)="toggleSidebarLeft($event)"
+            [openByResize]="openSidebarRightByResize"
+            [panel]="resizeOpt.Right"></app-editor-sidebar>
+        </div>
     </div>
 </div>
+
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [baseZIndex]="10000"
+  styleClass="loide-dialog"
+  [style]="{width: '1024px'}"
+  [(visible)]="createDocumentDialog"
+  header="{{ 'document.create_document' | translate }}">
+
+  <app-create-document
+    [createType]="'File'"
+    (cancel)="this.onCancelCreateDocument($event)"
+    [visible]="createDocumentDialog">
+  </app-create-document>
+
+</p-dialog>
