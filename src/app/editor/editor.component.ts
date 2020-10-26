@@ -94,8 +94,7 @@ export class EditorComponent implements OnInit {
     private navigationService: NavigationService,
     private websocketService: WebsocketService,
     private messageService: MessageService,
-    private translateService: TranslateService,
-    private scriptLoaderService: ScriptLoaderService) {}
+    private translateService: TranslateService) {}
 
   public get winHeight() {
     return window.innerHeight;
