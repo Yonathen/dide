@@ -39,7 +39,7 @@
                 </p-tabMenu>
               </div>
               <div class="editor__tabsRoute">
-                <router-outlet></router-outlet>
+                <router-outlet (activate)="onActivate($event)"></router-outlet>
               </div>
             </div>
             <div class="editor__bodyBottomBar" [style.height.px]="heightBarBottom">
