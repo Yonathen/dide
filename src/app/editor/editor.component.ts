@@ -22,6 +22,7 @@ import { Subject } from 'rxjs';
 import { WebsocketService } from '../shared/services/websocket.service';
 import { EditorToolbarEvent } from './components/editor-toolbar/editor-toolbar.component';
 import { TranslateService } from '@ngx-translate/core';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 export const EditorTabTag = 'EDITOR_TAB_';
 
@@ -78,8 +79,7 @@ export class EditorComponent implements OnInit {
   public outputEvent: Subject<void> = new Subject<void>();
 
   @ViewChild('editorWrap') editorWrap: ElementRef;
-
-  @ViewChild('editor', { static: true }) editor: AceEditorComponent;
+  editor: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -180,6 +180,10 @@ export class EditorComponent implements OnInit {
       case ResizePanel.Bottom:
         this.resizeBottom();
     }
+  }
+
+  onActivate(componentRef){
+    this.editor = componentRef;
   }
 
   isDocumentFolder(document: FileFolder) {
@@ -309,6 +313,12 @@ export class EditorComponent implements OnInit {
       case LoideToolbarItems.TabBackward:
         this.loadTabBackward();
         break;
+      case LoideToolbarItems.UndoChange:
+        this.undoChanges();
+        break;
+      case LoideToolbarItems.RedoChange:
+        this.redoChanges();
+        break;
       case LoideToolbarItems.SaveFile:
         this.saveDocument();
         break;
@@ -397,6 +407,47 @@ export class EditorComponent implements OnInit {
         this.navigationService.openEditor(nextItem.state.currentDocument._id);
       }
     }
+  }
+
+  get undoEnabled(): boolean {
+    if ( this.editor ) {
+      const undoManger = this.getUndoManager();
+      return util.valueExist(undoManger) && undoManger.hasUndo();
+    }
+
+    return false;
+  }
+
+  get redoEnabled(): boolean {
+    if ( this.editor ) {
+      const undoManger = this.getUndoManager();
+      return util.valueExist(undoManger) && undoManger.hasRedo();
+    }
+
+    return false;
+  }
+
+  undoChanges() {
+    if ( this.undoEnabled ) {
+      const undoManger = this.getUndoManager();
+      undoManger.undo();
+    }
+  }
+
+  redoChanges() {
+    if ( this.redoEnabled ) {
+      const undoManger = this.getUndoManager();
+      undoManger.redo();
+    }
+  }
+
+  getUndoManager() {
+    if ( this.editor ) {
+      const aceEditor = this.editor.editor.getEditor();
+      return aceEditor.session.getUndoManager();
+    }
+
+    return;
   }
 
   saveDocument() {

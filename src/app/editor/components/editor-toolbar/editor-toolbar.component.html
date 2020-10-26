@@ -11,8 +11,12 @@
               <span class="icon-arrow_drop_down" (click)="menu.toggle($event)"></span>
               <p-menu styleClass="toolbar_nav" #menu [popup]="true" [model]="editorMenuItems"></p-menu>
             </a></li>
-            <li><a><span class="icon-undo"></span></a></li>
-            <li><a><span class="icon-redo"></span></a></li>
+            <li [ngClass]="{'disabled': !enableUndo()}">
+              <a (click)="emitToolbarClick(toolbarEvent.UndoChange)"><span class="icon-undo"></span></a>
+            </li>
+            <li [ngClass]="{'disabled': !enableRedo()}">
+              <a (click)="emitToolbarClick(toolbarEvent.RedoChange)"><span class="icon-redo"></span></a>
+            </li>
         </ul>
     </li>
     <li>

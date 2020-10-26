@@ -1,3 +1,4 @@
+import { EditorComponent } from './../../editor.component';
 import { User } from './../../../../../api/server/models/user';
 import { NavigationService, EditorState } from './../../../navigation.service';
 import { util } from './../../../../../api/server/lib/util';
@@ -25,7 +26,7 @@ export class EditorToolbarComponent implements OnInit {
   @Input() executorConnected: boolean;
   @Output() toolbarClicked: EventEmitter<EditorToolbarEvent> = new EventEmitter<EditorToolbarEvent>();
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private parent: EditorComponent,
     private navigationService: NavigationService
   ) { }
 
@@ -71,6 +72,14 @@ export class EditorToolbarComponent implements OnInit {
 
   enableExecutor(): boolean {
     return this.executorConnected;
+  }
+
+  enableUndo(): boolean {
+    return this.parent.undoEnabled;
+  }
+
+  enableRedo(): boolean {
+    return this.parent.redoEnabled;
   }
 
   enableSave(): boolean {
