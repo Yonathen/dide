@@ -1,8 +1,10 @@
+import { User } from './../../../../../api/server/models/user';
 import { NavigationService, EditorState } from './../../../navigation.service';
 import { util } from './../../../../../api/server/lib/util';
 import { LoideToolbarItems } from './../../enums/loide-toolbar-items.enum';
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
+import { Access, FileFolder, memberHasAccess, allHasAccess } from 'api/server/models/file-folder';
 
 export interface EditorToolbarEvent {
   menuItem: LoideToolbarItems;
@@ -70,6 +72,18 @@ export class EditorToolbarComponent implements OnInit {
 
   enableExecutor(): boolean {
     return this.executorConnected;
+  }
+
+  enableSave(): boolean {
+    if (  this.editorState && this.editorState.changed ) {
+      const userId = Meteor.userId();
+      const document: FileFolder = this.editorState.currentDocument;
+      const accesses: Access[] = [Access.nwx, Access.rwn, Access.rwx];
+      return ( userId === document.owner._id ||
+        memberHasAccess(userId, accesses, document) ||
+        allHasAccess(accesses, document));
+    }
+    return false;
   }
 
   showDropdownNav() {

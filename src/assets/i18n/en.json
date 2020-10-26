@@ -141,7 +141,8 @@
     "theme_css": "Style file ( *.css )",
     "theme_js": "Script file ( *.js )",
     "no_group": "No group is assigned",
-    "filter_result_info": "{{resultCount}} results in {{files}}."
+    "filter_result_info": "{{resultCount}} results in {{files}}.",
+    "member_access": "Member access"
   },
   "editor": {
     "filter": "Filter",

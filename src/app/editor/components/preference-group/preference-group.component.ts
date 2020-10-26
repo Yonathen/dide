@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Group, Member, GroupType } from 'api/server/models/group';
 import { User } from 'api/server/models/user';
 import { util } from 'api/server/lib/util';
+import { NavigationService, EditorState } from 'src/app/navigation.service';
 
 interface GroupDetail {
     _id?: string;
@@ -20,6 +21,7 @@ export class PreferenceGroupComponent implements OnInit {
 
   public util = util;
   @Input() group: Group;
+  public editorState: EditorState;
 
   get groupDetail(): GroupDetail {
     if ( this.group ) {
@@ -45,9 +47,21 @@ export class PreferenceGroupComponent implements OnInit {
     return result;
   }
 
-  constructor() { }
+  get memberAccess(): number {
+    if ( this.editorState ) {
+      return this.editorState.currentDocument.memberAccess.group;
+    }
+    return;
+  }
+
+  constructor(private navigationService: NavigationService) { }
 
   ngOnInit(): void {
+    this.navigationService.active.subscribe(activeState => {
+      if ( util.valueExist(activeState)) {
+        this.editorState = activeState;
+      }
+    });
   }
 
   isGroupDetail(): boolean {
