@@ -322,6 +322,9 @@ export class EditorComponent implements OnInit {
       case LoideToolbarItems.SaveFile:
         this.saveDocument();
         break;
+      case LoideToolbarItems.DownloadFile:
+        this.downloadFile();
+        break;
       case LoideToolbarItems.CreateNewFile:
         this.createDocumentDialog = true;
         break;
@@ -438,6 +441,19 @@ export class EditorComponent implements OnInit {
     if ( this.redoEnabled ) {
       const undoManger = this.getUndoManager();
       undoManger.redo();
+    }
+  }
+
+  downloadFile() {
+    if ( this.editorState ) {
+      const data = new Blob([this.editorState.currentDocument.content], {type: 'text/plain'});
+      const filePath = window.URL.createObjectURL(data);
+      const tempLink = document.createElement('a');
+      tempLink.href = filePath;
+      tempLink.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
     }
   }
 

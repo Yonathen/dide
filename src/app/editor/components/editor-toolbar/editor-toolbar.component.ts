@@ -82,6 +82,10 @@ export class EditorToolbarComponent implements OnInit {
     return this.parent.redoEnabled;
   }
 
+  enableDownload(): boolean {
+    return util.valueExist(this.editorState);
+  }
+
   enableSave(): boolean {
     if (  this.editorState && this.editorState.changed ) {
       const userId = Meteor.userId();
