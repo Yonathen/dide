@@ -1,6 +1,5 @@
 export interface SettingSolver {
-    _id?: string;
-    label: string;
-    value: string;
-    options?: any[];
+    _id: string;
+    address: string;
+    options: any[];
 }

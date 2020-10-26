@@ -39,14 +39,9 @@ import { NotificationsComponent } from './components/notifications/notifications
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {TreeModule} from 'primeng/tree';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { UserFullNamePipe } from './pipes/user-full-name.pipe';
-import { SearchResultPipe } from './pipes/search-result.pipe';
-import { AccessPipe } from './pipes/access.pipe';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent,
-    CreateAccountComponent, AccessAccountComponent, NotificationsComponent, UserFullNamePipe, SearchResultPipe, AccessPipe],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -97,7 +92,6 @@ import { AccessPipe } from './pipes/access.pipe';
     ButtonModule,
     MessagesModule,
     MessageModule,
-    ToastModule,
     PaginatorModule,
     TreeModule,
     GMapModule,
@@ -121,11 +115,7 @@ import { AccessPipe } from './pipes/access.pipe';
     TableModule,
     FileUploadModule,
     SplitButtonModule,
-    BreadcrumbModule,
-    NgxSpinnerModule,
-    UserFullNamePipe,
-    SearchResultPipe,
-    AccessPipe
+    BreadcrumbModule
   ]
 })
 export class SharedModule { }
