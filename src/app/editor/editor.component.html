@@ -10,6 +10,7 @@
           [style.width.px]="widthBarLeft"
           (window:mouseup)="setResizePanel($event, resizeOpt.None)">
             <app-editor-sidebar
+              #leftBar
               [panel]="resizeOpt.Left"
               [publicDocuments]="publicDocuments"
               [privateDocuments]="privateDocuments"
@@ -45,6 +46,7 @@
             <div class="editor__bodyBottomBar" [style.height.px]="heightBarBottom">
               <div class="editor__bodyResizeVertical" (mousedown)="setResizePanel($event, resizeOpt.Bottom)"></div>
               <app-editor-sidebar
+                #bottomBar
                 [panel]="resizeOpt.Bottom"
                 [editorState]="editorState"
                 [outputEvent]="outputEvent"
@@ -56,6 +58,7 @@
         <div class="editor__bodySidebar editor__bodySidebar--right" [style.width.px]="widthBarRight" >
           <div class="editor__bodyResizeHorizontal" (mousedown)="setResizePanel($event, resizeOpt.Right)"></div>
           <app-editor-sidebar
+            #rightBar
             [editorState]="editorState"
             (onClickSidebar)="toggleSidebarLeft($event)"
             [openByResize]="openSidebarRightByResize"

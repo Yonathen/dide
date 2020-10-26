@@ -1,3 +1,5 @@
+import { EditorSidebarComponent } from './components/editor-sidebar/editor-sidebar.component';
+import { LoideSidebarItemsLeft, LoideSidebarItemsRight, LoideSidebarItemsBottom } from './enums/loide-sidebar-items.enum';
 import { RequestExecutor } from './../shared/model/executor';
 import { SettingPreference } from './../../../api/server/models/setting-preference';
 import { AccountService } from './../shared/services/account.service';
@@ -79,6 +81,9 @@ export class EditorComponent implements OnInit {
   public outputEvent: Subject<void> = new Subject<void>();
 
   @ViewChild('editorWrap') editorWrap: ElementRef;
+  @ViewChild('leftBar') leftBar: EditorSidebarComponent;
+  @ViewChild('bottomBar') bottomBar: EditorSidebarComponent;
+  @ViewChild('rightBar') rightBar: EditorSidebarComponent;
   editor: any;
 
   constructor(
@@ -89,8 +94,7 @@ export class EditorComponent implements OnInit {
     private navigationService: NavigationService,
     private websocketService: WebsocketService,
     private messageService: MessageService,
-    private translateService: TranslateService,
-    private scriptLoaderService: ScriptLoaderService) {}
+    private translateService: TranslateService) {}
 
   public get winHeight() {
     return window.innerHeight;
@@ -322,11 +326,25 @@ export class EditorComponent implements OnInit {
       case LoideToolbarItems.SaveFile:
         this.saveDocument();
         break;
+      case LoideToolbarItems.DownloadFile:
+        this.downloadFile();
+        break;
       case LoideToolbarItems.CreateNewFile:
         this.createDocumentDialog = true;
         break;
       case LoideToolbarItems.ExecuteFile:
         this.executeDocument();
+        break;
+      case LoideToolbarItems.ToggleLeft:
+        this.openSidebarLeft();
+        break;
+      case LoideToolbarItems.ToggleRight:
+        this.openSidebarRight();
+        break;
+      case LoideToolbarItems.ToggleBottom:
+        this.openSidebarBottom();
+        break;
+
     }
   }
 
@@ -374,6 +392,30 @@ export class EditorComponent implements OnInit {
   closeItem(event, item) {
     this.navigationService.closeEditorTab(item);
     event.preventDefault();
+  }
+
+  openSidebarLeft() {
+    if ( this.leftBar.isSidebarOpen ) {
+      this.leftBar.closeSidebar();
+    } else {
+      this.leftBar.navigateSidebar(LoideSidebarItemsLeft.PublicDocument);
+    }
+  }
+
+  openSidebarRight() {
+    if ( this.rightBar.isSidebarOpen ) {
+      this.rightBar.closeSidebar();
+    } else {
+      this.rightBar.navigateSidebar(LoideSidebarItemsRight.Language);
+    }
+  }
+
+  openSidebarBottom() {
+    if ( this.bottomBar.isSidebarOpen ) {
+      this.bottomBar.closeSidebar();
+    } else if ( this.executorConnected ) {
+      this.bottomBar.navigateSidebar(LoideSidebarItemsBottom.Terminal);
+    }
   }
 
   executeDocument() {
@@ -438,6 +480,19 @@ export class EditorComponent implements OnInit {
     if ( this.redoEnabled ) {
       const undoManger = this.getUndoManager();
       undoManger.redo();
+    }
+  }
+
+  downloadFile() {
+    if ( this.editorState ) {
+      const data = new Blob([this.editorState.currentDocument.content], {type: 'text/plain'});
+      const filePath = window.URL.createObjectURL(data);
+      const tempLink = document.createElement('a');
+      tempLink.href = filePath;
+      tempLink.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
     }
   }
 

@@ -21,18 +21,28 @@
     </li>
     <li>
         <ul>
-            <li><a (click)="emitToolbarClick(toolbarEvent.CreateNewFile)"><span class="icon-insert_drive_file"></span></a></li>
+            <li>
+              <a (click)="emitToolbarClick(toolbarEvent.CreateNewFile)"><span class="icon-insert_drive_file"></span></a>
+            </li>
             <li [ngClass]="{'disabled': !enableSave()}">
               <a (click)="emitToolbarClick(toolbarEvent.SaveFile)"><span class="icon-save"></span></a>
             </li>
-            <li><a><span class="icon-file_download"></span></a></li>
+            <li [ngClass]="{'disabled': !enableDownload()}">
+              <a (click)="emitToolbarClick(toolbarEvent.DownloadFile)"><span class="icon-file_download"></span></a>
+            </li>
         </ul>
     </li>
     <li>
         <ul>
-            <li><a><span class="icon-layout-left"></span></a></li>
-            <li><a><span class="icon-layout-bottom"></span></a></li>
-            <li><a><span class="icon-layout-right"></span></a></li>
+            <li>
+              <a (click)="emitToolbarClick(toolbarEvent.ToggleLeft)"><span class="icon-layout-left"></span></a>
+            </li>
+            <li [ngClass]="{'disabled': !enableBottomBar()}">
+              <a (click)="emitToolbarClick(toolbarEvent.ToggleBottom)"><span class="icon-layout-bottom"></span></a>
+            </li>
+            <li>
+              <a (click)="emitToolbarClick(toolbarEvent.ToggleRight)"><span class="icon-layout-right"></span></a>
+            </li>
         </ul>
     </li>
     <li>
