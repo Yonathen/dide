@@ -1,3 +1,5 @@
+import { EditorSidebarComponent } from './components/editor-sidebar/editor-sidebar.component';
+import { LoideSidebarItemsLeft, LoideSidebarItemsRight, LoideSidebarItemsBottom } from './enums/loide-sidebar-items.enum';
 import { RequestExecutor } from './../shared/model/executor';
 import { SettingPreference } from './../../../api/server/models/setting-preference';
 import { AccountService } from './../shared/services/account.service';
@@ -79,6 +81,9 @@ export class EditorComponent implements OnInit {
   public outputEvent: Subject<void> = new Subject<void>();
 
   @ViewChild('editorWrap') editorWrap: ElementRef;
+  @ViewChild('leftBar') leftBar: EditorSidebarComponent;
+  @ViewChild('bottomBar') bottomBar: EditorSidebarComponent;
+  @ViewChild('rightBar') rightBar: EditorSidebarComponent;
   editor: any;
 
   constructor(
@@ -330,6 +335,17 @@ export class EditorComponent implements OnInit {
         break;
       case LoideToolbarItems.ExecuteFile:
         this.executeDocument();
+        break;
+      case LoideToolbarItems.ToggleLeft:
+        this.openSidebarLeft();
+        break;
+      case LoideToolbarItems.ToggleRight:
+        this.openSidebarRight();
+        break;
+      case LoideToolbarItems.ToggleBottom:
+        this.openSidebarBottom();
+        break;
+
     }
   }
 
@@ -377,6 +393,30 @@ export class EditorComponent implements OnInit {
   closeItem(event, item) {
     this.navigationService.closeEditorTab(item);
     event.preventDefault();
+  }
+
+  openSidebarLeft() {
+    if ( this.leftBar.isSidebarOpen ) {
+      this.leftBar.closeSidebar();
+    } else {
+      this.leftBar.navigateSidebar(LoideSidebarItemsLeft.PublicDocument);
+    }
+  }
+
+  openSidebarRight() {
+    if ( this.rightBar.isSidebarOpen ) {
+      this.rightBar.closeSidebar();
+    } else {
+      this.rightBar.navigateSidebar(LoideSidebarItemsRight.Language);
+    }
+  }
+
+  openSidebarBottom() {
+    if ( this.bottomBar.isSidebarOpen ) {
+      this.bottomBar.closeSidebar();
+    } else if ( this.executorConnected ) {
+      this.bottomBar.navigateSidebar(LoideSidebarItemsBottom.Terminal);
+    }
   }
 
   executeDocument() {

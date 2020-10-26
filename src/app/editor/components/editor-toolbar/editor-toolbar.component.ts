@@ -82,6 +82,10 @@ export class EditorToolbarComponent implements OnInit {
     return this.parent.redoEnabled;
   }
 
+  enableBottomBar(): boolean {
+    return this.parent.executorConnected;
+  }
+
   enableDownload(): boolean {
     return util.valueExist(this.editorState);
   }

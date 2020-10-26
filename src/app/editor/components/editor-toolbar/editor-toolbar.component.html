@@ -34,9 +34,15 @@
     </li>
     <li>
         <ul>
-            <li><a><span class="icon-layout-left"></span></a></li>
-            <li><a><span class="icon-layout-bottom"></span></a></li>
-            <li><a><span class="icon-layout-right"></span></a></li>
+            <li>
+              <a (click)="emitToolbarClick(toolbarEvent.ToggleLeft)"><span class="icon-layout-left"></span></a>
+            </li>
+            <li [ngClass]="{'disabled': !enableBottomBar()}">
+              <a (click)="emitToolbarClick(toolbarEvent.ToggleBottom)"><span class="icon-layout-bottom"></span></a>
+            </li>
+            <li>
+              <a (click)="emitToolbarClick(toolbarEvent.ToggleRight)"><span class="icon-layout-right"></span></a>
+            </li>
         </ul>
     </li>
     <li>
