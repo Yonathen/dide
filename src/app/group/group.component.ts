@@ -1,3 +1,5 @@
+import { GroupsCollection } from './../../../api/server/collections/groups-collection';
+import { Tracker } from 'meteor/tracker';
 import { util } from 'api/server/lib/util';
 import { NotificationType } from './../../../api/server/models/notification';
 import { NotifyMessage } from './../shared/model/notify-message';
@@ -45,8 +47,8 @@ export class GroupComponent implements OnInit, OnDestroy {
   public groupMenuItemOpt = GroupMenuItems;
 
   public groups: Group[];
-  public memberGroups: Group[];
-  public requestGroups: Group[];
+  public memberGroups: Group[] = [];
+  public requestGroups: Group[] = [];
   public selectedGroup: Group;
 
   private _subscriptions = new Subscription();
@@ -92,6 +94,20 @@ export class GroupComponent implements OnInit, OnDestroy {
       this.onClickDashboardItem(this.state.accessSubPage);
     }
 
+    this.trackMembers();
+
+  }
+
+  trackMembers() {
+    Tracker.autorun(() => {
+      if (Meteor.user()) {
+        const memberRequests: Group[] = GroupsCollection.collection.find({
+          $and: [ {'members.user._id': {$eq: Meteor.userId()}}, {'createdBy._id': {$ne: Meteor.userId()}} ]
+        }).fetch();
+        this.loadRequest(memberRequests);
+        this.loadMember(memberRequests);
+      }
+    });
   }
 
   isSelectedMenu(itemId: number | string): boolean {
@@ -170,8 +186,6 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   loadLists() {
     this.loadGroup();
-    this.loadMember();
-    this.loadRequest();
   }
 
   loadGroup(newGroupId?: string) {
@@ -189,22 +203,30 @@ export class GroupComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadMember() {
-    this.groupService.fetchMemberGroup().then(result => {
-      if (result.success) {
-        this.memberGroups = result.returnValue;
-        this.changeDetectorRef.detectChanges();
+  loadMember(inputGroup: Group[]) {
+    this.memberGroups.splice(0, this.memberGroups.length);
+    inputGroup.forEach(group => {
+      const indexOfMember = group.members.findIndex(member => {
+        return member.requestStatus === RequestStatus.Accepted && member.user._id === Meteor.userId();
+      });
+      if ( indexOfMember >= 0 ) {
+        this.memberGroups.push(group);
       }
     });
+    this.changeDetectorRef.detectChanges();
   }
 
-  loadRequest() {
-    this.groupService.fetchMemberGroup(RequestStatus.Pending).then(result => {
-      if (result.success) {
-        this.requestGroups = result.returnValue;
-        this.changeDetectorRef.detectChanges();
+  loadRequest(inputGroup: Group[]) {
+    this.requestGroups.splice(0, this.requestGroups.length);
+    inputGroup.forEach(group => {
+      const indexOfRequest = group.members.findIndex(member => {
+        return member.requestStatus === RequestStatus.Pending && member.user._id === Meteor.userId();
+      });
+      if ( indexOfRequest >= 0 ) {
+        this.requestGroups.push(group);
       }
     });
+    this.changeDetectorRef.detectChanges();
   }
 
   sendMemberRequest(index: number) {
