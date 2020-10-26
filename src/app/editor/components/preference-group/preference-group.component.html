@@ -9,6 +9,8 @@
       <div class="preference__value">{{ groupDetail.createdBy | userFullName }}</div>
       <div class="preference__label mt-2" translate>common.type</div>
       <div class="preference__value">{{ groupDetail.type }}</div>
+      <div class="preference__label mt-2" translate>preference.member_access</div>
+      <div class="preference__value">{{ memberAccess | access }}</div>
       <div class="preference__label mt-2" translate>common.members</div>
     </div>
     <ul class="preference__membersList">

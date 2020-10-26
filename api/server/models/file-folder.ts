@@ -1,4 +1,4 @@
-import { Group } from './group';
+import { Group, RequestStatus } from './group';
 import { User } from './user';
 import { DateTime } from './utility-date-time';
 import { Editor } from './editor';
@@ -101,7 +101,9 @@ export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: F
 
 export function memberHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.group );
-    const memberIndex = fileFolder.group.members.findIndex( member => member.user._id === userId);
+    const memberIndex = fileFolder.group.members.findIndex( member => {
+      return member.user._id === userId && member.requestStatus === RequestStatus.Accepted;
+    });
     return ( memberIndex !== -1 && accessIndex !== -1 );
 }
 

@@ -42,9 +42,11 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UserFullNamePipe } from './pipes/user-full-name.pipe';
 import { SearchResultPipe } from './pipes/search-result.pipe';
+import { AccessPipe } from './pipes/access.pipe';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent, CreateAccountComponent, AccessAccountComponent, NotificationsComponent, UserFullNamePipe, SearchResultPipe],
+  declarations: [HeaderComponent, FooterComponent, PageNotFoundComponent, DashboardMenuComponent, DashboardToolbarComponent,
+    CreateAccountComponent, AccessAccountComponent, NotificationsComponent, UserFullNamePipe, SearchResultPipe, AccessPipe],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -122,7 +124,8 @@ import { SearchResultPipe } from './pipes/search-result.pipe';
     BreadcrumbModule,
     NgxSpinnerModule,
     UserFullNamePipe,
-    SearchResultPipe
+    SearchResultPipe,
+    AccessPipe
   ]
 })
 export class SharedModule { }
