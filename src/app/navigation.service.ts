@@ -20,6 +20,7 @@ export interface EditorState {
   persistedDocument?: FileFolder;
   currentDocument?: FileFolder;
   changed?: boolean;
+  new?: boolean;
 }
 
 @Injectable({

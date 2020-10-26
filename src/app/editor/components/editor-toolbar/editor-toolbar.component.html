@@ -17,7 +17,7 @@
     </li>
     <li>
         <ul>
-            <li><a><span class="icon-insert_drive_file"></span></a></li>
+            <li><a (click)="emitToolbarClick(toolbarEvent.CreateNewFile)"><span class="icon-insert_drive_file"></span></a></li>
             <li [ngClass]="{'disabled': !enableSave()}">
               <a (click)="emitToolbarClick(toolbarEvent.SaveFile)"><span class="icon-save"></span></a>
             </li>

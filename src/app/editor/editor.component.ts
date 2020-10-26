@@ -12,7 +12,7 @@ import { MenuItem, TreeNode, MessageService } from 'primeng/api';
 import { AceEditorComponent } from 'ng2-ace-editor';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentService } from '../documents/services/document.service';
-import { FileFolder, FileType, AccessType } from 'api/server/models/file-folder';
+import { FileFolder, FileType, AccessType, newFileFolder, FilePrivacy } from 'api/server/models/file-folder';
 import { LoideRoute } from '../shared/enums/loide-route';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
@@ -51,6 +51,7 @@ export class EditorComponent implements OnInit {
   public sidebarRight: boolean;
   public editorState: EditorState;
   public documentChanged: boolean;
+  public createDocumentDialog: boolean = false;
   public editorMenuItems: MenuItem[] = [];
 
   public heightBody: number;
@@ -244,6 +245,22 @@ export class EditorComponent implements OnInit {
     });
   }
 
+  onCancelCreateDocument(changed?: any) {
+    if (util.valueExist(changed)) {
+      if ( changed.privacy === FilePrivacy.Public ) {
+        this.loadPublicDocument();
+      } else {
+        this.loadPrivateDocument();
+      }
+      this.navigationService.openEditor(changed._id);
+    }
+    this.createDocumentDialog = false;
+  }
+
+  onCreateDocumentClick() {
+    this.onToolbarEvent({ menuItem: LoideToolbarItems.CreateNewFile});
+  }
+
   setResizePanel(event: MouseEvent, resizePanel: ResizePanel) {
     event.stopPropagation();
     this.activeResize = resizePanel;
@@ -294,6 +311,9 @@ export class EditorComponent implements OnInit {
         break;
       case LoideToolbarItems.SaveFile:
         this.saveDocument();
+        break;
+      case LoideToolbarItems.CreateNewFile:
+        this.createDocumentDialog = true;
         break;
       case LoideToolbarItems.ExecuteFile:
         this.executeDocument();

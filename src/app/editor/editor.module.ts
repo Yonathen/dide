@@ -12,13 +12,15 @@ import { EditorTerminalComponent } from './components/editor-terminal/editor-ter
 import { PreferenceGroupComponent } from './components/preference-group/preference-group.component';
 import { PreferenceAppearanceComponent } from './components/preference-appearance/preference-appearance.component';
 import { PreferenceFilterComponent } from './components/preference-filter/preference-filter.component';
+import { DocumentsModule } from '../documents/documents.module';
 
 @NgModule({
   declarations: [EditorComponent, EditorToolbarComponent, EditorSidebarComponent, EditorSidebarRightComponent, TabsComponent, PreferenceLanguageComponent, EditorTerminalComponent, PreferenceGroupComponent, PreferenceAppearanceComponent, PreferenceFilterComponent],
   imports: [
     CommonModule,
     SharedModule,
-    AceEditorModule
+    AceEditorModule,
+    DocumentsModule
   ]
 })
 export class EditorModule { }
