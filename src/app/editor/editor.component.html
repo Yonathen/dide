@@ -21,7 +21,7 @@
         <div class="editor__bodyContent" [style.width.px]="widthBody" >
             <div class="editor__emptyTab" *ngIf="editorMenuItems.length === 0">
               <span translate>editor.empty_tabs</span><br>
-              <a class="link-blue" translate>editor.empty_create_document</a>
+              <a class="link-blue" (click)="onCreateDocumentClick()" translate>editor.empty_create_document</a>
             </div>
             <div class="editor__tabs" [style.height.px]="heightBody" *ngIf="editorMenuItems.length !== 0">
               <div class="editor__tabsMenuWrap">
@@ -63,3 +63,21 @@
         </div>
     </div>
 </div>
+
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [baseZIndex]="10000"
+  styleClass="loide-dialog"
+  [style]="{width: '1024px'}"
+  [(visible)]="createDocumentDialog"
+  header="{{ 'document.create_document' | translate }}">
+
+  <app-create-document
+    [createType]="'File'"
+    (cancel)="this.onCancelCreateDocument($event)"
+    [visible]="createDocumentDialog">
+  </app-create-document>
+
+</p-dialog>
