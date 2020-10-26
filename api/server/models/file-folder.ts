@@ -1,4 +1,4 @@
-import { Group, RequestStatus } from './group';
+import { Group } from './group';
 import { User } from './user';
 import { DateTime } from './utility-date-time';
 import { Editor } from './editor';
@@ -82,18 +82,6 @@ export interface FileFolderSetting {
   memberAccess?: MemberAccess;
 }
 
-export interface FilterFileFolder {
-  document: FileFolder;
-  filterResult: FilterResult[];
-}
-
-export interface FilterResult {
-  from: number;
-  end: number;
-  lineNumber: number;
-  textSnippet: string;
-}
-
 export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.owner );
     return ( userId === fileFolder.owner._id && accessIndex !== -1 );
@@ -101,9 +89,7 @@ export function ownerHasAccess(userId: string, accesses: Access[], fileFolder: F
 
 export function memberHasAccess(userId: string, accesses: Access[], fileFolder: FileFolder): boolean {
     const accessIndex = accesses.findIndex( access => access === fileFolder.memberAccess.group );
-    const memberIndex = fileFolder.group.members.findIndex( member => {
-      return member.user._id === userId && member.requestStatus === RequestStatus.Accepted;
-    });
+    const memberIndex = fileFolder.group.members.findIndex( member => member.user._id === userId);
     return ( memberIndex !== -1 && accessIndex !== -1 );
 }
 
@@ -129,8 +115,8 @@ export function castToFileFolder(
   typeP: FileType,
   privacyP: FilePrivacy,
   parentIdP: string = 'root',
-  contentP: string = '',
-  groupP?: Group): FileFolder {
+  groupP?: Group,
+  contentP?: string): FileFolder {
   return {
     name: nameP,
     parent: parentIdP,
@@ -164,14 +150,3 @@ export function castToFileFolderSetting(
   };
 }
 
-export function newFileFolder(privacy: FilePrivacy = FilePrivacy.Public, content?: string): FileFolder {
-  return {
-    privacy,
-    content,
-    name: 'New document',
-    parent: 'root',
-    owner: Meteor.user(),
-    memberAccess: { owner: Access.rwx, group: Access.rnx, other: Access.rnx},
-    type: FileType.File
-  };
-}

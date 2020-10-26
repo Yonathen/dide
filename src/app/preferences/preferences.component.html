@@ -1,52 +1,27 @@
 <div class="preference">
-  <div class="preference__contentToolbar">
-      <app-dashboard-toolbar
-        (onClickToolbarButton)="onClickToolbarButton($event)"
-        [toolbar]="preferenceToolbar"></app-dashboard-toolbar>
-  </div>
-  <div class="preference__contentMain">
-      <ul class="preference__display" *ngIf="isShowPreference()">
-          <li> <div class="preference__header" translate>preference.your_preferences</div> </li>
-          <li>
-              <div class="preference__label" translate>preference.language</div>
-              <div class="preference__value" translate>{{ preferences?.language?.label }}</div>
-          </li>
-          <li>
-            <div class="preference__label" translate>preference.theme_name</div>
-            <div class="preference__value" translate>{{ preferences?.theme?.name }}</div>
-          </li>
-          <li>
-              <div class="preference__label" translate>preference.solver</div>
-              <div class="preference__value" translate>{{ preferences?.solver?.label }}</div>
-          </li>
-          <li>
-              <div class="preference__label" translate>preference.programing_language</div>
-              <div class="preference__value" translate>{{ preferences?.programingLanguage?.label }}</div>
-          </li>
-          <li>
-              <div class="preference__label" translate>preference.executor</div>
-              <div class="preference__value" translate>{{ preferences?.executor.label }}</div>
-          </li>
-          <li>
-              <div class="preference__label" translate>preference.options</div>
-              <div *ngFor="let option of preferences?.other" class="preference__value" translate>{{ option?.options }}</div>
-          </li>
-      </ul>
-  </div>
+    <div class="preference__contentToolbar">
+        <app-dashboard-toolbar [toolbar]="preferenceToolbar"></app-dashboard-toolbar>
+    </div>
+    <div class="preference__contentMain">
+        <ul class="preference__display">
+            <li> <div class="preference__header" translate>preference.your_preferences</div> </li>
+            <li>
+                <div class="preference__label" translate>preference.solver</div>
+                <div class="preference__value" translate>ASP Server Executor</div>
+            </li>
+            <li>
+                <div class="preference__label" translate>preference.language</div>
+                <div class="preference__value" translate>Answer Set Programing</div>
+            </li>
+            <li>
+                <div class="preference__label" translate>preference.appearance</div>
+                <div class="preference__value" translate>Selected theme name</div>
+            </li>
+            <li>
+                <div class="preference__label" translate>preference.editor</div>
+                <div class="preference__value" translate>Setting for the editor that includes the user enable or 
+                    disable autocomplete, autocomplete fill-up characters etc..</div>
+            </li>
+        </ul>
+    </div>
 </div>
-
-<p-dialog
-  [modal]="true"
-  [draggable]="false"
-  [baseZIndex]="10000"
-  styleClass="loide-dialog"
-  [style]="{width: '500px'}"
-  [(visible)]="updatePreferenceDialog"
-  header="{{ 'preference.update_preferences' | translate }}">
-
-  <app-update-preferences
-    (cancel)="onCancelPreference()"
-    [visible]="updatePreferenceDialog">
-  </app-update-preferences>
-
-</p-dialog>

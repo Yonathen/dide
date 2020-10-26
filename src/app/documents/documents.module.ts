@@ -20,8 +20,7 @@ function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     SharedModule
-  ],
-  exports: [CreateDocumentComponent]
+  ]
 })
 export class DocumentsModule { }
 

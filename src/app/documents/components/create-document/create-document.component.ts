@@ -25,10 +25,6 @@ interface FolderTableValue {
   dateCreated: Date;
 }
 
-enum CreateType {
-  BOTH = 'Both', FILE = 'File', FOLDER = 'Folder'
-}
-
 @Component({
   selector: 'app-create-document',
   templateUrl: './create-document.component.html',
@@ -36,8 +32,6 @@ enum CreateType {
 })
 export class CreateDocumentComponent implements OnInit, OnChanges {
   @Input() visible: boolean;
-  @Input() createType: CreateType = CreateType.BOTH;
-  public createTypeOpt = CreateType;
   public documents: TreeNode[];
   public selectedTreeNode: TreeNode;
   public colsFolderTable: any[];
@@ -123,17 +117,13 @@ export class CreateDocumentComponent implements OnInit, OnChanges {
   setUpForm() {
     this.createDocumentForm = this.formBuilder.group({
       name: [ {value: null, disabled: false}, Validators.required ],
-      type: [ {value: this.isCreateTypeBoth() ? FileType.File : this.createType, disabled: false}, Validators.required ],
+      type: [ {value: FileType.File, disabled: false}, Validators.required ],
       privacy: [ {value: FilePrivacy.Private, disabled: false}, Validators.required ],
       group: [ {value: null, disabled: false} ],
       owner: [ {value: 7, disabled: true}, Validators.required ],
       member: [ {value: 5, disabled: false}, Validators.required ],
       other: [ {value: 5, disabled: false}, Validators.required ]
     });
-  }
-
-  isCreateTypeBoth(): boolean {
-    return this.createType === this.createTypeOpt.BOTH;
   }
 
   loadDocument(privacy: FilePrivacy) {
@@ -248,9 +238,7 @@ export class CreateDocumentComponent implements OnInit, OnChanges {
       const selectedLocation: string = util.valueExist(this.folderSelected) ? this.folderSelected._id : 'root';
       this.documentService.createDocument(this.createDocumentForm.value, selectedLocation).then( result => {
         if ( result.success ) {
-          const createdValue = this.createDocumentForm.value;
-          createdValue._id = result.returnValue;
-          this.cancel(createdValue);
+          this.cancel(this.createDocumentForm.value);
         } else {
           if ( result.errorValue && result.errorValue.message ) {
             this.failedMessage = result.errorValue.message;
