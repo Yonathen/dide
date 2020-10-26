@@ -23,7 +23,6 @@ export class EditorToolbarComponent implements OnInit {
   public editorState: EditorState;
 
   @Input() executorConnected: boolean;
-
   @Output() toolbarClicked: EventEmitter<EditorToolbarEvent> = new EventEmitter<EditorToolbarEvent>();
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
