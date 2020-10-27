@@ -1,30 +1,40 @@
+import { NotificationsCollection } from './../collections/notifications-collection';
 import { Meteor } from 'meteor/meteor';
 import { response, R } from '../lib/response';
 import { util } from '../lib/util';
 import { Member, Group, castUserToMember, isUserInGroup, RequestStatus } from '../models/group';
 import { GroupsCollection } from '../collections/groups-collection';
 import { User } from '../models/user';
+import { castToNotification, NotificationType, Notification } from '../models/notification';
 
 Meteor.methods({
 
-    createGroup(newGroup: Group): R {
-        try {
-            if ( !this.userId ) {
-                throw new Meteor.Error('User is not logged.');
-            }
+  createGroup(newGroup: Group): R {
+    try {
+      if ( !this.userId ) {
+        throw new Meteor.Error('User is not logged.');
+      }
 
-            const result: string = GroupsCollection.collection.insert(newGroup);
-            if (result) {
-                return response.fetchResponse(result);
-            } else {
-                throw new Meteor.Error('Unable to create file or folder');
-            }
-        }
-        catch (error){
-            return response.fetchResponse(error, false);
-        }
-
-    },
+      const newGroupId: string = GroupsCollection.collection.insert(newGroup);
+      if (newGroupId) {
+        const group = GroupsCollection.collection.findOne({ _id: { $eq: newGroupId}});
+        group.members.forEach(member => {
+          const notification: Notification = castToNotification(
+            'Group membership request',
+            'You have membership request for group ' + group.name,
+            member.user, NotificationType.GroupRequest, group
+          );
+          NotificationsCollection.collection.insert(notification);
+        });
+        return response.fetchResponse(group);
+      } else {
+        throw new Meteor.Error('Unable to create file or folder');
+      }
+    }
+    catch (error){
+      return response.fetchResponse(error, false);
+    }
+  },
 
       updateGroup(groupId: string, newGroup: Group): R {
           try {

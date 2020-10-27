@@ -1,3 +1,4 @@
+import { NavigationService } from 'src/app/navigation.service';
 import { GroupsCollection } from './../../../api/server/collections/groups-collection';
 import { Tracker } from 'meteor/tracker';
 import { util } from 'api/server/lib/util';
@@ -16,6 +17,8 @@ import { castToNotification, Notification } from 'api/server/models/notification
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { User } from 'api/server/models/user';
 import { DashboardState } from '../navigation.service';
+import { ActivatedRoute } from '@angular/router';
+import { LoideRoute } from '../shared/enums/loide-route';
 
 export enum GroupToolbarMenuItems {
   CreateGroup, RemoveAll
@@ -54,9 +57,10 @@ export class GroupComponent implements OnInit, OnDestroy {
   private _subscriptions = new Subscription();
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private translateService: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
-    private notificationService: NotificationService,
+    private navigationService: NavigationService,
     private groupService: GroupService) { }
 
   ngOnInit(): void {
@@ -88,7 +92,16 @@ export class GroupComponent implements OnInit, OnDestroy {
       {id: GroupMenuItems.MemberIn, iconClass: 'icon-group', labelIndex: 'group.member_in', active: false},
       {id: GroupMenuItems.MemberRequest, iconClass: 'icon-group_add', labelIndex: 'group.member_request', active: false}
     ];
-    this.selectedMenuItems = this.groupMenuItems[0];
+
+
+    this.activatedRoute.queryParamMap.subscribe(queryParams => {
+      let itemIndex = GroupMenuItems.MyGroups;
+      if ( util.valueExist(queryParams.get('item')) ) {
+        itemIndex = +queryParams.get('item');
+      }
+      this.selectedMenuItems = this.groupMenuItems[itemIndex];
+      this.setActiveMenuItem(itemIndex)
+    });
 
     if ( this.state && this.state.accessSubPage ) {
       this.onClickDashboardItem(this.state.accessSubPage);
@@ -188,12 +201,6 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.groupService.fetchMyGroup().then(result => {
       if (result.success) {
         this.groups = result.returnValue;
-
-        if (newGroupId) {
-          const index = this.groups.findIndex(group => group._id = newGroupId);
-          this.sendMemberRequest(index);
-        }
-
         this.changeDetectorRef.detectChanges();
       }
     });
@@ -225,18 +232,6 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
-  sendMemberRequest(index: number) {
-    const selected: Group = this.groups[index];
-    selected.members.forEach(member => {
-      const notification: Notification = castToNotification(
-        'Group membership request',
-        'You have membership request for group ' + selected.name,
-        member.user, NotificationType.GroupRequest, selected
-      );
-      this.notificationService.notifyUser(notification);
-    });
-  }
-
   onClickSeeGroup(group) {
     this.selectedGroup = group;
     this.viewGroupDialog = true;
@@ -247,12 +242,11 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.confirmRemoveGroupDialog = true;
   }
 
-
-  onClickDashboardItem(event: number | string) {
+  setActiveMenuItem(meuItemIndex: number | string) {
     if (this.groupMenuItems) {
       this.groupMenuItems.forEach((item, index) => {
         item.active = false;
-        if (item.id === event) {
+        if (item.id === meuItemIndex) {
           item.active = true;
           this.selectedMenuItems = item;
         }
@@ -260,6 +254,11 @@ export class GroupComponent implements OnInit, OnDestroy {
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  onClickDashboardItem(event: number | string) {
+    const state: DashboardState = { accessSubPage: event};
+    this.navigationService.openDashboard(LoideRoute.Group, state);
   }
 
   onClickToolbarButton(event: number | string) {

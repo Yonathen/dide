@@ -30,8 +30,7 @@ export class CreateGroupComponent implements OnInit, OnChanges {
   constructor(
     public translateService: TranslateService,
     private formBuilder: FormBuilder,
-    private groupService: GroupService,
-    private notificationService: NotificationService) { }
+    private groupService: GroupService) { }
 
   ngOnInit(): void {
     this.cols = [

@@ -12,6 +12,25 @@
         background-color: $color__dark-gray;
     }
 
+    &__notificationBell {
+      position: relative;
+
+      .icon {
+        display: block;
+        position: absolute;
+        top: 0; left: 0;
+        font-size: 20px;
+        padding-bottom: 3px;
+        padding-top: 3px;
+      }
+
+      &--active {
+        .icon {
+          color: $color__dark-orange;
+        }
+      }
+    }
+
     &__logo {
         float: left;
         height: 100%;
@@ -73,28 +92,22 @@
             border-bottom: solid 3px $color__dark-orange;
         }
 
-        &--notify {
-            font-size: 20px;
-            padding-bottom: 3px;
-            padding-top: 3px;
-        }
-    
         &--account {
-            
+
             font-size: 20px;
             padding-bottom: 0px;
             padding-top: 3px;
-    
+
         }
     }
 
     &__account {
         position: relative;
-        
+
         ul {
             display: none;
             position: absolute;
-            top: 100%; 
+            top: 100%;
             right: 0;
             z-index: 10;
 
@@ -106,7 +119,7 @@
                 float: right;
             }
         }
-    
+
         &:hover {
             ul {
                 display: block !important;
@@ -142,5 +155,5 @@
         button {
             float: right;
         }
-    }    
+    }
 }

@@ -1,3 +1,4 @@
+import { NotificationsCollection } from './../../../../../api/server/collections/notifications-collection';
 import { NavigationService } from 'src/app/navigation.service';
 import { Component, OnInit, Input, ChangeDetectorRef, NgZone } from '@angular/core';
 
@@ -11,7 +12,7 @@ import { UserAccount } from 'api/server/models/user-account';
 import { Tracker } from 'meteor/tracker';
 import { AccountService } from '../../services/account.service';
 import { NotificationService } from '../../services/notification.service';
-import { Notification } from 'api/server/models/notification';
+import { Notification, NotificationStatus } from 'api/server/models/notification';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit {
   public createAccountDialog: boolean;
   public accessAccountDialog: boolean;
   public userAccount: UserAccount;
-  public notifications: Notification[];
+  public notifications: Notification[] = [];
 
   get isEditor(): boolean {
     return this.route && this.route.indexOf(LoideRoute.Editor) !== -1;
@@ -35,6 +36,10 @@ export class HeaderComponent implements OnInit {
 
   get isLogedIn(): boolean {
     return util.valueExist(Meteor.user());
+  }
+
+  get isNotification(): boolean {
+    return this.notifications.findIndex(N => N.status === NotificationStatus.New) >= 0;
   }
 
   constructor(
@@ -51,7 +56,7 @@ export class HeaderComponent implements OnInit {
     this.accountService.user.subscribe(user => {
       if (user && user._id) {
         this.setUserAccount(user);
-        this.loadNotification();
+        this.trackNotification();
         this.changeDetectionRef.detectChanges();
       } else {
         this.userAccount = null;
@@ -59,12 +64,19 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  loadNotification() {
-    this.notificationService.fetchNotification().then( result => {
-      if ( result.success ) {
-        this.notifications = result.returnValue;
+  trackNotification() {
+    Tracker.autorun(() => {
+      if (Meteor.user()) {
+        const notifications: Notification[] = NotificationsCollection.collection.find({'user._id': {$eq: Meteor.userId()}}).fetch();
+        this.loadNotification(notifications);
       }
     });
+  }
+
+  loadNotification(notifications: Notification[]) {
+    this.notifications.splice(0, this.notifications.length);
+    notifications.forEach(N => this.notifications.push(N));
+    this.changeDetectionRef.detectChanges();
   }
 
   setUserAccount(user: User) {
