@@ -61,7 +61,7 @@
     [(visible)]="createGroupDialog"
     header="{{ 'group.create_group' | translate }}">
 
-    <app-create-group (cancel)="onCreateCancel($event)"></app-create-group>
+    <app-create-group [visible]="createGroupDialog" (cancel)="onCreateCancel($event)"></app-create-group>
 
 </p-dialog>
 

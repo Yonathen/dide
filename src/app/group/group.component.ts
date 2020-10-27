@@ -1,3 +1,6 @@
+import { NavigationService } from 'src/app/navigation.service';
+import { GroupsCollection } from './../../../api/server/collections/groups-collection';
+import { Tracker } from 'meteor/tracker';
 import { util } from 'api/server/lib/util';
 import { NotificationType } from './../../../api/server/models/notification';
 import { NotifyMessage } from './../shared/model/notify-message';
@@ -14,6 +17,8 @@ import { castToNotification, Notification } from 'api/server/models/notification
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { User } from 'api/server/models/user';
 import { DashboardState } from '../navigation.service';
+import { ActivatedRoute } from '@angular/router';
+import { LoideRoute } from '../shared/enums/loide-route';
 
 export enum GroupToolbarMenuItems {
   CreateGroup, RemoveAll
@@ -45,21 +50,22 @@ export class GroupComponent implements OnInit, OnDestroy {
   public groupMenuItemOpt = GroupMenuItems;
 
   public groups: Group[];
-  public memberGroups: Group[];
-  public requestGroups: Group[];
+  public memberGroups: Group[] = [];
+  public requestGroups: Group[] = [];
   public selectedGroup: Group;
 
   private _subscriptions = new Subscription();
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private translateService: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
-    private notificationService: NotificationService,
+    private navigationService: NavigationService,
     private groupService: GroupService) { }
 
   ngOnInit(): void {
     this.state = history.state.data;
-    this.loadLists();
+    this.loadGroup();
 
     const keys = ['common.group', 'group.see_group', 'group.remove_group', 'common.member', 'group.update_group',
       'group.add_member', 'group.remove_member', 'group.exit_group', 'group.accept_membership'];
@@ -86,12 +92,35 @@ export class GroupComponent implements OnInit, OnDestroy {
       {id: GroupMenuItems.MemberIn, iconClass: 'icon-group', labelIndex: 'group.member_in', active: false},
       {id: GroupMenuItems.MemberRequest, iconClass: 'icon-group_add', labelIndex: 'group.member_request', active: false}
     ];
-    this.selectedMenuItems = this.groupMenuItems[0];
+
+
+    this.activatedRoute.queryParamMap.subscribe(queryParams => {
+      let itemIndex = GroupMenuItems.MyGroups;
+      if ( util.valueExist(queryParams.get('item')) ) {
+        itemIndex = +queryParams.get('item');
+      }
+      this.selectedMenuItems = this.groupMenuItems[itemIndex];
+      this.setActiveMenuItem(itemIndex)
+    });
 
     if ( this.state && this.state.accessSubPage ) {
       this.onClickDashboardItem(this.state.accessSubPage);
     }
 
+    this.trackMembers();
+
+  }
+
+  trackMembers() {
+    Tracker.autorun(() => {
+      if (Meteor.user()) {
+        const memberRequests: Group[] = GroupsCollection.collection.find({
+          $and: [ {'members.user._id': {$eq: Meteor.userId()}}, {'createdBy._id': {$ne: Meteor.userId()}} ]
+        }).fetch();
+        this.loadRequest(memberRequests);
+        this.loadMember(memberRequests);
+      }
+    });
   }
 
   isSelectedMenu(itemId: number | string): boolean {
@@ -155,7 +184,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   acceptMembership(groupId) {
     this.groupService.acceptMembership(groupId).then(result => {
       if (result.success) {
-        this.loadLists();
+        this.loadGroup();
       }
     });
   }
@@ -163,60 +192,44 @@ export class GroupComponent implements OnInit, OnDestroy {
   removeMembership(groupId, user: User = Meteor.user()) {
     this.groupService.removeMember(user, groupId).then(result => {
       if (result.success) {
-        this.loadLists();
+        this.loadGroup();
       }
     });
-  }
-
-  loadLists() {
-    this.loadGroup();
-    this.loadMember();
-    this.loadRequest();
   }
 
   loadGroup(newGroupId?: string) {
     this.groupService.fetchMyGroup().then(result => {
       if (result.success) {
         this.groups = result.returnValue;
-
-        if (newGroupId) {
-          const index = this.groups.findIndex(group => group._id = newGroupId);
-          this.sendMemberRequest(index);
-        }
-
         this.changeDetectorRef.detectChanges();
       }
     });
   }
 
-  loadMember() {
-    this.groupService.fetchMemberGroup().then(result => {
-      if (result.success) {
-        this.memberGroups = result.returnValue;
-        this.changeDetectorRef.detectChanges();
+  loadMember(inputGroup: Group[]) {
+    this.memberGroups.splice(0, this.memberGroups.length);
+    inputGroup.forEach(group => {
+      const indexOfMember = group.members.findIndex(member => {
+        return member.requestStatus === RequestStatus.Accepted && member.user._id === Meteor.userId();
+      });
+      if ( indexOfMember >= 0 ) {
+        this.memberGroups.push(group);
       }
     });
+    this.changeDetectorRef.detectChanges();
   }
 
-  loadRequest() {
-    this.groupService.fetchMemberGroup(RequestStatus.Pending).then(result => {
-      if (result.success) {
-        this.requestGroups = result.returnValue;
-        this.changeDetectorRef.detectChanges();
+  loadRequest(inputGroup: Group[]) {
+    this.requestGroups.splice(0, this.requestGroups.length);
+    inputGroup.forEach(group => {
+      const indexOfRequest = group.members.findIndex(member => {
+        return member.requestStatus === RequestStatus.Pending && member.user._id === Meteor.userId();
+      });
+      if ( indexOfRequest >= 0 ) {
+        this.requestGroups.push(group);
       }
     });
-  }
-
-  sendMemberRequest(index: number) {
-    const selected: Group = this.groups[index];
-    selected.members.forEach(member => {
-      const notification: Notification = castToNotification(
-        'Group membership request',
-        'You have membership request for group ' + selected.name,
-        member.user, NotificationType.GroupRequest, selected
-      );
-      this.notificationService.notifyUser(notification);
-    });
+    this.changeDetectorRef.detectChanges();
   }
 
   onClickSeeGroup(group) {
@@ -229,12 +242,11 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.confirmRemoveGroupDialog = true;
   }
 
-
-  onClickDashboardItem(event: number | string) {
+  setActiveMenuItem(meuItemIndex: number | string) {
     if (this.groupMenuItems) {
       this.groupMenuItems.forEach((item, index) => {
         item.active = false;
-        if (item.id === event) {
+        if (item.id === meuItemIndex) {
           item.active = true;
           this.selectedMenuItems = item;
         }
@@ -242,6 +254,11 @@ export class GroupComponent implements OnInit, OnDestroy {
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  onClickDashboardItem(event: number | string) {
+    const state: DashboardState = { accessSubPage: event};
+    this.navigationService.openDashboard(LoideRoute.Group, state);
   }
 
   onClickToolbarButton(event: number | string) {

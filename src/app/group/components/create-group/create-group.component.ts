@@ -2,7 +2,7 @@ import { NotifyMessage } from './../../../shared/model/notify-message';
 import { NotificationService } from './../../../shared/services/notification.service';
 import { GroupType } from './../../../../../api/server/models/group';
 import { GroupService } from './../../services/group.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'api/server/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { util } from 'api/server/lib/util';
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.scss']
 })
-export class CreateGroupComponent implements OnInit {
+export class CreateGroupComponent implements OnInit, OnChanges {
 
   public cols: any[];
   public suggestions: User[] = [];
@@ -23,13 +23,14 @@ export class CreateGroupComponent implements OnInit {
   public submitted: boolean;
   public createGroupForm: FormGroup;
   public failedMessage: string;
+
+  @Input() visible: boolean = false;
   @Output('cancel') cancelEmitter: EventEmitter<string | null> = new EventEmitter<string | null>();
 
   constructor(
     public translateService: TranslateService,
     private formBuilder: FormBuilder,
-    private groupService: GroupService,
-    private notificationService: NotificationService) { }
+    private groupService: GroupService) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -37,11 +38,16 @@ export class CreateGroupComponent implements OnInit {
       { field: 'email', header: 'account.email' }
     ];
 
-    this.loadUsers();
 
     this.submitted = false;
     this.failedMessage = null;
     this.setUpForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ( changes && changes.visible ) {
+      this.loadUsers();
+    }
   }
 
   setUpForm() {

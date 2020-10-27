@@ -4,7 +4,7 @@ import { LoideRoute } from './shared/enums/loide-route';
 import { Injectable, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MenuItem } from 'primeng/api/menuitem';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { isNgTemplate } from '@angular/compiler';
 import * as _ from 'lodash';
 import { WebSocketSubject } from 'rxjs/webSocket';
@@ -107,7 +107,11 @@ export class NavigationService {
     this.router.navigate([LoideRoute.Editor], { relativeTo: this.route, queryParams: { item: fileFolderId }  });
   }
 
-  openDashboard(route: LoideRoute = LoideRoute.Dashboard, stateD?: DashboardState ) {
-    this.router.navigate([route], { relativeTo: this.route, state: { data: stateD} });
+  openDashboard(route: LoideRoute = LoideRoute.Dashboard, stateD?: DashboardState) {
+    const extra: NavigationExtras = { relativeTo: this.route, state: { data: stateD} };
+    if ( util.valueExist(stateD) ) {
+      extra.queryParams = { item: stateD.accessSubPage };
+    }
+    this.router.navigate([route], extra);
   }
 }
