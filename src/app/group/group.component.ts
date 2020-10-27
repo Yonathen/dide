@@ -61,7 +61,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.state = history.state.data;
-    this.loadLists();
+    this.loadGroup();
 
     const keys = ['common.group', 'group.see_group', 'group.remove_group', 'common.member', 'group.update_group',
       'group.add_member', 'group.remove_member', 'group.exit_group', 'group.accept_membership'];
@@ -171,7 +171,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   acceptMembership(groupId) {
     this.groupService.acceptMembership(groupId).then(result => {
       if (result.success) {
-        this.loadLists();
+        this.loadGroup();
       }
     });
   }
@@ -179,13 +179,9 @@ export class GroupComponent implements OnInit, OnDestroy {
   removeMembership(groupId, user: User = Meteor.user()) {
     this.groupService.removeMember(user, groupId).then(result => {
       if (result.success) {
-        this.loadLists();
+        this.loadGroup();
       }
     });
-  }
-
-  loadLists() {
-    this.loadGroup();
   }
 
   loadGroup(newGroupId?: string) {
