@@ -38,8 +38,18 @@ export class HeaderComponent implements OnInit {
     return util.valueExist(Meteor.user());
   }
 
+  get newNotificationCount(): number {
+    let count = 0;
+    this.notifications.forEach(N => {
+      if (N.status === NotificationStatus.New) {
+        count = count + 1;
+      }
+    });
+    return count;
+  }
+
   get isNotification(): boolean {
-    return this.notifications.findIndex(N => N.status === NotificationStatus.New) >= 0;
+    return this.newNotificationCount > 0;
   }
 
   constructor(

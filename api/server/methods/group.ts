@@ -19,12 +19,14 @@ Meteor.methods({
       if (newGroupId) {
         const group = GroupsCollection.collection.findOne({ _id: { $eq: newGroupId}});
         group.members.forEach(member => {
-          const notification: Notification = castToNotification(
-            'Group membership request',
-            'You have membership request for group ' + group.name,
-            member.user, NotificationType.GroupRequest, group
-          );
-          NotificationsCollection.collection.insert(notification);
+          if ( member.user._id !== group.createdBy._id ) {
+            const notification: Notification = castToNotification(
+              'Group membership request',
+              'You have membership request for group ' + group.name,
+              member.user, NotificationType.GroupRequest, group
+            );
+            NotificationsCollection.collection.insert(notification);
+          }
         });
         return response.fetchResponse(group);
       } else {
