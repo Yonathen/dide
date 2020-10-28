@@ -2,7 +2,7 @@ import { util } from './../../../api/server/lib/util';
 import { AccountService } from './../shared/services/account.service';
 import { Children } from 'react';
 import { AccessType, FileStatus, FileFolder, FilePrivacy, FileType } from './../../../api/server/models/file-folder';
-import { DocumentService } from './services/document.service';
+import { DocumentService, castToTree } from './services/document.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular/core';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { MenuItem, TreeNode } from 'primeng/api';
@@ -96,9 +96,7 @@ export class DocumentsComponent implements OnInit {
 
   ngOnInit() {
     this.loggedUserId = Meteor.userId();
-    this.loadPrivateDocument();
     this.loadPublicDocument();
-
 
     const toolbarButtonMenu  = [
       {id: DocumentToolbarMenuItems.CreateDocument, class: 'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_document'}
@@ -119,6 +117,7 @@ export class DocumentsComponent implements OnInit {
     this.accountService.user.subscribe(user => {
       const itemIndex = this.menuItems.findIndex(item => item.id === DocumentMemberMenuItems.Private);
       if ( util.valueExist(user) && itemIndex < 0 ) {
+        this.loadPrivateDocument();
         this.menuItems.push({id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private_document', active: false});
       } else if ( !util.valueExist(user) && itemIndex >= 0 ) {
         this.menuItems.splice(itemIndex, 1);
@@ -191,7 +190,7 @@ export class DocumentsComponent implements OnInit {
   loadPublicDocument() {
     this.documentService.fetchPublicDocuments().then(result => {
       if ( result.success && result.returnValue) {
-        const returnValue: TreeNode[] = result.returnValue;
+        const returnValue: TreeNode[] = castToTree(result.returnValue, 'root');
         this._publicDocuments.splice(0, this._publicDocuments.length);
         returnValue.forEach( elt => {
           if ( this.hasAccess(elt.data, AccessType.Read) ) {
@@ -205,7 +204,7 @@ export class DocumentsComponent implements OnInit {
   loadPrivateDocument() {
     this.documentService.fetchPrivateDocuments().then(result => {
       if (result.success) {
-        this._privateDocuments = result.returnValue;
+        this._privateDocuments = castToTree(result.returnValue, 'root');
       }
     });
   }

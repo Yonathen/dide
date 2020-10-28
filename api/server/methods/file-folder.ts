@@ -1,4 +1,5 @@
-import { FilterFileFolder, FilterResult } from './../models/file-folder';
+import { util } from './../lib/util';
+import { FilterFileFolder, FilterResult, allHasAccess } from './../models/file-folder';
 import { Meteor } from 'meteor/meteor';
 import { response, R } from '../lib/response';
 import { util } from '../lib/util';
@@ -98,15 +99,19 @@ Meteor.methods({
 
   fetchPublicFileFolder(): R {
     try {
-      if ( !this.userId ) {
-        throw new Meteor.Error('User is not logged.');
-      }
-
-      const result = FileFoldersCollection.collection.find({
+      const allPublicFiles: FileFolder[] = FileFoldersCollection.collection.find({
         privacy: { $eq: FilePrivacy.Public },
         status: { $eq: FileStatus.Normalized }
       }).fetch();
-      if (util.valueExist(result)) {
+      if (util.valueExist(allPublicFiles)) {
+        const result: FileFolder[] = [];
+        allPublicFiles.forEach((file, index) => {
+          const readAccess: Access[] = [Access.rnn, Access.rnx, Access.rwn, Access.rwx];
+          if ( (allHasAccess(readAccess, file)) ||
+            (util.valueExist(this.userId) && memberHasAccess(this.userId, readAccess, file)) ) {
+            result.push(file);
+          }
+        });
         return response.fetchResponse(result);
       }
     } catch (error) {

@@ -13,7 +13,7 @@ import { NavigationService } from 'src/app/navigation.service';
 import { MenuItem, TreeNode, MessageService } from 'primeng/api';
 import { AceEditorComponent } from 'ng2-ace-editor';
 import { ActivatedRoute } from '@angular/router';
-import { DocumentService } from '../documents/services/document.service';
+import { DocumentService, castToTree } from '../documents/services/document.service';
 import { FileFolder, FileType, AccessType, newFileFolder, FilePrivacy } from 'api/server/models/file-folder';
 import { LoideRoute } from '../shared/enums/loide-route';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -234,7 +234,7 @@ export class EditorComponent implements OnInit {
   loadPublicDocument() {
     this.documentService.fetchPublicDocuments().then(result => {
       if ( result.success && result.returnValue) {
-        const returnValue: TreeNode[] = result.returnValue;
+        const returnValue: TreeNode[] = castToTree(result.returnValue, 'root');
         this.publicDocuments.splice(0, this.publicDocuments.length);
         returnValue.forEach( elt => {
           if ( this.hasAccess(elt.data, AccessType.Read) ) {
@@ -248,7 +248,7 @@ export class EditorComponent implements OnInit {
   loadPrivateDocument() {
     this.documentService.fetchPrivateDocuments().then(result => {
       if (result.success) {
-        this.privateDocuments = result.returnValue;
+        this.privateDocuments = castToTree(result.returnValue, 'root');
       }
     });
   }

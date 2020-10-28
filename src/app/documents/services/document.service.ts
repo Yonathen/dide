@@ -78,7 +78,6 @@ export class DocumentService {
         if (error) {
           return resolve(error);
         }
-        result.returnValue = castToTree(result.returnValue, 'root');
         resolve(result);
       });
     });
@@ -90,8 +89,6 @@ export class DocumentService {
         if (error) {
           return resolve(error);
         }
-
-        result.returnValue = castToTree(result.returnValue, 'root');
         resolve(result);
       });
     });
