@@ -1,5 +1,5 @@
 import { util } from 'api/server/lib/util';
-import { DocumentService } from './../../services/document.service';
+import { DocumentService, castToTree } from './../../services/document.service';
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api/menuitem';
@@ -140,13 +140,13 @@ export class CreateDocumentComponent implements OnInit, OnChanges {
     if ( privacy === FilePrivacy.Public ) {
       this.documentService.fetchPublicDocuments().then( result => {
         if ( result.success ) {
-          this.documents = result.returnValue;
+          this.documents = castToTree(result.returnValue, 'root');
         }
       });
     } else if (privacy === FilePrivacy.Private) {
       this.documentService.fetchPrivateDocuments().then( result => {
         if ( result.success ) {
-          this.documents = result.returnValue;
+          this.documents = castToTree(result.returnValue, 'root');
         }
       });
     }

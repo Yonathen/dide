@@ -125,8 +125,8 @@ export class PropertiesDocumentComponent implements OnInit, OnChanges {
   }
 
   castMembersToTable(group: Group) {
+    this.membersTableValues.splice(0, this.membersTableValues.length);
     if ( group ) {
-      this.membersTableValues.splice(0, this.membersTableValues.length);
       group.members.forEach(member => {
         const castedMember: MembersTableValue = {
           userId: member.user._id,

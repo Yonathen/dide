@@ -1,7 +1,8 @@
+import { AccountService } from './../shared/services/account.service';
 import { Children } from 'react';
 import { AccessType, FileStatus, FileFolder, FilePrivacy, FileType } from './../../../api/server/models/file-folder';
-import { DocumentService } from './services/document.service';
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { DocumentService, castToTree } from './services/document.service';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular/core';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
@@ -54,6 +55,10 @@ export class DocumentsComponent implements OnInit {
 
   @ViewChild(DashboardToolbarComponent) dashboardToolbarComponent: DashboardToolbarComponent;
 
+  get isLogged(): boolean {
+    return util.valueExist(Meteor.userId());
+  }
+
   get publicDocuments(): TreeNode[] {
     this.breadcrumbItems.splice(0, this.breadcrumbItems.length);
     if ( util.valueExist(this.selectedParentId) && this.selectedParentId !== 'root' ) {
@@ -81,6 +86,7 @@ export class DocumentsComponent implements OnInit {
 
   constructor(
     public router: Router,
+    public accountService: AccountService,
     public navigationService: NavigationService,
     private changeDetectorRef: ChangeDetectorRef,
     private documentService: DocumentService) {
@@ -89,12 +95,10 @@ export class DocumentsComponent implements OnInit {
 
   ngOnInit() {
     this.loggedUserId = Meteor.userId();
-    this.loadPrivateDocument();
     this.loadPublicDocument();
 
-
     const toolbarButtonMenu  = [
-      {id: DocumentToolbarMenuItems.CreateDocument, class: 'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_folder'}
+      {id: DocumentToolbarMenuItems.CreateDocument, class: 'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_document'}
     ];
 
     this.documentToolbar = {
@@ -106,9 +110,18 @@ export class DocumentsComponent implements OnInit {
     };
 
     this.menuItems = [
-      {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public_document', active: true},
-      {id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private_document', active: false}
+      {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public_document', active: true}
     ];
+
+    this.accountService.user.subscribe(user => {
+      const itemIndex = this.menuItems.findIndex(item => item.id === DocumentMemberMenuItems.Private);
+      if ( util.valueExist(user) && itemIndex < 0 ) {
+        this.loadPrivateDocument();
+        this.menuItems.push({id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private_document', active: false});
+      } else if ( !util.valueExist(user) && itemIndex >= 0 ) {
+        this.menuItems.splice(itemIndex, 1);
+      }
+    });
 
     this.selectedMenuItems = this.menuItems[0];
   }
@@ -176,7 +189,7 @@ export class DocumentsComponent implements OnInit {
   loadPublicDocument() {
     this.documentService.fetchPublicDocuments().then(result => {
       if ( result.success && result.returnValue) {
-        const returnValue: TreeNode[] = result.returnValue;
+        const returnValue: TreeNode[] = castToTree(result.returnValue, 'root');
         this._publicDocuments.splice(0, this._publicDocuments.length);
         returnValue.forEach( elt => {
           if ( this.hasAccess(elt.data, AccessType.Read) ) {
@@ -190,9 +203,40 @@ export class DocumentsComponent implements OnInit {
   loadPrivateDocument() {
     this.documentService.fetchPrivateDocuments().then(result => {
       if (result.success) {
-        this._privateDocuments = result.returnValue;
+        this._privateDocuments = castToTree(result.returnValue, 'root');
       }
     });
+  }
+
+  onSortDocuments(asc: boolean) {
+    if ( !this.isShowResult() ) {
+      let sortDocuments: TreeNode[] = this.publicDocuments;
+      if ( this.isSelectedMenu( this.documentMenuItemOpt.Private )) {
+        sortDocuments = this.privateDocuments;
+      }
+
+      sortDocuments.sort((a, b) => {
+        const order = asc ? 1 : -1;
+        if (a.data.name < b.data.name) {
+          return -1 * order;
+        }else if (a.data.name > b.data.name) {
+          return 1 * order;
+        }
+        return 0 * order;
+      });
+    } else {
+      this.searchResult.sort((a, b) => {
+        const order = asc ? 1 : -1;
+        if (a.name < b.name) {
+          return -1 * order;
+        }else if (a.name > b.name) {
+          return 1 * order;
+        }
+        return 0 * order;
+      });
+    }
+
+    this.changeDetectorRef.detectChanges();
   }
 
   onSearchDocuments(keyword: string) {
@@ -254,7 +298,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   isSelectedMenu(itemId: number | string): boolean {
-    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id && !this.showSearchResult;
+    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id && !this.isShowResult();
   }
 
   isDocumentFolder(document: FileFolder) {
@@ -326,15 +370,21 @@ export class DocumentsComponent implements OnInit {
           command: () => { this.openFileFolder(document); }
         },
         {
-          label: 'Download',
-          icon: 'icon icon-file_download'
-        },
-        {
           label: 'Properties',
           icon: 'icon icon-settings',
           command: () => { this.openFileFolderProp(document); }
         }
       );
+
+      if ( document.type === FileType.File ) {
+        result[0].items.splice(1, 0,
+          {
+            label: 'Download',
+            icon: 'icon icon-file_download',
+            command: () => { this.documentService.download(document); }
+          }
+        );
+      }
     }
 
     if ( this.hasAccess(document, AccessType.Write) ) {
@@ -349,7 +399,7 @@ export class DocumentsComponent implements OnInit {
       result.push({
         label: 'Move',
         items: [
-          { label: 'Move to', icon: 'icon icon-move' },
+          // { label: 'Move to', icon: 'icon icon-move' },
           {
             label: 'Move to archive', icon: 'icon icon-archive',
             command: () => { this.moveFileStatus(document, FileStatus.Archived); }
@@ -386,6 +436,7 @@ export class DocumentsComponent implements OnInit {
     } else {
       this.navigationService.openEditor(document._id);
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   openFileFolderProp(document: FileFolder ) {
@@ -400,6 +451,7 @@ export class DocumentsComponent implements OnInit {
       const node: TreeNode = item.state;
       this.selectedParentId = node.key;
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   clearSearch() {
