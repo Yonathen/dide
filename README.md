@@ -27,6 +27,9 @@ npm install -g @angular/cli
 1. Go to the api folder and remove node_modules, package_lock, and yarn.lock
 2. Create a new symbolic link
 
+To set a path to the executor
+1. Go to C:\<PATH TO FILE>\dide\src\environments
+2. Set SOCKET_ENDPOINT to the executor 
 For OSX / linux system
 ```bash
 cd <PATH TO FILE>/dide/api
@@ -44,6 +47,10 @@ C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\dide\api\package.lock C:\<PATH T
 C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\dide\api\node_modules C:\<PATH TO FILE>\dide\node_modules
 ```
 
+To set a path to the executor
+1. Go to C:\<PATH TO FILE>\dide\src\environments
+2. Set SOCKET_ENDPOINT to the executor 
+
 ## Usage
 1. Open powershell go to the dide project
 2. In the first powershell tab run
@@ -54,10 +61,6 @@ npm run api
 ```bash
 npm run app
 ```
-## Configuration 
-To set a path to the executor
-1. Go to C:\<PATH TO FILE>\dide\src\environments
-2. Set SOCKET_ENDPOINT to the executor 
 
 ## Mis
 In the case that if there exist a process running on port 3000, use the following to kill the process
