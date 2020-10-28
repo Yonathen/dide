@@ -1,3 +1,4 @@
+import { util } from 'api/server/lib/util';
 import { response } from './../../api/server/lib/response';
 import { SettingPreference } from 'api/server/models/setting-preference';
 import { AccountService } from 'src/app/shared/services/account.service';
@@ -23,24 +24,26 @@ export class AppComponent implements OnInit {
     private accountService: AccountService,
     private location: Location,
     private router: Router) {
-    translate.addLangs(['en', 'it']);
 
-    router.events.subscribe((val) => {
-      if (location.path() !== ''){
-        this.route = location.path();
-      }
-    });
+      const browserLang = translate.getBrowserLang();
+      translate.addLangs(['en', 'it']);
+      translate.setDefaultLang(browserLang.match(/en|fr/) ? browserLang : 'en');
 
-    this.accountService.getUserPreferences().then(R => {
-      this.accountService.trackAccount();
-      if (R.success) {
-        const preference: SettingPreference = R.returnValue;
-        translate.setDefaultLang(preference.language.value);
-      }
-    });
+      router.events.subscribe((val) => {
+        if (location.path() !== ''){
+          this.route = location.path();
+        }
+      });
 
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+      this.accountService.preference.subscribe(P => {
+        if ( util.valueExist(P)) {
+          translate.use(P.language.value);
+        }
+      });
+
+      this.accountService.getUserPreferences().then(R => {
+        this.accountService.trackAccount();
+      });
   }
 
   ngOnInit() {

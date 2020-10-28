@@ -1,7 +1,7 @@
 <div class="toolbar">
     <div class="toolbar__menuLeft" *ngIf="this.toolbar && this.toolbar?.buttonMenu">
 
-        <ng-template let-buttonMenu ngFor [ngForOf]="this.toolbar && this.toolbar?.buttonMenu">
+        <ng-template let-buttonMenu ngFor [ngForOf]="this.toolbar && this.toolbar?.buttonMenu" *ngIf="userLogged">
             <button type="button" [ngClass]="buttonMenu.class" (click)="onClickToolbarButton(buttonMenu.id)">
                 <span [ngClass]="buttonMenu.iconClass"></span>
                 <span class="label" translate>{{ buttonMenu.labelIndex }}</span>
@@ -10,7 +10,7 @@
 
     </div>
     <div class="toolbar__menuRight">
-        <button type="button" class="btn btn-warning float-right" *ngIf="this.toolbar && this.toolbar?.enableSort">
+        <button type="button" class="btn btn-warning float-right" *ngIf="this.toolbar && this.toolbar?.enableSort" (click)="emitSortDocument()">
             <span class="icon icon-sort_by_alpha m-0"></span>
         </button>
         <div class="toolbar__searchWrap float-right" *ngIf="this.toolbar && this.toolbar?.enableSearch">

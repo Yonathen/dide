@@ -8,6 +8,7 @@ import { LoideMenuItem } from '../../model/menu-item';
 })
 export class DashboardMenuComponent implements OnInit {
 
+  @Input() isLogged: boolean = false;
   @Input() menuItems: LoideMenuItem[] = [];
   @Output('onItemClick') itemClickEmitter: EventEmitter<string | number> = new EventEmitter<string | number>();
 

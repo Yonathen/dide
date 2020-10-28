@@ -70,7 +70,8 @@
                 <p-dropdown [options]="groupDropdownItems"
                   formControlName="group"
                   placeholder="{{ 'document.placeholder_select_group' | translate }}"
-                  (onChange)="castMembersToTable($event.value)">
+                  (onChange)="castMembersToTable($event.value)"
+                  [showClear]="true">
                 </p-dropdown>
               </div>
             </div>

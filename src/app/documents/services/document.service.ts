@@ -39,6 +39,17 @@ export class DocumentService {
 
   constructor() { }
 
+  download(file: FileFolder) {
+      const data = new Blob([file.content], {type: 'text/plain'});
+      const filePath = window.URL.createObjectURL(data);
+      const tempLink = document.createElement('a');
+      tempLink.href = filePath;
+      tempLink.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
+  }
+
   getFileFolder(fileFolderId: string) {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('getFileFolder', fileFolderId, (error, result) => {
@@ -78,7 +89,6 @@ export class DocumentService {
         if (error) {
           return resolve(error);
         }
-        result.returnValue = castToTree(result.returnValue, 'root');
         resolve(result);
       });
     });
@@ -90,8 +100,6 @@ export class DocumentService {
         if (error) {
           return resolve(error);
         }
-
-        result.returnValue = castToTree(result.returnValue, 'root');
         resolve(result);
       });
     });
@@ -187,7 +195,7 @@ export class DocumentService {
   updateDocumentSettings(formValues: any, documentId: string): Promise<R> {
     const requestUpdateSetting: FileFolderSetting = castToFileFolderSetting(
       formValues.owner, formValues.member,
-      formValues.other, formValues.group, formValues.privacy);
+      formValues.other, formValues.privacy, formValues.group);
     return new Promise<R>((resolve, reject) => {
       Meteor.call('updateFileFolderSetting', requestUpdateSetting, documentId, (error, result) => {
         // TODO Before start to use this finalize the function in BE

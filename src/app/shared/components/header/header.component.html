@@ -7,8 +7,9 @@
         <ul>
             <li *ngIf="!isEditor"><a class="header__menuItem header__menuItem--active" translate>dashboard</a></li>
             <li *ngIf="!isEditor"><a class="header__menuItem" translate>help</a></li>
-            <li><a class="header__menuItem  header__menuItem--notify" (click)="notifySidebar = true">
-                <span class="icon-notifications"></span>
+            <li><a class="header__menuItem  header__notificationBell" [ngClass]="{'header__notificationBell--active': isNotification}"  (click)="notifySidebar = true">
+                <span class="icon icon-notifications"></span>
+                <span class="badge" *ngIf="isNotification">{{ newNotificationCount }}</span>
             </a></li>
             <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" (click)="openCreateAccountDialog()" translate>header.register</a></li>
             <li *ngIf="!isLogedIn && !isEditor"><a class="header__menuItem" (click)="openAccessAccountDialog()" translate>header.login</a></li>
@@ -38,7 +39,7 @@
     [(visible)]="notifySidebar"
     position="right"
     [baseZIndex]="10000">
-    <app-notifications (onNotificationChange)="loadNotification()"></app-notifications>
+    <app-notifications [notifications]="notifications"></app-notifications>
 </p-sidebar>
 
 <p-dialog

@@ -32,6 +32,9 @@
             <div class="col-12 pt-2 pb-2 create__component">
               {{ path }}
             </div>
+            <div class="col-12 pb-2" *ngIf="path !== ''" >
+              <a class="link-blue" (click)="nodeUnselect($event)" translate>common.clear_path</a>
+            </div>
         </div>
 
         <div class="create__fileTreeWrap">
