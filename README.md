@@ -54,6 +54,10 @@ npm run api
 ```bash
 npm run app
 ```
+## Configuration 
+To set a path to the executor
+1. Go to C:\<PATH TO FILE>\dide\src\environments
+2. Set SOCKET_ENDPOINT to the executor 
 
 ## Mis
 In the case that if there exist a process running on port 3000, use the following to kill the process
