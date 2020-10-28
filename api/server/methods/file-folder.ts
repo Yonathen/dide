@@ -29,14 +29,31 @@ Meteor.methods({
 
   searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy = FilePrivacy.Public): R {
     try {
-      if ( !this.userId ) {
+      if ( !this.userId && filePrivacy === FilePrivacy.Private) {
         throw new Meteor.Error('User is not logged.');
       }
 
-      const fileFolders: FileFolder[] = FileFoldersCollection.collection.find({
-        privacy: { $eq: filePrivacy },
-        status: { $eq: FileStatus.Normalized }
-      }).fetch();
+      let fileFolders: FileFolder[] = [];
+      if (filePrivacy === FilePrivacy.Public) {
+        const allPublicFiles: FileFolder[] = FileFoldersCollection.collection.find({
+          privacy: { $eq: FilePrivacy.Public },
+          status: { $eq: FileStatus.Normalized }
+        }).fetch();
+        if (util.valueExist(allPublicFiles)) {
+          allPublicFiles.forEach((file, index) => {
+            const readAccess: Access[] = [Access.rnn, Access.rnx, Access.rwn, Access.rwx];
+            if ( (allHasAccess(readAccess, file)) ||
+              (util.valueExist(this.userId) && memberHasAccess(this.userId, readAccess, file)) ) {
+                fileFolders.push(file);
+            }
+          });
+        }
+      } else if (filePrivacy === FilePrivacy.Private) {
+        fileFolders = FileFoldersCollection.collection.find({
+          privacy: { $eq: FilePrivacy.Private },
+          status: { $eq: FileStatus.Normalized }
+        }).fetch();
+      }
 
       const result: FileFolder[] = [];
       fileFolders.forEach(value => {

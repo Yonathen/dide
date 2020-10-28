@@ -10,6 +10,7 @@
   <div class="documents__contentToolbar">
     <app-dashboard-toolbar
       [isLogged]="isLogged"
+      (changeSort)="onSortDocuments($event)"
       (changeSearch)="onSearchDocuments($event)"
       (onClickToolbarButton)="onClickToolbarButton($event)"
       [toolbar]="documentToolbar">

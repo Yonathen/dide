@@ -195,7 +195,7 @@ export class DocumentService {
   updateDocumentSettings(formValues: any, documentId: string): Promise<R> {
     const requestUpdateSetting: FileFolderSetting = castToFileFolderSetting(
       formValues.owner, formValues.member,
-      formValues.other, formValues.group, formValues.privacy);
+      formValues.other, formValues.privacy, formValues.group);
     return new Promise<R>((resolve, reject) => {
       Meteor.call('updateFileFolderSetting', requestUpdateSetting, documentId, (error, result) => {
         // TODO Before start to use this finalize the function in BE

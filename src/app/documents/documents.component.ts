@@ -1,4 +1,3 @@
-import { util } from './../../../api/server/lib/util';
 import { AccountService } from './../shared/services/account.service';
 import { Children } from 'react';
 import { AccessType, FileStatus, FileFolder, FilePrivacy, FileType } from './../../../api/server/models/file-folder';
@@ -209,6 +208,37 @@ export class DocumentsComponent implements OnInit {
     });
   }
 
+  onSortDocuments(asc: boolean) {
+    if ( !this.isShowResult() ) {
+      let sortDocuments: TreeNode[] = this.publicDocuments;
+      if ( this.isSelectedMenu( this.documentMenuItemOpt.Private )) {
+        sortDocuments = this.privateDocuments;
+      }
+
+      sortDocuments.sort((a, b) => {
+        const order = asc ? 1 : -1;
+        if (a.data.name < b.data.name) {
+          return -1 * order;
+        }else if (a.data.name > b.data.name) {
+          return 1 * order;
+        }
+        return 0 * order;
+      });
+    } else {
+      this.searchResult.sort((a, b) => {
+        const order = asc ? 1 : -1;
+        if (a.name < b.name) {
+          return -1 * order;
+        }else if (a.name > b.name) {
+          return 1 * order;
+        }
+        return 0 * order;
+      });
+    }
+
+    this.changeDetectorRef.detectChanges();
+  }
+
   onSearchDocuments(keyword: string) {
     if (keyword && keyword !== '') {
       const documentPrivacy: FilePrivacy = this.isSelectedMenu(DocumentMemberMenuItems.Public) ? FilePrivacy.Public : FilePrivacy.Private;
@@ -268,7 +298,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   isSelectedMenu(itemId: number | string): boolean {
-    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id && !this.showSearchResult;
+    return util.valueExist(this.selectedMenuItems) && itemId === this.selectedMenuItems.id && !this.isShowResult();
   }
 
   isDocumentFolder(document: FileFolder) {
@@ -369,7 +399,7 @@ export class DocumentsComponent implements OnInit {
       result.push({
         label: 'Move',
         items: [
-          { label: 'Move to', icon: 'icon icon-move' },
+          // { label: 'Move to', icon: 'icon icon-move' },
           {
             label: 'Move to archive', icon: 'icon icon-archive',
             command: () => { this.moveFileStatus(document, FileStatus.Archived); }
@@ -406,6 +436,7 @@ export class DocumentsComponent implements OnInit {
     } else {
       this.navigationService.openEditor(document._id);
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   openFileFolderProp(document: FileFolder ) {
@@ -420,6 +451,7 @@ export class DocumentsComponent implements OnInit {
       const node: TreeNode = item.state;
       this.selectedParentId = node.key;
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   clearSearch() {

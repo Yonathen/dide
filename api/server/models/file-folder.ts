@@ -148,8 +148,8 @@ export function castToFileFolderSetting(
   ownerAccess: Access,
   groupAccess: Access,
   otherAccess: Access,
-  groupParam: Group,
-  privacyParam: FilePrivacy
+  privacyParam: FilePrivacy,
+  groupParam?: Group
 ): FileFolderSetting {
   const memberAccessParam: MemberAccess = {
     owner: Access.rwx,
