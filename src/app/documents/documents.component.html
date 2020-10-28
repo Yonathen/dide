@@ -1,6 +1,7 @@
 <div class="documents">
   <div class="documents__contentMenubar">
     <app-dashboard-menu
+      [isLogged]="isLogged"
       [menuItems]="menuItems"
       (onItemClick)="onClickDashboardItem($event)">
     </app-dashboard-menu>
@@ -8,6 +9,7 @@
 
   <div class="documents__contentToolbar">
     <app-dashboard-toolbar
+      [isLogged]="isLogged"
       (changeSearch)="onSearchDocuments($event)"
       (onClickToolbarButton)="onClickToolbarButton($event)"
       [toolbar]="documentToolbar">

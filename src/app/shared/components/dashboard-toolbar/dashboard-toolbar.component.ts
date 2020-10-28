@@ -9,7 +9,7 @@ import { LoideToolbarMenu } from '../../model/toolbar-menu';
   styleUrls: ['./dashboard-toolbar.component.scss']
 })
 export class DashboardToolbarComponent implements OnInit {
-
+  @Input() isLogged: boolean = false;
   @Input() toolbar: LoideToolbarMenu;
 
   @Output('onClickToolbarButton') toolbarButtonClickEmitter: EventEmitter< number | string> = new EventEmitter< number | string>();

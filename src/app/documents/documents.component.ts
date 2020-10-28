@@ -1,7 +1,9 @@
+import { util } from './../../../api/server/lib/util';
+import { AccountService } from './../shared/services/account.service';
 import { Children } from 'react';
 import { AccessType, FileStatus, FileFolder, FilePrivacy, FileType } from './../../../api/server/models/file-folder';
 import { DocumentService } from './services/document.service';
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular/core';
 import { LoideMenuItem } from '../shared/model/menu-item';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
@@ -54,6 +56,10 @@ export class DocumentsComponent implements OnInit {
 
   @ViewChild(DashboardToolbarComponent) dashboardToolbarComponent: DashboardToolbarComponent;
 
+  get isLogged(): boolean {
+    return util.valueExist(Meteor.userId());
+  }
+
   get publicDocuments(): TreeNode[] {
     this.breadcrumbItems.splice(0, this.breadcrumbItems.length);
     if ( util.valueExist(this.selectedParentId) && this.selectedParentId !== 'root' ) {
@@ -81,6 +87,7 @@ export class DocumentsComponent implements OnInit {
 
   constructor(
     public router: Router,
+    public accountService: AccountService,
     public navigationService: NavigationService,
     private changeDetectorRef: ChangeDetectorRef,
     private documentService: DocumentService) {
@@ -94,7 +101,7 @@ export class DocumentsComponent implements OnInit {
 
 
     const toolbarButtonMenu  = [
-      {id: DocumentToolbarMenuItems.CreateDocument, class: 'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_folder'}
+      {id: DocumentToolbarMenuItems.CreateDocument, class: 'btn btn-success', iconClass: 'icon icon-folder', labelIndex: 'document.create_document'}
     ];
 
     this.documentToolbar = {
@@ -106,9 +113,17 @@ export class DocumentsComponent implements OnInit {
     };
 
     this.menuItems = [
-      {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public_document', active: true},
-      {id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private_document', active: false}
+      {id: DocumentMemberMenuItems.Public, iconClass: 'icon-document-public', labelIndex: 'document.public_document', active: true}
     ];
+
+    this.accountService.user.subscribe(user => {
+      const itemIndex = this.menuItems.findIndex(item => item.id === DocumentMemberMenuItems.Private);
+      if ( util.valueExist(user) && itemIndex < 0 ) {
+        this.menuItems.push({id: DocumentMemberMenuItems.Private, iconClass: 'icon-document-private', labelIndex: 'document.private_document', active: false});
+      } else if ( !util.valueExist(user) && itemIndex >= 0 ) {
+        this.menuItems.splice(itemIndex, 1);
+      }
+    });
 
     this.selectedMenuItems = this.menuItems[0];
   }

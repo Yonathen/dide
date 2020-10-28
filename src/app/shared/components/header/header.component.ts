@@ -120,6 +120,9 @@ export class HeaderComponent implements OnInit {
         }
       });
     });
+    setTimeout(() => {
+      this.changeDetectionRef.detectChanges();
+    });
   }
 
   onCancelCreate(created: boolean) {
