@@ -6,7 +6,7 @@ import { MessageService, MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { LoideRoute } from '../../enums/loide-route';
+import { DideRoute } from '../../enums/dide-route';
 import { GroupMenuItems } from 'src/app/group/group.component';
 import { Group } from 'api/server/models/group';
 
@@ -100,7 +100,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   openRequest(group?: Group) {
     const state: DashboardState = { accessSubPage: GroupMenuItems.MemberRequest, other: group };
-    this.navigationService.openDashboard(LoideRoute.Group, state);
+    this.navigationService.openDashboard(DideRoute.Group, state);
   }
 
 }

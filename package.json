@@ -1,5 +1,5 @@
 {
-  "name": "loide",
+  "name": "dide",
   "version": "0.0.0",
   "scripts": {
     "api": "cd api && meteor run",

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { LoideMenuItem } from '../../model/menu-item';
-import { LoideToolbarMenu } from '../../model/toolbar-menu';
+import { DideMenuItem } from '../../model/menu-item';
+import { DideToolbarMenu } from '../../model/toolbar-menu';
 import { util } from 'api/server/lib/util';
 
 
@@ -11,7 +11,7 @@ import { util } from 'api/server/lib/util';
 })
 export class DashboardToolbarComponent implements OnInit {
   @Input() isLogged: boolean = false;
-  @Input() toolbar: LoideToolbarMenu;
+  @Input() toolbar: DideToolbarMenu;
   sortAsc: boolean = false;
 
   @Output('onClickToolbarButton') toolbarButtonClickEmitter: EventEmitter< number | string> = new EventEmitter< number | string>();

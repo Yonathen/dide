@@ -168,7 +168,7 @@
 // Menu
 
 // List
-.loide-list {
+.dide-list {
     @extend .commen-prop;
     display: block;
 
@@ -331,7 +331,7 @@
 :host ::ng-deep .ui-menu,
 :host ::ng-deep .ui-tree {
     .icon {
-        font-family: "iconLoide" !important;
+        font-family: "iconDide" !important;
         speak: never;
         font-style: normal;
         font-weight: normal;

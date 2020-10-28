@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { LoideMenuItem } from '../../model/menu-item';
+import { DideMenuItem } from '../../model/menu-item';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -9,7 +9,7 @@ import { LoideMenuItem } from '../../model/menu-item';
 export class DashboardMenuComponent implements OnInit {
 
   @Input() isLogged: boolean = false;
-  @Input() menuItems: LoideMenuItem[] = [];
+  @Input() menuItems: DideMenuItem[] = [];
   @Output('onItemClick') itemClickEmitter: EventEmitter<string | number> = new EventEmitter<string | number>();
 
   constructor() { }
@@ -17,7 +17,7 @@ export class DashboardMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onItemClick(item: LoideMenuItem) {
+  onItemClick(item: DideMenuItem) {
     this.itemClickEmitter.emit(item.id);
   }
 

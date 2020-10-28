@@ -77,7 +77,7 @@
           </div>
           <div class="col-12 p-0">
             <p-dropdown [options]="privacyOpt"
-              formControlName="privacy" styleClass="loide-privacy-group"
+              formControlName="privacy" styleClass="dide-privacy-group"
               placeholder="{{ 'document.placeholder_select_group' | translate }}"
               (onChange)="loadDocument($event.value)"></p-dropdown>
           </div>
@@ -89,7 +89,7 @@
           </div>
           <div class="col-12 p-0">
             <p-dropdown [options]="groupDropdownItems"
-              formControlName="group" styleClass="loide-access"
+              formControlName="group" styleClass="dide-access"
               placeholder="{{ 'document.placeholder_select_group' | translate }}"
               (onChange)="castMembersToTable($event.value)"></p-dropdown>
           </div>
@@ -106,7 +106,7 @@
                   common.owner
                 </div>
                 <div class="col-12 p-0">
-                  <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="owner"></p-dropdown>
+                  <p-dropdown styleClass="dide-access" [options]="accessOpt" formControlName="owner"></p-dropdown>
                 </div>
               </div>
               <div class="col-4 p-0 pt-2 float-left">
@@ -114,7 +114,7 @@
                   common.member
                 </div>
                 <div class="col-12 p-0">
-                  <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="member"></p-dropdown>
+                  <p-dropdown styleClass="dide-access" [options]="accessOpt" formControlName="member"></p-dropdown>
                 </div>
               </div>
               <div class="col-4 p-0 pt-2 float-left">
@@ -122,7 +122,7 @@
                   common.other
                 </div>
                 <div class="col-12 p-0">
-                  <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="other"></p-dropdown>
+                  <p-dropdown styleClass="dide-access" [options]="accessOpt" formControlName="other"></p-dropdown>
                 </div>
               </div>
           </div>
@@ -131,7 +131,7 @@
 
 
         <div class="col-12 form-component">
-            <p-table styleClass="loide-table" [columns]="colsMembersTable" [value]="membersTableValues" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
+            <p-table styleClass="dide-table" [columns]="colsMembersTable" [value]="membersTableValues" [rowHover]="true" [scrollable]="true" scrollHeight="200px">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th class="col" *ngFor="let col of columns" [pSortableColumn]="col.field">

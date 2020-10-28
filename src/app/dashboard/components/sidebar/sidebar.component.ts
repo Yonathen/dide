@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { util } from 'api/server/lib/util';
 
-export interface LoideSidebarMenuItem {
+export interface DideSidebarMenuItem {
   routerLink?: string;
   active?: boolean;
   icon?: string;
@@ -18,7 +18,7 @@ export interface LoideSidebarMenuItem {
 export class SidebarComponent implements OnInit {
 
   public user: User;
-  public sideMenuItems: LoideSidebarMenuItem[] = [];
+  public sideMenuItems: DideSidebarMenuItem[] = [];
 
   constructor(private accountService: AccountService) { }
 

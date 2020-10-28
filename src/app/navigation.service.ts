@@ -1,6 +1,6 @@
 import { WebsocketService } from './shared/services/websocket.service';
 import { FileFolder, newFileFolder } from './../../api/server/models/file-folder';
-import { LoideRoute } from './shared/enums/loide-route';
+import { DideRoute } from './shared/enums/dide-route';
 import { Injectable, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MenuItem } from 'primeng/api/menuitem';
@@ -104,10 +104,10 @@ export class NavigationService {
   }
 
   openEditor(fileFolderId: string) {
-    this.router.navigate([LoideRoute.Editor], { relativeTo: this.route, queryParams: { item: fileFolderId }  });
+    this.router.navigate([DideRoute.Editor], { relativeTo: this.route, queryParams: { item: fileFolderId }  });
   }
 
-  openDashboard(route: LoideRoute = LoideRoute.Dashboard, stateD?: DashboardState) {
+  openDashboard(route: DideRoute = DideRoute.Dashboard, stateD?: DashboardState) {
     const extra: NavigationExtras = { relativeTo: this.route, state: { data: stateD} };
     if ( util.valueExist(stateD) ) {
       extra.queryParams = { item: stateD.accessSubPage };

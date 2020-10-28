@@ -1,10 +1,10 @@
-import { LoideSidebarItemsBottom } from './../../enums/loide-sidebar-items.enum';
+import { DideSidebarItemsBottom } from './../../enums/dide-sidebar-items.enum';
 import { NavigationService, EditorState } from 'src/app/navigation.service';
 import { FileFolder, FileType } from 'api/server/models/file-folder';
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
-import { LoideSidebarItemsLeft, LoideSidebarItemsRight } from '../../enums/loide-sidebar-items.enum';
+import { DideSidebarItemsLeft, DideSidebarItemsRight } from '../../enums/dide-sidebar-items.enum';
 import { EventSidebar } from '../../model/event-sidebar'
-import { LoideMenuItem } from 'src/app/shared/model/menu-item';
+import { DideMenuItem } from 'src/app/shared/model/menu-item';
 import { TreeNode } from 'primeng/api/treenode';
 import { Tree } from 'primeng/tree/tree';
 import { ResizePanel } from '../../editor.component';
@@ -28,9 +28,9 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
 
   public panelOpt = ResizePanel;
   public folderSelected: TreeNode;
-  public sidebarLeft = LoideSidebarItemsLeft;
-  public sidebarRight = LoideSidebarItemsRight;
-  public sidebarMenuItems: LoideMenuItem[];
+  public sidebarLeft = DideSidebarItemsLeft;
+  public sidebarRight = DideSidebarItemsRight;
+  public sidebarMenuItems: DideMenuItem[];
   public activeSidebar: EventSidebar = {} as EventSidebar;
 
   @Output('onClickSidebar') sidebarClickEmitter: EventEmitter<EventSidebar> = new EventEmitter<EventSidebar>();
@@ -45,19 +45,19 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
   ngOnInit(): void {
     if (this.isPanel(ResizePanel.Left)) {
       this.sidebarMenuItems = [
-        { id: LoideSidebarItemsLeft.PublicDocument, iconClass: 'icon-document-public', labelIndex: 'document.public_document'},
-        { id: LoideSidebarItemsLeft.PrivateDocument, iconClass: 'icon-folder_shared', labelIndex: 'document.private_document'}
+        { id: DideSidebarItemsLeft.PublicDocument, iconClass: 'icon-document-public', labelIndex: 'document.public_document'},
+        { id: DideSidebarItemsLeft.PrivateDocument, iconClass: 'icon-folder_shared', labelIndex: 'document.private_document'}
       ];
     } else if (this.isPanel(ResizePanel.Right)) {
       this.sidebarMenuItems = [
-        { id: LoideSidebarItemsRight.Language, iconClass: 'icon-translate', labelIndex: 'preference.language'},
-        { id: LoideSidebarItemsRight.Group, iconClass: 'icon-group', labelIndex: 'common.group'},
-        { id: LoideSidebarItemsRight.Appearance, iconClass: 'icon-appearance', labelIndex: 'preference.appearance'},
-        { id: LoideSidebarItemsRight.Filter, iconClass: 'icon-filter_list_alt', labelIndex: 'editor.filter'}
+        { id: DideSidebarItemsRight.Language, iconClass: 'icon-translate', labelIndex: 'preference.language'},
+        { id: DideSidebarItemsRight.Group, iconClass: 'icon-group', labelIndex: 'common.group'},
+        { id: DideSidebarItemsRight.Appearance, iconClass: 'icon-appearance', labelIndex: 'preference.appearance'},
+        { id: DideSidebarItemsRight.Filter, iconClass: 'icon-filter_list_alt', labelIndex: 'editor.filter'}
       ];
     } else if (this.isPanel(ResizePanel.Bottom)) {
       this.sidebarMenuItems = [
-        { id: LoideSidebarItemsBottom.Terminal, iconClass: '', labelIndex: 'common.terminal'}
+        { id: DideSidebarItemsBottom.Terminal, iconClass: '', labelIndex: 'common.terminal'}
       ];
     }
 
@@ -104,7 +104,7 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
     return this.panel === currentPanel;
   }
 
-  isSidebarItemActive(item: LoideSidebarItemsLeft | LoideSidebarItemsRight): boolean {
+  isSidebarItemActive(item: DideSidebarItemsLeft | DideSidebarItemsRight): boolean {
     return this.activeSidebar && this.activeSidebar.item === item;
   }
 
@@ -131,7 +131,7 @@ export class EditorSidebarComponent implements OnInit, OnChanges, AfterViewInit 
       this.closeSidebar();
     } else {
       this.openSidebar(item);
-      if ( item === LoideSidebarItemsLeft.PrivateDocument || item === LoideSidebarItemsLeft.PublicDocument ) {
+      if ( item === DideSidebarItemsLeft.PrivateDocument || item === DideSidebarItemsLeft.PublicDocument ) {
         setTimeout(() => {
           this.directoryTree.onNodeClick = this.interceptOnNodeClick.bind(this);
         });

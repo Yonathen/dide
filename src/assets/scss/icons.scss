@@ -1,10 +1,10 @@
 @font-face {
-    font-family: 'iconLoide';
-    src:  url('/assets/fonts/icon/iconLoide.eot?vumj7r');
-    src:  url('/assets/fonts/icon/iconLoide.eot?vumj7r#iefix') format('embedded-opentype'),
-      url('/assets/fonts/icon/iconLoide.ttf?vumj7r') format('truetype'),
-      url('/assets/fonts/icon/iconLoide.woff?vumj7r') format('woff'),
-      url('/assets/fonts/icon/iconLoide.svg?vumj7r#iconLoide') format('svg');
+    font-family: 'iconDide';
+    src:  url('/assets/fonts/icon/iconDide.eot?vumj7r');
+    src:  url('/assets/fonts/icon/iconDide.eot?vumj7r#iefix') format('embedded-opentype'),
+      url('/assets/fonts/icon/iconDide.ttf?vumj7r') format('truetype'),
+      url('/assets/fonts/icon/iconDide.woff?vumj7r') format('woff'),
+      url('/assets/fonts/icon/iconDide.svg?vumj7r#iconDide') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: block;
@@ -12,7 +12,7 @@
   
   [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'iconLoide' !important;
+    font-family: 'iconDide' !important;
     speak: never;
     font-style: normal;
     font-weight: normal;

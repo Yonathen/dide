@@ -1,5 +1,5 @@
 <div class="properties">
-    <p-tabView styleClass="loide-tabView">
+    <p-tabView styleClass="dide-tabView">
         <p-tabPanel header="{{ 'common.detail' | translate }}">
             <div class="propertiesPanel">
                 <div class="col-12 form-component">
@@ -77,7 +77,7 @@
             </div>
 
             <div class="col-12 form-component">
-              <p-table styleClass="loide-table"
+              <p-table styleClass="dide-table"
                 [columns]="colsMembers"
                 [value]="membersTableValues"
                 [rowHover]="true"
@@ -139,7 +139,7 @@
                         common.owner
                       </div>
                       <div class="col-12 p-0">
-                        <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="owner"></p-dropdown>
+                        <p-dropdown styleClass="dide-access" [options]="accessOpt" formControlName="owner"></p-dropdown>
                       </div>
                     </div>
                     <div class="col-4 p-0 float-left">
@@ -147,7 +147,7 @@
                         common.member
                       </div>
                       <div class="col-12 p-0">
-                        <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="member"></p-dropdown>
+                        <p-dropdown styleClass="dide-access" [options]="accessOpt" formControlName="member"></p-dropdown>
                       </div>
                     </div>
                     <div class="col-4 p-0 float-left">
@@ -155,7 +155,7 @@
                         common.other
                       </div>
                       <div class="col-12 p-0">
-                        <p-dropdown styleClass="loide-access" [options]="accessOpt" formControlName="other"></p-dropdown>
+                        <p-dropdown styleClass="dide-access" [options]="accessOpt" formControlName="other"></p-dropdown>
                       </div>
                     </div>
                 </div>

@@ -1,11 +1,11 @@
-import { LoideMenuItem } from './menu-item';
+import { DideMenuItem } from './menu-item';
 
-export interface LoideToolbarMenu {
+export interface DideToolbarMenu {
     enableButtonMenu?: boolean;
     enableSearch?: boolean;
     enableSort?: boolean;
     enableViewChange?: boolean;
-    buttonMenu?: LoideMenuItem[]
+    buttonMenu?: DideMenuItem[]
     searchPlaceholderIndex?: string;
 }
   

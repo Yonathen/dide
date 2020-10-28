@@ -5,7 +5,7 @@ import { util } from 'api/server/lib/util';
 import { NotificationType } from './../../../api/server/models/notification';
 import { NotifyMessage } from './../shared/model/notify-message';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
+import { DideToolbarMenu } from '../shared/model/toolbar-menu';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { GroupService } from './services/group.service';
@@ -14,11 +14,11 @@ import { Group, RequestStatus } from 'api/server/models/group';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { castToNotification, Notification } from 'api/server/models/notification';
-import { LoideMenuItem } from '../shared/model/menu-item';
+import { DideMenuItem } from '../shared/model/menu-item';
 import { User } from 'api/server/models/user';
 import { DashboardState } from '../navigation.service';
 import { ActivatedRoute } from '@angular/router';
-import { LoideRoute } from '../shared/enums/loide-route';
+import { DideRoute } from '../shared/enums/dide-route';
 
 export enum GroupToolbarMenuItems {
   CreateGroup, RemoveAll
@@ -43,9 +43,9 @@ export class GroupComponent implements OnInit, OnDestroy {
   public manageMemberDialog: boolean;
   public confirmRemoveGroupDialog: boolean;
 
-  public selectedMenuItems: LoideMenuItem;
-  public groupMenuItems: LoideMenuItem[];
-  public groupToolbar: LoideToolbarMenu;
+  public selectedMenuItems: DideMenuItem;
+  public groupMenuItems: DideMenuItem[];
+  public groupToolbar: DideToolbarMenu;
   public menuLabels: any[];
   public groupMenuItemOpt = GroupMenuItems;
 
@@ -258,7 +258,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   onClickDashboardItem(event: number | string) {
     const state: DashboardState = { accessSubPage: event};
-    this.navigationService.openDashboard(LoideRoute.Group, state);
+    this.navigationService.openDashboard(DideRoute.Group, state);
   }
 
   onClickToolbarButton(event: number | string) {

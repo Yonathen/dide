@@ -2,13 +2,13 @@ import { EditorComponent } from './../../editor.component';
 import { User } from './../../../../../api/server/models/user';
 import { NavigationService, EditorState } from './../../../navigation.service';
 import { util } from './../../../../../api/server/lib/util';
-import { LoideToolbarItems } from './../../enums/loide-toolbar-items.enum';
+import { DideToolbarItems } from './../../enums/dide-toolbar-items.enum';
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Access, FileFolder, memberHasAccess, allHasAccess } from 'api/server/models/file-folder';
 
 export interface EditorToolbarEvent {
-  menuItem: LoideToolbarItems;
+  menuItem: DideToolbarItems;
   data?: any;
 }
 
@@ -19,7 +19,7 @@ export interface EditorToolbarEvent {
 })
 export class EditorToolbarComponent implements OnInit {
 
-  toolbarEvent = LoideToolbarItems;
+  toolbarEvent = DideToolbarItems;
   public editorMenuItems: MenuItem[] = [];
   public editorState: EditorState;
 
@@ -46,7 +46,7 @@ export class EditorToolbarComponent implements OnInit {
 
   }
 
-  emitToolbarClick(action: LoideToolbarItems, data?: any) {
+  emitToolbarClick(action: DideToolbarItems, data?: any) {
     const toolbarEvent: EditorToolbarEvent = { menuItem: action };
     if ( util.valueExist(data) ) {
       toolbarEvent.data = data;

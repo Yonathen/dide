@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { LoideRoute } from './shared/enums/loide-route';
+import { DideRoute } from './shared/enums/dide-route';
 import { UserType } from 'api/server/models/user';
 import { WebsocketService } from './shared/services/websocket.service';
 
@@ -16,7 +16,7 @@ import { WebsocketService } from './shared/services/websocket.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'loide';
+  title = 'dide';
   route: string;
 
   constructor(
@@ -50,6 +50,6 @@ export class AppComponent implements OnInit {
   }
 
   get isEditor(): boolean {
-    return this.route && this.route.indexOf(LoideRoute.Editor) !== -1;
+    return this.route && this.route.indexOf(DideRoute.Editor) !== -1;
   }
 }

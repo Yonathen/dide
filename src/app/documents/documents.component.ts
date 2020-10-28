@@ -3,10 +3,10 @@ import { Children } from 'react';
 import { AccessType, FileStatus, FileFolder, FilePrivacy, FileType } from './../../../api/server/models/file-folder';
 import { DocumentService, castToTree } from './services/document.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular/core';
-import { LoideMenuItem } from '../shared/model/menu-item';
+import { DideMenuItem } from '../shared/model/menu-item';
 import { MenuItem, TreeNode } from 'primeng/api';
-import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
-import { LoideRoute } from '../shared/enums/loide-route';
+import { DideToolbarMenu } from '../shared/model/toolbar-menu';
+import { DideRoute } from '../shared/enums/dide-route';
 import { Router } from '@angular/router';
 import { NavigationService } from '../navigation.service';
 import { util } from 'api/server/lib/util';
@@ -36,10 +36,10 @@ export class DocumentsComponent implements OnInit {
   public renameDocumentDialog: boolean = false;
   public propertiesDocumentDialog: boolean = false;
 
-  public menuItems: LoideMenuItem[];
+  public menuItems: DideMenuItem[];
   public gridItemMenu: MenuItem[];
-  public documentToolbar: LoideToolbarMenu;
-  public selectedMenuItems: LoideMenuItem;
+  public documentToolbar: DideToolbarMenu;
+  public selectedMenuItems: DideMenuItem;
   public documentMenuItemOpt = DocumentMemberMenuItems;
 
   public selectedDocument: FileFolder;

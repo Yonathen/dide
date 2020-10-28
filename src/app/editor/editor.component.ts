@@ -1,5 +1,5 @@
 import { EditorSidebarComponent } from './components/editor-sidebar/editor-sidebar.component';
-import { LoideSidebarItemsLeft, LoideSidebarItemsRight, LoideSidebarItemsBottom } from './enums/loide-sidebar-items.enum';
+import { DideSidebarItemsLeft, DideSidebarItemsRight, DideSidebarItemsBottom } from './enums/dide-sidebar-items.enum';
 import { RequestExecutor } from './../shared/model/executor';
 import { SettingPreference } from './../../../api/server/models/setting-preference';
 import { AccountService } from './../shared/services/account.service';
@@ -15,9 +15,9 @@ import { AceEditorComponent } from 'ng2-ace-editor';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentService, castToTree } from '../documents/services/document.service';
 import { FileFolder, FileType, AccessType, newFileFolder, FilePrivacy } from 'api/server/models/file-folder';
-import { LoideRoute } from '../shared/enums/loide-route';
+import { DideRoute } from '../shared/enums/dide-route';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { LoideToolbarItems } from './enums/loide-toolbar-items.enum';
+import { DideToolbarItems } from './enums/dide-toolbar-items.enum';
 import { util } from 'api/server/lib/util';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -266,7 +266,7 @@ export class EditorComponent implements OnInit {
   }
 
   onCreateDocumentClick() {
-    this.onToolbarEvent({ menuItem: LoideToolbarItems.CreateNewFile});
+    this.onToolbarEvent({ menuItem: DideToolbarItems.CreateNewFile});
   }
 
   setResizePanel(event: MouseEvent, resizePanel: ResizePanel) {
@@ -300,7 +300,7 @@ export class EditorComponent implements OnInit {
         id: tabId,
         icon: 'icon icon-file',
         label: document.name,
-        routerLink: LoideRoute.Editor,
+        routerLink: DideRoute.Editor,
         queryParams: { item: document._id}
       };
       this.navigationService.inject(fileMenuItem);
@@ -311,37 +311,37 @@ export class EditorComponent implements OnInit {
 
   onToolbarEvent($event: EditorToolbarEvent) {
     switch ($event.menuItem) {
-      case LoideToolbarItems.TabForward:
+      case DideToolbarItems.TabForward:
         this.loadTabForward();
         break;
-      case LoideToolbarItems.TabBackward:
+      case DideToolbarItems.TabBackward:
         this.loadTabBackward();
         break;
-      case LoideToolbarItems.UndoChange:
+      case DideToolbarItems.UndoChange:
         this.undoChanges();
         break;
-      case LoideToolbarItems.RedoChange:
+      case DideToolbarItems.RedoChange:
         this.redoChanges();
         break;
-      case LoideToolbarItems.SaveFile:
+      case DideToolbarItems.SaveFile:
         this.saveDocument();
         break;
-      case LoideToolbarItems.DownloadFile:
+      case DideToolbarItems.DownloadFile:
         this.downloadFile();
         break;
-      case LoideToolbarItems.CreateNewFile:
+      case DideToolbarItems.CreateNewFile:
         this.createDocumentDialog = true;
         break;
-      case LoideToolbarItems.ExecuteFile:
+      case DideToolbarItems.ExecuteFile:
         this.executeDocument();
         break;
-      case LoideToolbarItems.ToggleLeft:
+      case DideToolbarItems.ToggleLeft:
         this.openSidebarLeft();
         break;
-      case LoideToolbarItems.ToggleRight:
+      case DideToolbarItems.ToggleRight:
         this.openSidebarRight();
         break;
-      case LoideToolbarItems.ToggleBottom:
+      case DideToolbarItems.ToggleBottom:
         this.openSidebarBottom();
         break;
 
@@ -398,7 +398,7 @@ export class EditorComponent implements OnInit {
     if ( this.leftBar.isSidebarOpen ) {
       this.leftBar.closeSidebar();
     } else {
-      this.leftBar.navigateSidebar(LoideSidebarItemsLeft.PublicDocument);
+      this.leftBar.navigateSidebar(DideSidebarItemsLeft.PublicDocument);
     }
   }
 
@@ -406,7 +406,7 @@ export class EditorComponent implements OnInit {
     if ( this.rightBar.isSidebarOpen ) {
       this.rightBar.closeSidebar();
     } else {
-      this.rightBar.navigateSidebar(LoideSidebarItemsRight.Language);
+      this.rightBar.navigateSidebar(DideSidebarItemsRight.Language);
     }
   }
 
@@ -414,7 +414,7 @@ export class EditorComponent implements OnInit {
     if ( this.bottomBar.isSidebarOpen ) {
       this.bottomBar.closeSidebar();
     } else if ( this.executorConnected ) {
-      this.bottomBar.navigateSidebar(LoideSidebarItemsBottom.Terminal);
+      this.bottomBar.navigateSidebar(DideSidebarItemsBottom.Terminal);
     }
   }
 

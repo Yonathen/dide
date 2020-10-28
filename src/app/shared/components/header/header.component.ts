@@ -2,7 +2,7 @@ import { NotificationsCollection } from './../../../../../api/server/collections
 import { NavigationService } from 'src/app/navigation.service';
 import { Component, OnInit, Input, ChangeDetectorRef, NgZone } from '@angular/core';
 
-import { LoideRoute } from '../../enums/loide-route';
+import { DideRoute } from '../../enums/dide-route';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   public notifications: Notification[] = [];
 
   get isEditor(): boolean {
-    return this.route && this.route.indexOf(LoideRoute.Editor) !== -1;
+    return this.route && this.route.indexOf(DideRoute.Editor) !== -1;
   }
 
   get isLogedIn(): boolean {
@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToDashboard() {
-    this.router.navigate( [LoideRoute.Dashboard]);
+    this.router.navigate( [DideRoute.Dashboard]);
   }
 
 

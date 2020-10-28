@@ -1,5 +1,5 @@
 <div class="header" [ngClass]="{'header--editor': isEditor}">
-    <div class="header__logo" *ngIf="!isEditor" translate>common.loide</div>
+    <div class="header__logo" *ngIf="!isEditor" translate>common.dide</div>
     <div class="header__logo" (click)="goToDashboard()" *ngIf="isEditor" [ngClass]="{'header__logo--editor': isEditor}">
         <span class="icon-dashboard"></span>
     </div>
@@ -47,7 +47,7 @@
     [position]="'top'"
     [draggable]="false"
     [baseZIndex]="10000"
-    styleClass="loide-dialog"
+    styleClass="dide-dialog"
     [style]="{width: '500px'}"
     [(visible)]="createAccountDialog"
     header="{{ 'account.create_account' | translate }}">
@@ -61,7 +61,7 @@
     [position]="'top'"
     [draggable]="false"
     [baseZIndex]="10000"
-    styleClass="loide-dialog"
+    styleClass="dide-dialog"
     [style]="{width: '500px'}"
     [(visible)]="accessAccountDialog"
     header="{{ 'account.access_account' | translate }}">

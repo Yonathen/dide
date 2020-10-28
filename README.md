@@ -1,4 +1,4 @@
-# LoIDE
+# DIDE
 
 This project is Angular-Meteor application. 
 
@@ -29,7 +29,7 @@ npm install -g @angular/cli
 
 For OSX / linux system
 ```bash
-cd <PATH TO FILE>/loide/api
+cd <PATH TO FILE>/dide/api
 ln -s ../package.json 
 ln -s ../yarn.lock 
 ln -s ../tsconfig.json
@@ -39,13 +39,13 @@ ln -s ../node_modules
 For Windows system 
 ``` run cmd ``` as admin and execute
 ```bash
-C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\loide\api\yarn.lock C:\<PATH TO FILE>\loide\yarn.lock
-C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\loide\api\package.lock C:\<PATH TO FILE>\loide\package.lock
-C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\loide\api\node_modules C:\<PATH TO FILE>\loide\node_modules
+C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\dide\api\yarn.lock C:\<PATH TO FILE>\dide\yarn.lock
+C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\dide\api\package.lock C:\<PATH TO FILE>\dide\package.lock
+C:\WINDOWS\system32>mklink /D C:\<PATH TO FILE>\dide\api\node_modules C:\<PATH TO FILE>\dide\node_modules
 ```
 
 ## Usage
-1. Open powershell go to the loide project
+1. Open powershell go to the dide project
 2. In the first powershell tab run
 ```bash
 npm run api

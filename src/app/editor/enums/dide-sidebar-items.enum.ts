@@ -1,12 +1,12 @@
-export enum LoideSidebarItemsLeft {
+export enum DideSidebarItemsLeft {
   PublicDocument = 'PublicDocument', PrivateDocument = 'PrivateDocument'
 }
 
-export enum LoideSidebarItemsRight {
+export enum DideSidebarItemsRight {
   Group = 'Group', Language = 'Language', Appearance = 'Appearance', Filter = 'Filter'
 }
 
 
-export enum LoideSidebarItemsBottom {
+export enum DideSidebarItemsBottom {
   Terminal = 'Terminal'
 }

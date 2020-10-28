@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { LoideToolbarMenu } from '../shared/model/toolbar-menu';
+import { DideToolbarMenu } from '../shared/model/toolbar-menu';
 import { AccountService } from '../shared/services/account.service';
 import { SettingPreference } from 'api/server/models/setting-preference';
 import { util } from 'api/server/lib/util';
@@ -16,7 +16,7 @@ export enum PreferenceToolbarMenuItems {
 export class PreferencesComponent implements OnInit {
 
   public preferences: SettingPreference;
-  public preferenceToolbar: LoideToolbarMenu;
+  public preferenceToolbar: DideToolbarMenu;
   public updatePreferenceDialog: boolean;
   public showPreference: boolean;
 

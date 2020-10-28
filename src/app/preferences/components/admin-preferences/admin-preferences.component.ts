@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoideMenuItem } from 'src/app/shared/model/menu-item';
-import { LoideToolbarMenu } from 'src/app/shared/model/toolbar-menu';
+import { DideMenuItem } from 'src/app/shared/model/menu-item';
+import { DideToolbarMenu } from 'src/app/shared/model/toolbar-menu';
 import { MenuItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -22,9 +22,9 @@ export class AdminPreferencesComponent implements OnInit {
   public newSolverDialog: boolean = false;
   public newAppearanceDialog: boolean = false;
 
-  public mainMenuItems: LoideMenuItem[];
+  public mainMenuItems: DideMenuItem[];
   public gridItemMenu: MenuItem[];
-  public adminToolbar: LoideToolbarMenu;
+  public adminToolbar: DideToolbarMenu;
 
   constructor(public translateService: TranslateService) { }
 
