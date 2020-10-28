@@ -27,9 +27,6 @@ npm install -g @angular/cli
 1. Go to the api folder and remove node_modules, package_lock, and yarn.lock
 2. Create a new symbolic link
 
-To set a path to the executor
-1. Go to C:\<PATH TO FILE>\dide\src\environments
-2. Set SOCKET_ENDPOINT to the executor 
 For OSX / linux system
 ```bash
 cd <PATH TO FILE>/dide/api
