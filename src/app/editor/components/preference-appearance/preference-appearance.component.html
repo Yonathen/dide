@@ -1,0 +1,9 @@
+<div class="preference">
+  <p-scrollPanel [style]="{width: '100%', height: '100%'}">
+    <ul class="preference__membersList">
+      <li *ngFor="let theme of themes" (click)="applyTheme(theme)" [ngClass]="{'active': isSelectedTheme(theme)}">
+        <div class="preference__label">{{ theme.name }}</div>
+      </li>
+    </ul>
+  </p-scrollPanel>
+</div>

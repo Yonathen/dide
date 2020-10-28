@@ -32,6 +32,9 @@
             <div class="col-12 pt-2 pb-2 create__component">
               {{ path }}
             </div>
+            <div class="col-12 pb-2" *ngIf="path !== ''" >
+              <a class="link-blue" (click)="nodeUnselect($event)" translate>common.clear_path</a>
+            </div>
         </div>
 
         <div class="create__fileTreeWrap">
@@ -48,7 +51,7 @@
     </div>
 
     <div class="col-4 p-0 m-0 float-right">
-        <div class="col-12 form-component">
+        <div class="col-12 form-component" *ngIf="isCreateTypeBoth()">
             <div class="form-component__label form-component__label--white" translate>
                 common.type
             </div>

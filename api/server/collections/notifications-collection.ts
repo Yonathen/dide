@@ -1,4 +1,4 @@
 import { MongoObservable } from 'meteor-rxjs';
-import { Notification } from 'server/models/notification';
+import { Notification } from '../models/notification';
 
 export const NotificationsCollection = new MongoObservable.Collection<Notification>('notifications');

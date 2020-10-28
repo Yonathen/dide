@@ -6,10 +6,11 @@ import { AdminPreferencesComponent } from './components/admin-preferences/admin-
 import { CreateLanguageComponent } from './components/create-language/create-language.component';
 import { CreateSolverComponent } from './components/create-solver/create-solver.component';
 import { CreateAppearanceComponent } from './components/create-appearance/create-appearance.component';
+import { UpdatePreferencesComponent } from './components/update-preferences/update-preferences.component';
 
 
 @NgModule({
-  declarations: [PreferencesComponent, AdminPreferencesComponent, CreateLanguageComponent, CreateSolverComponent, CreateAppearanceComponent],
+  declarations: [PreferencesComponent, AdminPreferencesComponent, CreateLanguageComponent, CreateSolverComponent, CreateAppearanceComponent, UpdatePreferencesComponent],
   imports: [
     CommonModule,
     SharedModule

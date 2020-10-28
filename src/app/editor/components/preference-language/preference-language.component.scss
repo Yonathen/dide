@@ -1,0 +1,91 @@
+@import "../../../../assets/scss/shared.scss";
+
+.preference {
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+
+  &__component {
+    padding: 0 5px 5px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: normal;
+    font-family: 'LatoWebLight';
+    color: $color__white;
+  }
+
+  &__info {
+    font-size: 10px;
+    font-weight: normal;
+    font-family: 'LatoWeb';
+    color: $color__white;
+  }
+
+  &__inputGroup {
+    float: left;
+    width: 100%;
+    height: 25px;
+    background-color: $color__white-alpha-5;
+    border-radius: 3px;
+  }
+
+  &__inputGroupOption {
+    float: left;
+    width: calc(100% - 25px);
+    height: 25px;
+    padding: 7px;
+    font-size: 12px;
+    font-family: 'LatoWebBold';
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
+  }
+
+  &__inputGroupButton {
+    float: left;
+    width: 25px !important;
+    height: 25px;
+    box-shadow: none !important;
+    border: none !important;
+    background-color: $color__white-alpha-5;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    color: $color__gray;
+  }
+
+}
+
+
+:host ::ng-deep .ui-dropdown.preference__dropdown {
+  box-shadow: none !important;
+  border: none !important;
+  background-color: $color__white-alpha-5;
+  min-width: 100% !important;
+  height: 25px;
+
+  .ui-inputtext {
+    background: none !important;
+    padding: 7px;
+    font-size: 12px;
+    font-family: 'LatoWebBold';
+  }
+
+  .ui-dropdown-trigger {
+    background-color: $color__white-alpha-5;
+  }
+}
+
+
+:host ::ng-deep .ui-table.loide-table {
+  th {
+    font-size: 12px;
+    font-family: 'LatoWebLight';
+  }
+  td {
+    font-size: 11px;
+    font-family: 'LatoWebBold';
+  }
+}

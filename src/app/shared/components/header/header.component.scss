@@ -12,6 +12,43 @@
         background-color: $color__dark-gray;
     }
 
+    &__notificationBell {
+      position: relative;
+      width: 30px;
+      height: 35px;
+
+      .icon {
+        display: block;
+        position: absolute;
+        top: 0; left: 0;
+        font-size: 20px;
+        padding-bottom: 3px;
+        padding-top: 3px;
+      }
+
+      .badge {
+        display: block;
+        position: absolute;
+        right: 4px;
+        bottom: 7px;
+        min-width: 16px;
+        height: 16px;
+        text-align: center;
+        font-size: 11px;
+        border-radius: 8px;
+        border: solid 1px $color__gray;
+        font-family: 'LatoWebBold';
+        color: $color__dark-orange;
+        background-color: $color__white;
+      }
+
+      &--active {
+        .icon {
+          color: $color__dark-orange;
+        }
+      }
+    }
+
     &__logo {
         float: left;
         height: 100%;
@@ -73,28 +110,22 @@
             border-bottom: solid 3px $color__dark-orange;
         }
 
-        &--notify {
-            font-size: 20px;
-            padding-bottom: 3px;
-            padding-top: 3px;
-        }
-    
         &--account {
-            
+
             font-size: 20px;
             padding-bottom: 0px;
             padding-top: 3px;
-    
+
         }
     }
 
     &__account {
         position: relative;
-        
+
         ul {
             display: none;
             position: absolute;
-            top: 100%; 
+            top: 100%;
             right: 0;
             z-index: 10;
 
@@ -106,7 +137,7 @@
                 float: right;
             }
         }
-    
+
         &:hover {
             ul {
                 display: block !important;
@@ -142,5 +173,5 @@
         button {
             float: right;
         }
-    }    
+    }
 }

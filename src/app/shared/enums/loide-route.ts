@@ -1,6 +1,6 @@
 
 export enum LoideRoute {
-    Editor = '/editor',
+    Editor = '/editor/tabs',
     Dashboard = '/dashboard',
     Documents = '/dashboard/documents',
     Group = '/dashboard/group'

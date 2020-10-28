@@ -18,7 +18,7 @@ import { Group } from 'api/server/models/group';
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
 
-  notifications: Notification[] = [];
+  @Input() notifications: Notification[] = [];
   @Output('onNotificationChange') notificationChangeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   private subscriptions = new Subscription();
@@ -32,7 +32,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private messageService: MessageService) { }
 
   ngOnInit(): void {
-    const keys = ['common.mark_seen', 'common.remove'];
+    const keys = ['notification.open_request', 'common.mark_seen', 'common.remove'];
     const translationSubscription = this.translateService.stream(keys).pipe(
       tap(translations => {
         this.menuLabels = translations;
@@ -40,13 +40,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       })
     ).subscribe();
     this.subscriptions.add(translationSubscription);
-
-    this.notificationService.notification.subscribe(result => {
-      this.notifications.splice(0, this.notifications.length);
-      for ( const notification of result ) {
-        this.notifications.push(notification);
-      }
-    });
   }
 
   ngOnDestroy() {
@@ -63,7 +56,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           summary: this.translateService.instant('notification.success_remove_title'),
           detail: ''
         });
-        this.notificationChangeEmitter.emit();
       }
     });
   }
@@ -75,7 +67,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           summary: this.translateService.instant('notification.success_marked_title'),
           detail: ''
         });
-        this.notificationChangeEmitter.emit();
       }
     });
   }
@@ -88,11 +79,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     const result: MenuItem[] = [];
     switch (notification.type) {
       case NotificationType.GroupRequest:
+        result.push({
+          label: this.menuLabels['notification.open_request'], icon: 'icon icon-remove_red_eye',
+          command: () => this.openRequest(notification.related)
+        });
         if (notification.status === NotificationStatus.New) {
           result.push({
-            label: this.menuLabels['notification.open_request'], icon: 'icon icon-remove_red_eye',
-            command: () => this.openRequest(notification.related)
-          }, {
             label: this.menuLabels['common.mark_seen'], icon: 'icon icon-supervised_user_circle',
             command: () => this.markNotificationAsSeen(notification._id)
           });

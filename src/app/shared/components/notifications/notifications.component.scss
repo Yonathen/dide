@@ -39,6 +39,10 @@
             color: $color__white;
             margin: 10px 0;
         }
+
+        li.new {
+          background-color: $color__dark-orange;
+        }
     }
 
     &__title {

@@ -4,7 +4,7 @@
     </div>
     <div class="notifications__body">
             <ul>
-                <li *ngFor="let notification of notifications">
+                <li *ngFor="let notification of notifications" [ngClass]="{'new': isNotificationNew(notification)}">
                     <div class="notifications__title">
                       <span class="title">{{ notification.title }}</span>
 

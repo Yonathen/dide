@@ -1,3 +1,5 @@
+import { util } from './../lib/util';
+import { FilterFileFolder, FilterResult, allHasAccess } from './../models/file-folder';
 import { Meteor } from 'meteor/meteor';
 import { response, R } from '../lib/response';
 import { util } from '../lib/util';
@@ -10,16 +12,48 @@ import { User } from '../models/user';
 
 Meteor.methods({
 
-  searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy): R {
+  getFileFolder(fileFolderId: string): R {
     try {
       if ( !this.userId ) {
         throw new Meteor.Error('User is not logged.');
       }
 
-      const fileFolders: FileFolder[] = FileFoldersCollection.collection.find({
-        privacy: { $eq: FilePrivacy.Public },
-        status: { $eq: FileStatus.Normalized }
-      }).fetch();
+      const fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+      if (util.valueExist(fileFolder)) {
+        return response.fetchResponse(fileFolder);
+      }
+    } catch (error) {
+      return response.fetchResponse(error, false);
+    }
+  },
+
+  searchFileFolderByName(keyword: string, filePrivacy: FilePrivacy = FilePrivacy.Public): R {
+    try {
+      if ( !this.userId && filePrivacy === FilePrivacy.Private) {
+        throw new Meteor.Error('User is not logged.');
+      }
+
+      let fileFolders: FileFolder[] = [];
+      if (filePrivacy === FilePrivacy.Public) {
+        const allPublicFiles: FileFolder[] = FileFoldersCollection.collection.find({
+          privacy: { $eq: FilePrivacy.Public },
+          status: { $eq: FileStatus.Normalized }
+        }).fetch();
+        if (util.valueExist(allPublicFiles)) {
+          allPublicFiles.forEach((file, index) => {
+            const readAccess: Access[] = [Access.rnn, Access.rnx, Access.rwn, Access.rwx];
+            if ( (allHasAccess(readAccess, file)) ||
+              (util.valueExist(this.userId) && memberHasAccess(this.userId, readAccess, file)) ) {
+                fileFolders.push(file);
+            }
+          });
+        }
+      } else if (filePrivacy === FilePrivacy.Private) {
+        fileFolders = FileFoldersCollection.collection.find({
+          privacy: { $eq: FilePrivacy.Private },
+          status: { $eq: FileStatus.Normalized }
+        }).fetch();
+      }
 
       const result: FileFolder[] = [];
       fileFolders.forEach(value => {
@@ -36,17 +70,65 @@ Meteor.methods({
     }
   },
 
-  fetchPublicFileFolder(): R {
+  filterFileFolder(keyword: string, filePrivacy: FilePrivacy = FilePrivacy.Public): R {
     try {
       if ( !this.userId ) {
         throw new Meteor.Error('User is not logged.');
       }
 
-      const result = FileFoldersCollection.collection.find({
+      const fileFolders: FileFolder[] = FileFoldersCollection.collection.find({
+        privacy: { $eq: filePrivacy },
+        status: { $eq: FileStatus.Normalized }
+      }).fetch();
+
+      const result: FilterFileFolder[] = [];
+      fileFolders.forEach(value => {
+        if ( util.valueExist(value.content) && value.content.indexOf(keyword) !== -1 ) {
+          const content = value.content;
+          const lines = content.split('\n');
+          console.log(lines);
+          const resultItem: FilterFileFolder = {
+            document: value,
+            filterResult: []
+          } as FilterFileFolder;
+          lines.forEach( (line, index) => {
+            if (line.indexOf(keyword) !== -1) {
+              const filterResult: FilterResult = {
+                from: line.indexOf(keyword),
+                end: line.indexOf(keyword) + keyword.length,
+                lineNumber: index + 1,
+                textSnippet: line
+              } as FilterResult;
+              resultItem.filterResult.push(filterResult);
+            }
+          });
+          result.push(resultItem);
+        }
+      });
+
+      if (util.valueExist(result)) {
+        return response.fetchResponse(result);
+      }
+    } catch (error) {
+      return response.fetchResponse(error, false);
+    }
+  },
+
+  fetchPublicFileFolder(): R {
+    try {
+      const allPublicFiles: FileFolder[] = FileFoldersCollection.collection.find({
         privacy: { $eq: FilePrivacy.Public },
         status: { $eq: FileStatus.Normalized }
       }).fetch();
-      if (util.valueExist(result)) {
+      if (util.valueExist(allPublicFiles)) {
+        const result: FileFolder[] = [];
+        allPublicFiles.forEach((file, index) => {
+          const readAccess: Access[] = [Access.rnn, Access.rnx, Access.rwn, Access.rwx];
+          if ( (allHasAccess(readAccess, file)) ||
+            (util.valueExist(this.userId) && memberHasAccess(this.userId, readAccess, file)) ) {
+            result.push(file);
+          }
+        });
         return response.fetchResponse(result);
       }
     } catch (error) {
@@ -268,7 +350,7 @@ Meteor.methods({
           }
 
           const accesses: Access[] = [Access.nwx, Access.rwn, Access.rwx];
-          let fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+          const fileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
           if (!util.valueExist(fileFolder)) {
               throw new Meteor.Error('Folder not found.');
           } else if ( !ownerHasAccess(this.userId, accesses, fileFolder) &&
@@ -289,7 +371,8 @@ Meteor.methods({
 
           const updated = FileFoldersCollection.collection.update(fileFolderId, { $set: setValues });
           if ( updated ) {
-              return response.fetchResponse(setValues);
+            const updatedFileFolder: FileFolder = FileFoldersCollection.collection.findOne({ _id: { $eq: fileFolderId}});
+            return response.fetchResponse(updatedFileFolder);
           } else {
               throw new Meteor.Error('Unable to update file or folder.');
           }
