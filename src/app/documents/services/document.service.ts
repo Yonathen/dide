@@ -39,6 +39,17 @@ export class DocumentService {
 
   constructor() { }
 
+  download(file: FileFolder) {
+      const data = new Blob([file.content], {type: 'text/plain'});
+      const filePath = window.URL.createObjectURL(data);
+      const tempLink = document.createElement('a');
+      tempLink.href = filePath;
+      tempLink.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
+  }
+
   getFileFolder(fileFolderId: string) {
     return new Promise<R>((resolve, reject) => {
       Meteor.call('getFileFolder', fileFolderId, (error, result) => {

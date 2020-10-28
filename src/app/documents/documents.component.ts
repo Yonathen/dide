@@ -340,15 +340,21 @@ export class DocumentsComponent implements OnInit {
           command: () => { this.openFileFolder(document); }
         },
         {
-          label: 'Download',
-          icon: 'icon icon-file_download'
-        },
-        {
           label: 'Properties',
           icon: 'icon icon-settings',
           command: () => { this.openFileFolderProp(document); }
         }
       );
+
+      if ( document.type === FileType.File ) {
+        result[0].items.splice(1, 0,
+          {
+            label: 'Download',
+            icon: 'icon icon-file_download',
+            command: () => { this.documentService.download(document); }
+          }
+        );
+      }
     }
 
     if ( this.hasAccess(document, AccessType.Write) ) {
